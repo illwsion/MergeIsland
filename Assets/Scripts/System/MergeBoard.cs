@@ -14,11 +14,11 @@ public class MergeBoard
         grid = new MergeItem[w, h];
     }
 
-    public void PlaceItem(int x, int y, MergeItem item)
+    public void PlaceItem(int x, int y, MergeItem item, bool overwrite = false)
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
         {
-            if (grid[x, y] == null) //ºó ÀÚ¸®¶ó¸é
+            if (grid[x, y] == null || overwrite)
             {
                 grid[x, y] = item;
             }

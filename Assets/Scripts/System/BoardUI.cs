@@ -7,6 +7,7 @@ public class BoardUI : MonoBehaviour
     public GridLayoutGroup gridLayout;
     public RectTransform boardArea; // 전체 보드 표시 영역
     public GameObject cellPrefab;
+    public GameObject itemViewPrefab;
 
     private const float padding = 20f;
 
@@ -39,13 +40,33 @@ public class BoardUI : MonoBehaviour
         gridLayout.constraintCount = width;
         gridLayout.cellSize = new Vector2(cellSize, cellSize);
 
-        // 셀 생성
-        for (int y = height - 1; y >= 0; y--)
+        for (int y = height - 1; y >= 0; y--) // 셀 생성
         {
             for (int x = 0; x < width; x++)
             {
                 GameObject cell = Instantiate(cellPrefab, gridLayout.transform);
-                // 이후 아이템 정보에 따라 색상/아이콘 설정 가능
+                // 셀 좌표 설정
+                DropTarget dropTarget = cell.GetComponent<DropTarget>();
+                if (dropTarget != null)
+                {
+                    dropTarget.x = x;
+                    dropTarget.y = y;
+                }
+                // 아이템 배치
+                MergeItem item = board.GetItem(x, y);
+                if (item != null)
+                {
+                    GameObject viewObj = Instantiate(itemViewPrefab, cell.transform);
+                    ItemView view = viewObj.GetComponent<ItemView>();
+                    view.SetItem(item);
+
+                    DraggableItem drag = viewObj.GetComponent<DraggableItem>();
+                    if (drag != null)
+                    {
+                        drag.mergeItem = item;
+                        drag.SetOrigin(new Vector2Int(x, y));
+                    }
+                }
             }
         }
     }
