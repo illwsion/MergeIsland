@@ -45,6 +45,7 @@ public class BoardUI : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 GameObject cell = Instantiate(cellPrefab, gridLayout.transform);
+
                 // 셀 좌표 설정
                 DropTarget dropTarget = cell.GetComponent<DropTarget>();
                 if (dropTarget != null)
@@ -59,12 +60,33 @@ public class BoardUI : MonoBehaviour
                     GameObject viewObj = Instantiate(itemViewPrefab, cell.transform);
                     ItemView view = viewObj.GetComponent<ItemView>();
                     view.SetItem(item);
-
+                    view.SetCoord(new Vector2Int(x, y));
                     DraggableItem drag = viewObj.GetComponent<DraggableItem>();
                     if (drag != null)
                     {
                         drag.mergeItem = item;
                         drag.SetOrigin(new Vector2Int(x, y));
+                    }
+
+                    // 아이템 선택 버튼 비활성화
+                    Button btn = cell.GetComponent<Button>();
+                    if (btn != null)
+                    {
+                        btn.enabled = false;
+                    }
+                }
+                else
+                {
+                    // 빈 셀일 때만 아이템 선택 버튼 활성화
+                    Button btn = cell.GetComponent<Button>();
+                    if (btn != null)
+                    {
+                        btn.enabled = true;
+                        btn.transition = Selectable.Transition.None;
+                        btn.onClick.AddListener(() =>
+                        {
+                            ItemSelectorManager.Instance.ClearSelection();
+                        });
                     }
                 }
             }

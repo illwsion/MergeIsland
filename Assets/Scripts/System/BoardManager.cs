@@ -1,6 +1,7 @@
 // BoardManager.cs
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 
 public class BoardManager : MonoBehaviour
 {
@@ -92,11 +93,12 @@ public class BoardManager : MonoBehaviour
 
         MergeItem targetItem = board.GetItem(toPos.x, toPos.y);
 
-        if (targetItem == null) // 빈칸에 드래그
+        if ((targetItem == null) || (fromPos == toPos)) // 빈칸에 드래그 또는 제자리
         {
-            board.PlaceItem(toPos.x, toPos.y, draggedItem);
             board.grid[fromPos.x, fromPos.y] = null;
+            board.PlaceItem(toPos.x, toPos.y, draggedItem);
             Debug.Log($"아이템 이동: {fromPos} → {toPos}");
+            ItemSelectorManager.Instance.Select(draggedItem, toPos); // 이동 후 아이템 자동 선택
         }
         else if (targetItem.level == draggedItem.level && targetItem.type == draggedItem.type)
         {
@@ -115,13 +117,14 @@ public class BoardManager : MonoBehaviour
             MergeItem newItem = new MergeItem(draggedItem.id, newLevel, draggedItem.type);
             board.PlaceItem(toPos.x, toPos.y, newItem, true);
             board.grid[fromPos.x, fromPos.y] = null;
-            Debug.Log($"머지됨: {draggedItem.level} + {targetItem.level} → {newLevel}");
+            ItemSelectorManager.Instance.Select(newItem, toPos); // 머지 후 아이템 자동 선택
         }
         else // 다른 아이템
         {
             board.grid[fromPos.x, fromPos.y] = targetItem;
             board.grid[toPos.x, toPos.y] = draggedItem;
             Debug.Log($"아이템 위치 교환: {fromPos} ↔ {toPos}");
+            ItemSelectorManager.Instance.Select(draggedItem, toPos); // 교환 후 아이템 자동 선택
         }
 
         boardUI.DisplayBoard(board);

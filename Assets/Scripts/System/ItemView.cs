@@ -2,18 +2,32 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.U2D;
+using System.Drawing;
+using UnityEngine.EventSystems;
 
-public class ItemView : MonoBehaviour
+public class ItemView : MonoBehaviour, IPointerClickHandler
 {
     public Image iconImage;       // 셀에 표시할 아이템 이미지
     private int currentLevel;     // 현재 아이템 레벨 저장
+    public MergeItem mergeItem;
+    public Vector2Int coord;
 
     public void SetItem(MergeItem item)
     {
+        mergeItem = item;
         currentLevel = item.level;
         string spriteName = $"{item.type}_{item.level}";
         iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);
-        Debug.Log(spriteName);
+    }
+
+    public void SetCoord(Vector2Int pos)
+    {
+        coord = pos;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        ItemSelectorManager.Instance.Select(mergeItem, coord);
     }
 
     public int GetLevel()
