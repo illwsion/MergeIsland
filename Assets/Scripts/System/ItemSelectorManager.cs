@@ -34,6 +34,7 @@ public class ItemSelectorManager : MonoBehaviour
         // 선택된 셀의 Outline 활성화
         GameObject cell = view.transform.parent.gameObject;
         Transform outline = cell.transform.Find("SelectionOutline");
+        Debug.Log(outline);
         if (outline != null) outline.gameObject.SetActive(true);
 
         itemInfoUI.Show(selectedItem);

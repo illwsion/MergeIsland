@@ -86,16 +86,13 @@ public class BoardUI : MonoBehaviour
         int height = currentBoard.height;
 
         int index = (currentBoard.height - 1 - coord.y) * width + coord.x;
-        Debug.Log($"찾는 인덱스: {index} / 좌표: {coord}");
         if (index < 0 || index >= gridLayout.transform.childCount)
         {
             Debug.LogWarning("인덱스 범위 초과!");
             return null;
         }
         Transform cell = gridLayout.transform.GetChild(index);
-        Debug.Log($"찾은 셀: {cell}");
         var view = cell.GetComponentInChildren<ItemView>(true);
-        Debug.Log($"찾은 ItemView: {view}");
         return view;
     }
 }

@@ -107,7 +107,6 @@ public class BoardManager : MonoBehaviour
                 // 머지는 불가능하지만 위치는 교환
                 board.grid[fromPos.x, fromPos.y] = targetItem;
                 board.grid[toPos.x, toPos.y] = draggedItem;
-                Debug.Log($"최대 레벨 도달로 머지 불가 → 위치 교환: {fromPos} ↔ {toPos}");
                 boardUI.DisplayBoard(board);
                 return;
             }
@@ -121,7 +120,6 @@ public class BoardManager : MonoBehaviour
         {
             board.grid[fromPos.x, fromPos.y] = targetItem;
             board.grid[toPos.x, toPos.y] = draggedItem;
-            Debug.Log($"아이템 위치 교환: {fromPos} ↔ {toPos}");
         }
         StartCoroutine(SelectAfterFrame(toPos));
         boardUI.DisplayBoard(board);

@@ -66,14 +66,13 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             DropTarget dropTarget = result.gameObject.GetComponent<DropTarget>();
             if (dropTarget != null)
             {
-                Debug.Log($"드랍된 셀: ({dropTarget.x}, {dropTarget.y})");
                 Vector2Int toPos = new Vector2Int(dropTarget.x, dropTarget.y);
                 BoardManager.Instance.HandleDrop(mergeItem, fromPos, toPos);
                 return;
             }
         }
 
-        // 놓을 수 있는 셀이 아니면 원위치 복귀
-        rectTransform.anchoredPosition = originalPosition;
+        // 드래그 실패 -> 제자리 처리로 선택
+        BoardManager.Instance.HandleDrop(mergeItem, fromPos, fromPos);
     }
 }
