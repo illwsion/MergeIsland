@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEditorInternal.Profiling.Memory.Experimental;
+using System.Collections;
 
 public class BoardManager : MonoBehaviour
 {
@@ -97,8 +98,6 @@ public class BoardManager : MonoBehaviour
         {
             board.grid[fromPos.x, fromPos.y] = null;
             board.PlaceItem(toPos.x, toPos.y, draggedItem);
-            Debug.Log($"아이템 이동: {fromPos} → {toPos}");
-            ItemSelectorManager.Instance.Select(draggedItem, toPos); // 이동 후 아이템 자동 선택
         }
         else if (targetItem.level == draggedItem.level && targetItem.type == draggedItem.type)
         {
@@ -117,22 +116,30 @@ public class BoardManager : MonoBehaviour
             MergeItem newItem = new MergeItem(draggedItem.id, newLevel, draggedItem.type);
             board.PlaceItem(toPos.x, toPos.y, newItem, true);
             board.grid[fromPos.x, fromPos.y] = null;
-            ItemSelectorManager.Instance.Select(newItem, toPos); // 머지 후 아이템 자동 선택
         }
         else // 다른 아이템
         {
             board.grid[fromPos.x, fromPos.y] = targetItem;
             board.grid[toPos.x, toPos.y] = draggedItem;
             Debug.Log($"아이템 위치 교환: {fromPos} ↔ {toPos}");
-            ItemSelectorManager.Instance.Select(draggedItem, toPos); // 교환 후 아이템 자동 선택
         }
-
+        StartCoroutine(SelectAfterFrame(toPos));
         boardUI.DisplayBoard(board);
     }
 
     private bool IsValidCell(MergeBoard board, Vector2Int pos)
     {
         return pos.x >= 0 && pos.x < board.width && pos.y >= 0 && pos.y < board.height;
+    }
+    
+    IEnumerator SelectAfterFrame(Vector2Int pos)
+    {
+        yield return null; // 한 프레임 대기
+        ItemView targetView = boardUI.GetItemViewAt(pos);
+        if (targetView != null)
+            ItemSelectorManager.Instance.Select(targetView);
+        else
+            Debug.LogWarning("SelectAfterFrame: ItemView still not found!");
     }
 }
 

@@ -19,7 +19,16 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
         string spriteName = $"{item.type}_{item.level}";
         iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);
     }
-
+    /*
+    public void SetSelected(bool selected)
+    {
+        if (outlineObject != null)
+        {
+            outlineObject.SetActive(selected);
+            Debug.Log($"[ItemView] SelectionOutline set to {selected} on {gameObject.name}");
+        }
+    }
+    */
     public void SetCoord(Vector2Int pos)
     {
         coord = pos;
@@ -27,7 +36,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ItemSelectorManager.Instance.Select(mergeItem, coord);
+        ItemSelectorManager.Instance.Select(this);
     }
 
     public int GetLevel()

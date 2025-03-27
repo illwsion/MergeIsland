@@ -8,6 +8,7 @@ public class ItemSelectorManager : MonoBehaviour
 
     private MergeItem selectedItem;
     private Vector2Int selectedCoord;
+    private ItemView selectedItemView;
 
     void Awake()
     {
@@ -16,20 +17,49 @@ public class ItemSelectorManager : MonoBehaviour
         this.ClearSelection();
     }
 
-    public void Select(MergeItem item, Vector2Int coord)
+    public void Select(ItemView view)
     {
-        selectedItem = item;
-        selectedCoord = coord;
+        if (selectedItemView == view)
+        {
+            Debug.Log("[Select] 같은 아이템 재선택 → 아이템 생산 처리");
+            //ProduceItem(view); 앞으로 구현할 생산 함수
+            return;
+        }
 
-        Debug.Log($"아이템 선택됨: {item.type} {item.level} at {coord}");
-        itemInfoUI.Show(item);
+        ClearSelection();
+
+        selectedItemView = view;
+        selectedItem = view.mergeItem;
+        selectedCoord = view.coord;
+        // 선택된 셀의 Outline 활성화
+        GameObject cell = view.transform.parent.gameObject;
+        Transform outline = cell.transform.Find("SelectionOutline");
+        if (outline != null) outline.gameObject.SetActive(true);
+
+        itemInfoUI.Show(selectedItem);
     }
 
     public void ClearSelection()
     {
+        // 이전 선택 해제
+        if (selectedItemView != null)
+        {
+            GameObject cell = selectedItemView.transform.parent.gameObject;
+            Transform outline = cell.transform.Find("SelectionOutline");
+            if (outline != null) outline.gameObject.SetActive(false);
+        }
         selectedItem = null;
+        selectedItemView = null;
         itemInfoUI.ShowEmpty();
-        Debug.Log("선택 해제됨");
+    }
+
+    public void ClearSelectionOnEmptyCell()
+    {
+        // 빈 셀 클릭 시 선택 해제
+        if (selectedItemView != null)
+        {
+            ClearSelection();
+        }
     }
 
     public bool HasSelection()

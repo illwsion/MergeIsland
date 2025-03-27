@@ -10,9 +10,11 @@ public class BoardUI : MonoBehaviour
     public GameObject itemViewPrefab;
 
     private const float padding = 20f;
+    private MergeBoard currentBoard;
 
     public void DisplayBoard(MergeBoard board)
     {
+        currentBoard = board;
         // 기존 셀 제거
         foreach (Transform child in gridLayout.transform)
         {
@@ -67,29 +69,33 @@ public class BoardUI : MonoBehaviour
                         drag.mergeItem = item;
                         drag.SetOrigin(new Vector2Int(x, y));
                     }
-
-                    // 아이템 선택 버튼 비활성화
-                    Button btn = cell.GetComponent<Button>();
-                    if (btn != null)
-                    {
-                        btn.enabled = false;
-                    }
                 }
-                else
+                // SelectionOutline은 항상 생성 (기본 꺼둠)
+                Transform outline = cell.transform.Find("SelectionOutline");
+                if (outline != null)
                 {
-                    // 빈 셀일 때만 아이템 선택 버튼 활성화
-                    Button btn = cell.GetComponent<Button>();
-                    if (btn != null)
-                    {
-                        btn.enabled = true;
-                        btn.transition = Selectable.Transition.None;
-                        btn.onClick.AddListener(() =>
-                        {
-                            ItemSelectorManager.Instance.ClearSelection();
-                        });
-                    }
+                    outline.gameObject.SetActive(false);
                 }
             }
         }
+    }
+    public ItemView GetItemViewAt(Vector2Int coord)
+    {
+        if (currentBoard == null) return null;
+        int width = currentBoard.width;
+        int height = currentBoard.height;
+
+        int index = (currentBoard.height - 1 - coord.y) * width + coord.x;
+        Debug.Log($"찾는 인덱스: {index} / 좌표: {coord}");
+        if (index < 0 || index >= gridLayout.transform.childCount)
+        {
+            Debug.LogWarning("인덱스 범위 초과!");
+            return null;
+        }
+        Transform cell = gridLayout.transform.GetChild(index);
+        Debug.Log($"찾은 셀: {cell}");
+        var view = cell.GetComponentInChildren<ItemView>(true);
+        Debug.Log($"찾은 ItemView: {view}");
+        return view;
     }
 }

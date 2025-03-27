@@ -35,6 +35,17 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         transform.SetParent(canvas.transform);
         canvasGroup.blocksRaycasts = false;
+
+        // 드래그 시작 시, 아직 선택되지 않았다면 자동 선택
+        if (!ItemSelectorManager.Instance.HasSelection() ||
+            ItemSelectorManager.Instance.GetSelectedItem() != mergeItem)
+        {
+            var view = GetComponent<ItemView>();
+            if (view != null)
+            {
+                ItemSelectorManager.Instance.Select(view);
+            }
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
