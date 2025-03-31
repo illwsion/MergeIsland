@@ -32,14 +32,20 @@ public class BoardManager : MonoBehaviour
     }
     void Start()
     {
+        if (ItemDataManager.Instance == null) // ItemDataManger 실행 확인
+        {
+            Debug.LogError("[BoardManager] ItemDataManager 초기화되지 않음!");
+            return;
+        }
+        else Debug.Log("제대로 초기화됨");
         // 보드 위치: (0,0), (1,0), (0,1) 식으로 설정
         boardMap[new Vector2Int(0, 0)] = new MergeBoard(3, 2); // 1스테이지
         boardMap[new Vector2Int(1, 0)] = new MergeBoard(5, 5); // 오른쪽 보드
         boardMap[new Vector2Int(0, 1)] = new MergeBoard(6, 4); // 아래 보드
-        boardMap[new Vector2Int(0, 0)].PlaceItem(2, 1, new MergeItem(1, 3, "Tree")); // 셀 (2,1)에 레벨 3 나무 배치
-        boardMap[new Vector2Int(0, 0)].PlaceItem(1, 1, new MergeItem(1, 3, "Tree")); // 셀 (2,1)에 레벨 3 나무 배치
-        boardMap[new Vector2Int(0, 0)].PlaceItem(0, 1, new MergeItem(1, 4, "Tree")); // 셀 (2,1)에 레벨 3 나무 배치
-        boardMap[new Vector2Int(0, 1)].PlaceItem(3, 3, new MergeItem(1, 3, "Tree")); // 셀 (2,1)에 레벨 3 나무 배치
+        boardMap[new Vector2Int(0, 0)].PlaceItem(2, 1, new MergeItem(1003)); // 셀 (2,1)에 레벨 3 나무 배치
+        boardMap[new Vector2Int(0, 0)].PlaceItem(1, 1, new MergeItem(1003)); // 셀 (2,1)에 레벨 3 나무 배치
+        boardMap[new Vector2Int(0, 0)].PlaceItem(0, 1, new MergeItem(1004)); // 셀 (2,1)에 레벨 3 나무 배치
+        boardMap[new Vector2Int(0, 1)].PlaceItem(3, 3, new MergeItem(1003)); // 셀 (2,1)에 레벨 3 나무 배치
 
         currentBoardPos = new Vector2Int(0, 0);
         Debug.Log("시작 보드: (0, 0)");
@@ -99,9 +105,9 @@ public class BoardManager : MonoBehaviour
             board.grid[fromPos.x, fromPos.y] = null;
             board.PlaceItem(toPos.x, toPos.y, draggedItem);
         }
-        else if (targetItem.level == draggedItem.level && targetItem.type == draggedItem.type)
+        else if (targetItem.level == draggedItem.level && targetItem.name == draggedItem.name)
         {
-            int maxLevel = maxLevels.ContainsKey(draggedItem.type.ToLower()) ? maxLevels[draggedItem.type.ToLower()] : int.MaxValue;
+            int maxLevel = maxLevels.ContainsKey(draggedItem.name.ToLower()) ? maxLevels[draggedItem.name.ToLower()] : int.MaxValue;
             if (draggedItem.level >= maxLevel)
             {
                 // 머지는 불가능하지만 위치는 교환
@@ -112,7 +118,7 @@ public class BoardManager : MonoBehaviour
             }
 
             int newLevel = draggedItem.level + 1;
-            MergeItem newItem = new MergeItem(draggedItem.id, newLevel, draggedItem.type);
+            MergeItem newItem = new MergeItem(draggedItem.id);
             board.PlaceItem(toPos.x, toPos.y, newItem, true);
             board.grid[fromPos.x, fromPos.y] = null;
         }

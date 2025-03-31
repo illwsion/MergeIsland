@@ -14,9 +14,15 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
 
     public void SetItem(MergeItem item)
     {
+        if (item.Data == null)
+        {
+            Debug.LogWarning($"[ItemView] 아이템 데이터가 없습니다. id: {item.id}");
+            return;
+        }
         mergeItem = item;
         currentLevel = item.level;
-        string spriteName = $"{item.type}_{item.level}";
+        string spriteName = item.name;
+        Debug.Log(spriteName);
         iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);
     }
     /*

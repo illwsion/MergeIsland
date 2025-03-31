@@ -23,6 +23,11 @@ public class AtlasManager : MonoBehaviour
 
     public Sprite GetSprite(string name)
     {
+        if (atlases == null || atlases.Count == 0)
+        {
+            Debug.LogError("[AtlasManager] atlases 리스트가 비어있음!");
+            return null;
+        }
         foreach (var atlas in atlases)
         {
             Sprite sprite = atlas.GetSprite(name);

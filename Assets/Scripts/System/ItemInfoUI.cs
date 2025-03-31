@@ -15,11 +15,11 @@ public class ItemInfoUI : MonoBehaviour
         root.SetActive(true);
 
         // 아이콘 표시
-        string spriteName = $"{item.type}_{item.level}";
+        string spriteName = $"{item.name}_{item.level}";
         iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);
 
         // 텍스트 표시
-        nameText.text = item.type.ToUpper();
+        nameText.text = item.name.ToUpper();
         levelText.text = $"Lv.{item.level}";
     }
 

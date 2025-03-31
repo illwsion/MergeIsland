@@ -159,7 +159,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tree_0
+      name: tree_0
       rect:
         serializedVersion: 2
         x: 122
@@ -181,7 +181,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_1
+      name: tree_1
       rect:
         serializedVersion: 2
         x: 405
@@ -203,11 +203,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_2
+      name: tree_2
       rect:
         serializedVersion: 2
-        x: 663
-        y: 761
+        x: 665
+        y: 763
         width: 200
         height: 200
       alignment: 0
@@ -225,7 +225,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_3
+      name: tree_3
       rect:
         serializedVersion: 2
         x: 131
@@ -247,7 +247,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_4
+      name: tree_4
       rect:
         serializedVersion: 2
         x: 412
@@ -269,7 +269,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_5
+      name: tree_5
       rect:
         serializedVersion: 2
         x: 667
@@ -291,7 +291,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_6
+      name: tree_6
       rect:
         serializedVersion: 2
         x: 123
@@ -313,7 +313,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_7
+      name: tree_7
       rect:
         serializedVersion: 2
         x: 405
@@ -335,7 +335,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_8
+      name: tree_8
       rect:
         serializedVersion: 2
         x: 646
@@ -357,7 +357,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_9
+      name: tree_9
       rect:
         serializedVersion: 2
         x: 104
@@ -379,11 +379,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_10
+      name: tree_10
       rect:
         serializedVersion: 2
         x: 372
-        y: 0
+        y: 2
         width: 250
         height: 250
       alignment: 0
@@ -401,11 +401,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tree_11
+      name: tree_11
       rect:
         serializedVersion: 2
         x: 648
-        y: 0
+        y: 2
         width: 250
         height: 250
       alignment: 0
@@ -436,18 +436,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Tree_0: 6853316077166303748
-      Tree_1: 4134985361545656292
-      Tree_10: 4341258077969132138
-      Tree_11: 6303027525152896281
-      Tree_2: -1566730818833404899
-      Tree_3: -7301469273254094464
-      Tree_4: 4246777929600769233
-      Tree_5: -1089773682390131457
-      Tree_6: 3690649294209121615
-      Tree_7: -4890764911649256556
-      Tree_8: -8127015393120116528
-      Tree_9: 122658613021007611
+      tree_0: 6853316077166303748
+      tree_1: 4134985361545656292
+      tree_10: 4341258077969132138
+      tree_11: 6303027525152896281
+      tree_2: -1566730818833404899
+      tree_3: -7301469273254094464
+      tree_4: 4246777929600769233
+      tree_5: -1089773682390131457
+      tree_6: 3690649294209121615
+      tree_7: -4890764911649256556
+      tree_8: -8127015393120116528
+      tree_9: 122658613021007611
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
