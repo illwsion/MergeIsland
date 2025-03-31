@@ -105,24 +105,16 @@ public class BoardManager : MonoBehaviour
             board.grid[fromPos.x, fromPos.y] = null;
             board.PlaceItem(toPos.x, toPos.y, draggedItem);
         }
-        else if (targetItem.level == draggedItem.level && targetItem.name == draggedItem.name)
+        else if (draggedItem.CanMergeWith(targetItem))
         {
-            int maxLevel = maxLevels.ContainsKey(draggedItem.name.ToLower()) ? maxLevels[draggedItem.name.ToLower()] : int.MaxValue;
-            if (draggedItem.level >= maxLevel)
-            {
-                // 머지는 불가능하지만 위치는 교환
-                board.grid[fromPos.x, fromPos.y] = targetItem;
-                board.grid[toPos.x, toPos.y] = draggedItem;
-                boardUI.DisplayBoard(board);
-                return;
-            }
+            int? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.id, targetItem.id);
 
-            int newLevel = draggedItem.level + 1;
-            MergeItem newItem = new MergeItem(draggedItem.id);
+            MergeItem newItem = new MergeItem(resultId.Value);
             board.PlaceItem(toPos.x, toPos.y, newItem, true);
             board.grid[fromPos.x, fromPos.y] = null;
+
         }
-        else // 다른 아이템
+        else //머지 실패할 경우 위치 바꿈
         {
             board.grid[fromPos.x, fromPos.y] = targetItem;
             board.grid[toPos.x, toPos.y] = draggedItem;

@@ -13,7 +13,7 @@ public class MergeItem
     public ItemData.Category Category => Data?.category ?? ItemData.Category.Production;
     public ItemData.ProduceType ProduceType => Data?.produceType ?? ItemData.ProduceType.None;
 
-    /*
+    
     public bool CanMergeWith(MergeItem other)
     {
         if (other == null || this.Data == null || other.Data == null)
@@ -21,7 +21,7 @@ public class MergeItem
 
         return MergeRuleManager.Instance.GetMergeResult(this.id, other.id).HasValue;
     }
-    */
+    
     public MergeItem(int id)
     {
         this.id = id;
