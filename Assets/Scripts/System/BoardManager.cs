@@ -116,8 +116,17 @@ public class BoardManager : MonoBehaviour
         }
         else //머지 실패할 경우 위치 바꿈
         {
-            board.grid[fromPos.x, fromPos.y] = targetItem;
-            board.grid[toPos.x, toPos.y] = draggedItem;
+            if (!targetItem.Data.canMove) // 드롭 대상이 이동 불가이면 취소
+            {
+                Debug.Log("[BoardManager] 해당 위치의 아이템은 교체할 수 없습니다.");
+                board.PlaceItem(fromPos.x, fromPos.y, draggedItem);
+            }
+            else
+            {
+                board.grid[fromPos.x, fromPos.y] = targetItem;
+                board.grid[toPos.x, toPos.y] = draggedItem;
+            }
+            
         }
         StartCoroutine(SelectAfterFrame(toPos));
         boardUI.DisplayBoard(board);

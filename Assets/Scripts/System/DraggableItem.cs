@@ -30,6 +30,12 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!mergeItem.Data.canMove)
+        {
+            Debug.Log("[DraggableItem] 이 아이템은 이동할 수 없습니다!");
+            eventData.pointerDrag = null;
+            return;
+        }
         originalParent = transform.parent;
         originalPosition = rectTransform.anchoredPosition;
 

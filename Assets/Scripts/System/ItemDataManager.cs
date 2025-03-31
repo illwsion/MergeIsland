@@ -30,7 +30,6 @@ public class ItemDataManager : MonoBehaviour
     {
         if (itemDataMap.TryGetValue(id, out var data))
         {
-            Debug.Log("아이템 데이터 불러오기");
             return data;
         }
            
@@ -67,8 +66,6 @@ public class ItemDataManager : MonoBehaviour
                 Debug.LogError($"[ItemDataManager] Parse 실패 at line {i + 1}: '{line}'\nException: {e}");
             }
         }
-
-        Debug.Log($"[ItemDataManager] {itemDataMap.Count}개의 아이템 데이터를 불러왔습니다.");
     }
 
     private ItemData ParseItemData(string[] values)

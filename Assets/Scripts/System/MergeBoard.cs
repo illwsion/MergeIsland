@@ -24,7 +24,7 @@ public class MergeBoard
             }
             else
             {
-                Debug.Log("이미 아이템이 있음!");
+                //Debug.Log("이미 아이템이 있음!");
             }
         }
     }
