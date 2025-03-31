@@ -8,6 +8,7 @@ public class ItemInfoUI : MonoBehaviour
     public GameObject root;
     public Image iconImage;
     public TMP_Text nameText;
+    public TMP_Text descText;
     public TMP_Text levelText;
 
     public void Show(MergeItem item)
@@ -15,11 +16,14 @@ public class ItemInfoUI : MonoBehaviour
         root.SetActive(true);
 
         // 아이콘 표시
-        string spriteName = $"{item.name}_{item.level}";
+        string spriteName = item.name;
         iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);
 
         // 텍스트 표시
-        nameText.text = item.name.ToUpper();
+        string localizedName = StringTableManager.Instance.GetLocalized(item.Data.itemNameID);
+        nameText.text = localizedName;
+        string localizedDesc = StringTableManager.Instance.GetLocalized(item.Data.descriptionID);
+        descText.text = localizedDesc;
         levelText.text = $"Lv.{item.level}";
     }
 

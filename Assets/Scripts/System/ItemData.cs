@@ -57,6 +57,7 @@ public class ItemData
     public bool isSellable; // 판매가능여부
     public int sellValue; // 판매가격
 
+    public int itemNameID; // 아이템 이름
     public int descriptionID; // 아이템 설명
 
     public bool canMove; // 이동여부

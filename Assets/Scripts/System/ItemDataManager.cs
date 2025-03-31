@@ -91,6 +91,7 @@ public class ItemDataManager : MonoBehaviour
         item.maxProductionAmount = ParseIntSafe(values[index++], "maxProductionAmount");
         item.isSellable = ParseBoolSafe(values[index++], "isSellable");
         item.sellValue = ParseIntSafe(values[index++], "sellValue");
+        item.itemNameID = ParseIntSafe(values[index++], "itemNameID");
         item.descriptionID = ParseIntSafe(values[index++], "descriptionID");
         item.canMove = ParseBoolSafe(values[index++], "canMove");
         item.canInventoryStore = ParseBoolSafe(values[index++], "canInventoryStore");

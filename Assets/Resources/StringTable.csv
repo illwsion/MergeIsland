@@ -1,0 +1,43 @@
+﻿아이디,이름,한글이름,한글,영어
+int,string,string,string,string
+id,name,name_Kor,korean,english
+1001,tree_0_name,나무 1레벨 이름,나무 1단계,Tree Level 1
+1002,tree_1_name,나무 2레벨 이름,나무 2단계,Tree Level 2
+1003,tree_2_name,나무 3레벨 이름,나무 3단계,Tree Level 3
+1004,tree_3_name,나무 4레벨 이름,나무 4단계,Tree Level 4
+1005,tree_4_name,나무 5레벨 이름,나무 5단계,Tree Level 5
+1006,tree_5_name,나무 6레벨 이름,나무 6단계,Tree Level 6
+1007,tree_6_name,나무 7레벨 이름,나무 7단계,Tree Level 7
+1008,tree_7_name,나무 8레벨 이름,나무 8단계,Tree Level 8
+1009,tree_8_name,나무 9레벨 이름,나무 9단계,Tree Level 9
+1010,tree_9_name,나무 10레벨 이름,나무 10단계,Tree Level 10
+1011,tree_10_name,나무 11레벨 이름,나무 11단계,Tree Level 11
+1012,tree_11_name,나무 12레벨 이름,나무 12단계,Tree Level 12
+1013,log_0_name,통나무 1레벨 이름,통나무 1단계,Log Level 1
+1014,log_1_name,통나무 2레벨 이름,통나무 2단계,Log Level 2
+1015,log_2_name,통나무 3레벨 이름,통나무 3단계,Log Level 3
+1016,log_3_name,통나무 4레벨 이름,통나무 4단계,Log Level 4
+1017,log_4_name,통나무 5레벨 이름,통나무 5단계,Log Level 5
+1018,log_5_name,통나무 6레벨 이름,통나무 6단계,Log Level 6
+1019,log_6_name,통나무 7레벨 이름,통나무 7단계,Log Level 7
+1020,log_7_name,통나무 8레벨 이름,통나무 8단계,Log Level 8
+2001,tree_0_desc,나무_0_설명,나무 1단계이다.,It's Tree Level 1
+2002,tree_1_desc,나무_1_설명,나무 2단계이다.,It's Tree Level 2
+2003,tree_2_desc,나무_2_설명,나무 3단계이다.,It's Tree Level 3
+2004,tree_3_desc,나무_3_설명,나무 4단계이다.,It's Tree Level 4
+2005,tree_4_desc,나무_4_설명,나무 5단계이다.,It's Tree Level 5
+2006,tree_5_desc,나무_5_설명,나무 6단계이다.,It's Tree Level 6
+2007,tree_6_desc,나무_6_설명,나무 7단계이다.,It's Tree Level 7
+2008,tree_7_desc,나무_7_설명,나무 8단계이다.,It's Tree Level 8
+2009,tree_8_desc,나무_8_설명,나무 9단계이다.,It's Tree Level 9
+2010,tree_9_desc,나무_9_설명,나무 10단계이다.,It's Tree Level 10
+2011,tree_10_desc,나무_10_설명,나무 11단계이다.,It's Tree Level 11
+2012,tree_11_desc,나무_11_설명,나무 12단계이다.,It's Tree Level 12
+2013,log_0_desc,통나무_0_설명,통나무 1단계이다.,It's Log Level 1
+2014,log_1_desc,통나무_1_설명,통나무 2단계이다.,It's Log Level 2
+2015,log_2_desc,통나무_2_설명,통나무 3단계이다.,It's Log Level 3
+2016,log_3_desc,통나무_3_설명,통나무 4단계이다.,It's Log Level 4
+2017,log_4_desc,통나무_4_설명,통나무 5단계이다.,It's Log Level 5
+2018,log_5_desc,통나무_5_설명,통나무 6단계이다.,It's Log Level 6
+2019,log_6_desc,통나무_6_설명,통나무 7단계이다.,It's Log Level 7
+2020,log_7_desc,통나무_7_설명,통나무 8단계이다.,It's Log Level 8
