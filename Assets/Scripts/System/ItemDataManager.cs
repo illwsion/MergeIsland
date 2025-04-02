@@ -49,7 +49,7 @@ public class ItemDataManager : MonoBehaviour
 
         string[] lines = csvFile.text.Split('\n');
 
-        // 첫 줄은 헤더이므로 스킵
+        // 첫 네 줄은 헤더이므로 스킵
         for (int i = 4; i < lines.Length; i++)
         {
             string line = lines[i].Trim();

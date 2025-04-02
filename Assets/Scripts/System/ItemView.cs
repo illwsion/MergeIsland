@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.U2D;
 using System.Drawing;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class ItemView : MonoBehaviour, IPointerClickHandler
 {
@@ -41,7 +42,65 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ItemSelectorManager.Instance.Select(this);
+        if (DragManager.Instance.IsDragging) return;
+
+        var selector = ItemSelectorManager.Instance;
+
+        // 같은 아이템이 이미 선택된 상태면 → 생산
+        if (selector.GetSelectedItem() == mergeItem)
+        {
+            Debug.Log("[ItemView] 같은 아이템 터치 → 생산 실행");
+            ProduceItem();
+        }
+        else
+        {
+            // 새로운 아이템 선택
+            selector.Select(this);
+        }
+    }
+
+    private void ProduceItem()
+    {
+        var table = ProduceTableManager.Instance.GetTable(mergeItem.Data.produceTableID);
+        if (table == null || table.results.Count == 0)
+        {
+            Debug.LogWarning("[ProduceItem] 생산 테이블이 비어있습니다.");
+            return;
+        }
+
+        int resultItemID = GetRandomItemID(table.results);
+        if (resultItemID == -1)
+        {
+            Debug.LogError("[ProduceItem] 아이템 선택 실패");
+            return;
+        }
+
+        // 이후: 빈 칸 찾기, 아이템 스폰 등...
+    }
+
+    private int GetRandomItemID(List<ProduceResult> results)
+    {
+        int total = 0;
+        foreach (var result in results)
+            total += result.probability;
+
+        if (total <= 0)
+        {
+            Debug.LogError("[ProduceItem] 확률 총합이 0 이하입니다.");
+            return -1;
+        }
+
+        int roll = Random.Range(0, total); // 0 ~ total-1
+        int accum = 0;
+
+        foreach (var result in results)
+        {
+            accum += result.probability;
+            if (roll < accum)
+                return result.itemID;
+        }
+
+        return -1; // 실패
     }
 
     public int GetLevel()

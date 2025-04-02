@@ -19,18 +19,12 @@ public class ItemSelectorManager : MonoBehaviour
 
     public void Select(ItemView view)
     {
-        if (selectedItemView == view)
-        {
-            Debug.Log("[Select] 같은 아이템 재선택 → 아이템 생산 처리");
-            //ProduceItem(view); 앞으로 구현할 생산 함수
-            return;
-        }
-
         ClearSelection();
 
         selectedItemView = view;
         selectedItem = view.mergeItem;
         selectedCoord = view.coord;
+
         // 선택된 셀의 Outline 활성화
         GameObject cell = view.transform.parent.gameObject;
         Transform outline = cell.transform.Find("SelectionOutline");
