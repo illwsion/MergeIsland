@@ -32,10 +32,12 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (!mergeItem.Data.canMove)
         {
-            Debug.Log("[DraggableItem] 이 아이템은 이동할 수 없습니다!");
             eventData.pointerDrag = null;
             return;
         }
+
+        DragManager.Instance.StartDrag();
+
         originalParent = transform.parent;
         originalPosition = rectTransform.anchoredPosition;
 
@@ -61,6 +63,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        DragManager.Instance.EndDrag();
+
         transform.SetParent(originalParent);
         canvasGroup.blocksRaycasts = true;
 

@@ -55,6 +55,8 @@ public class BoardManager : MonoBehaviour
 
     void Update()
     {
+        if (DragManager.Instance.IsDragging)
+            return;
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             MoveBoard(Vector2Int.right); // 오른쪽 이동
