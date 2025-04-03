@@ -83,7 +83,6 @@ public class ProduceTableManager : MonoBehaviour
                 Debug.LogError($"[ProduceTableManager] 파싱 실패 at line {i + 1}: '{line}'\nException: {e}");
             }
         }
-        Debug.Log($"[ProduceTableManager] {tableMap.Count}개의 생산테이블을 불러왔습니다.");
     }
 
     private int ParseIntSafe(string value, string fieldName)

@@ -25,16 +25,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
         string spriteName = item.name;
         iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);
     }
-    /*
-    public void SetSelected(bool selected)
-    {
-        if (outlineObject != null)
-        {
-            outlineObject.SetActive(selected);
-            Debug.Log($"[ItemView] SelectionOutline set to {selected} on {gameObject.name}");
-        }
-    }
-    */
+
     public void SetCoord(Vector2Int pos)
     {
         coord = pos;
@@ -75,7 +66,15 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        // 이후: 빈 칸 찾기, 아이템 스폰 등...
+        Vector2Int? spawnPos = BoardManager.Instance.FindNearestEmptyCell(coord);
+        if (spawnPos == null)
+        {
+            Debug.Log("빈 칸이 없습니다!");
+            return;
+        }
+
+        BoardManager.Instance.SpawnItem(resultItemID, spawnPos.Value);
+        Debug.Log($"[ProduceItem] ID {resultItemID} 아이템이 {spawnPos.Value}에 생성됨");
     }
 
     private int GetRandomItemID(List<ProduceResult> results)

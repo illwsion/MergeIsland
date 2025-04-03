@@ -37,7 +37,7 @@ public class BoardManager : MonoBehaviour
             Debug.LogError("[BoardManager] ItemDataManager 초기화되지 않음!");
             return;
         }
-        else Debug.Log("제대로 초기화됨");
+
         // 보드 위치: (0,0), (1,0), (0,1) 식으로 설정
         boardMap[new Vector2Int(0, 0)] = new MergeBoard(3, 2); // 1스테이지
         boardMap[new Vector2Int(1, 0)] = new MergeBoard(5, 5); // 오른쪽 보드
@@ -80,6 +80,8 @@ public class BoardManager : MonoBehaviour
         Vector2Int nextPos = currentBoardPos + direction;
         if (boardMap.ContainsKey(nextPos))
         {
+            ItemSelectorManager.Instance.ClearSelection(); //아이템 선택 해제
+
             currentBoardPos = nextPos;
             Debug.Log("보드 이동: " + currentBoardPos);
             MergeBoard currentBoard = boardMap[currentBoardPos];
@@ -106,6 +108,8 @@ public class BoardManager : MonoBehaviour
         {
             board.grid[fromPos.x, fromPos.y] = null;
             board.PlaceItem(toPos.x, toPos.y, draggedItem);
+
+            ItemSelectorManager.Instance.SetSelectedCoord(toPos);
         }
         else if (draggedItem.CanMergeWith(targetItem))
         {
@@ -115,6 +119,9 @@ public class BoardManager : MonoBehaviour
             board.PlaceItem(toPos.x, toPos.y, newItem, true);
             board.grid[fromPos.x, fromPos.y] = null;
 
+            ItemSelectorManager.Instance.SetSelectedCoord(toPos);
+
+            StartCoroutine(SelectAfterFrame(toPos));
         }
         else //머지 실패할 경우 위치 바꿈
         {
@@ -122,15 +129,19 @@ public class BoardManager : MonoBehaviour
             {
                 Debug.Log("[BoardManager] 해당 위치의 아이템은 교체할 수 없습니다.");
                 board.PlaceItem(fromPos.x, fromPos.y, draggedItem);
+
+                ItemSelectorManager.Instance.SetSelectedCoord(fromPos); // 기존 위치
             }
             else
             {
                 board.grid[fromPos.x, fromPos.y] = targetItem;
                 board.grid[toPos.x, toPos.y] = draggedItem;
+
+                ItemSelectorManager.Instance.SetSelectedCoord(toPos); //새로운 위치
             }
             
         }
-        StartCoroutine(SelectAfterFrame(toPos));
+        //StartCoroutine(SelectAfterFrame(toPos));
         boardUI.DisplayBoard(board);
     }
 
@@ -138,15 +149,85 @@ public class BoardManager : MonoBehaviour
     {
         return pos.x >= 0 && pos.x < board.width && pos.y >= 0 && pos.y < board.height;
     }
-    
+
+    public bool IsCellEmpty(MergeBoard board, Vector2Int pos)
+    {
+        return board.GetItem(pos.x, pos.y) == null; // 아이템이 없으면 빈 칸
+    }
+
+    public Vector2Int? FindNearestEmptyCell(Vector2Int origin) //빈칸 탐색 함수
+    {
+        MergeBoard board = boardMap[currentBoardPos];
+        int maxDistance = 10; // 검색 범위 제한 (보드 크기에 맞게 조절)
+        for (int distance = 0; distance <= maxDistance; distance++)
+        {
+            for (int dx = -distance; dx <= distance; dx++)
+            {
+                for (int dy = -distance; dy <= distance; dy++)
+                {
+                    // 외곽만 검사 (정사각형 셸 방식)
+                    if (Mathf.Abs(dx) != distance && Mathf.Abs(dy) != distance)
+                        continue;
+
+                    Vector2Int checkPos = new Vector2Int(origin.x + dx, origin.y + dy);
+
+                    if (IsValidCell(board, checkPos) && IsCellEmpty(board,checkPos))
+                    {
+                        return checkPos;
+                    }
+                }
+            }
+        }
+
+        return null; // 빈칸 없음
+    }
+
+    public void SpawnItem(int itemID, Vector2Int position)
+    {
+        MergeBoard board = boardMap[currentBoardPos];
+        if (!IsValidCell(board, position))
+        {
+            Debug.LogError($"[BoardManager] 유효하지 않은 위치에 아이템 생성 시도: {position}");
+            return;
+        }
+
+        ItemData data = ItemDataManager.Instance.GetItemData(itemID);
+        if (data == null)
+        {
+            Debug.LogError($"[BoardManager] 유효하지 않은 아이템 ID: {itemID}");
+            return;
+        }
+
+        board.PlaceItem(position.x, position.y, new MergeItem(itemID));
+        boardUI.DisplayBoard(board);
+    }
+
     IEnumerator SelectAfterFrame(Vector2Int pos)
     {
-        yield return null; // 한 프레임 대기
+        yield return null; // 한 프레임 뒤에 실행 (DisplayBoard() 이후)
+
         ItemView targetView = boardUI.GetItemViewAt(pos);
         if (targetView != null)
+        {
             ItemSelectorManager.Instance.Select(targetView);
+        }
+    }
+
+    public void RefreshBoard()
+    {
+        if (boardMap.ContainsKey(currentBoardPos))
+        {
+            boardUI.DisplayBoard(boardMap[currentBoardPos]);
+        }
         else
-            Debug.LogWarning("SelectAfterFrame: ItemView still not found!");
+        {
+            Debug.LogWarning($"[BoardManager] RefreshBoard(): boardMap에 currentBoardPos {currentBoardPos} 없음!");
+        }
+    }
+
+    public bool HasBoard(Vector2Int pos)
+    {
+        return boardMap.ContainsKey(pos);
     }
 }
 

@@ -67,8 +67,6 @@ public class StringTableManager : MonoBehaviour
                 };
             }
         }
-
-        Debug.Log($"[StringTableManager] {stringMap.Count}개의 문자열을 로드했습니다.");
     }
 
     public string GetLocalized(int id)

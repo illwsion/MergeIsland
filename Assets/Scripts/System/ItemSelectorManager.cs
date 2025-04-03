@@ -7,47 +7,49 @@ public class ItemSelectorManager : MonoBehaviour
     public ItemInfoUI itemInfoUI; // 상단 UI 참조
 
     private MergeItem selectedItem;
-    private Vector2Int selectedCoord;
+    public Vector2Int selectedCoord;
     private ItemView selectedItemView;
 
+    private void Start()
+    {
+        ClearSelection();
+    }
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-        this.ClearSelection();
     }
-
+    
+    
     public void Select(ItemView view)
     {
+        if (selectedItemView == view)
+            return;
+
         ClearSelection();
 
         selectedItemView = view;
         selectedItem = view.mergeItem;
         selectedCoord = view.coord;
-
-        // 선택된 셀의 Outline 활성화
-        GameObject cell = view.transform.parent.gameObject;
-        Transform outline = cell.transform.Find("SelectionOutline");
-        Debug.Log(outline);
-        if (outline != null) outline.gameObject.SetActive(true);
-
+        
         itemInfoUI.Show(selectedItem);
-    }
 
+        BoardManager.Instance.RefreshBoard();
+    }
+    
     public void ClearSelection()
     {
         // 이전 선택 해제
-        if (selectedItemView != null)
-        {
-            GameObject cell = selectedItemView.transform.parent.gameObject;
-            Transform outline = cell.transform.Find("SelectionOutline");
-            if (outline != null) outline.gameObject.SetActive(false);
-        }
         selectedItem = null;
         selectedItemView = null;
-        itemInfoUI.ShowEmpty();
-    }
 
+        if (itemInfoUI != null)
+            itemInfoUI.ShowEmpty();
+
+        if (BoardManager.Instance != null)
+            BoardManager.Instance.RefreshBoard();
+    }
+    
     public void ClearSelectionOnEmptyCell()
     {
         // 빈 셀 클릭 시 선택 해제
@@ -70,5 +72,15 @@ public class ItemSelectorManager : MonoBehaviour
     public Vector2Int GetSelectedCoord()
     {
         return selectedCoord;
+    }
+
+    public ItemView GetSelectedItemView()
+    {
+        return selectedItemView;
+    }
+
+    public void SetSelectedCoord(Vector2Int coord)
+    {
+        selectedCoord = coord;
     }
 }

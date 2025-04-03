@@ -49,8 +49,6 @@ public class MergeRuleManager : MonoBehaviour
 
             rules.Add(new MergeRule(id, note, itemA, itemB, result, allowSwap));
         }
-
-        Debug.Log($"[MergeRuleManager] {rules.Count}개의 머지 룰을 불러왔습니다.");
     }
 
     public int? GetMergeResult(int a, int b)
