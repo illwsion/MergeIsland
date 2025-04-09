@@ -52,6 +52,22 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
 
     private void ProduceItem()
     {
+        var data = mergeItem.Data;
+        ResourceType costType = data.costResource.ToResourceType();
+        int costValue = data.costValue;
+
+        // 자원 체크
+        if (costType != ResourceType.None)
+        {
+            if (!PlayerResourceManager.Instance.TrySpend(costType, costValue))
+            {
+                Debug.LogWarning($"[ProduceItem] 자원이 부족합니다: {costType} {costValue}");
+                // TODO: UI 알림
+                return;
+            }
+        }
+
+        // 생산 테이블에서 결과 얻기
         var table = ProduceTableManager.Instance.GetTable(mergeItem.Data.produceTableID);
         if (table == null || table.results.Count == 0)
         {
@@ -74,7 +90,6 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
         }
 
         BoardManager.Instance.SpawnItem(resultItemID, spawnPos.Value);
-        Debug.Log($"[ProduceItem] ID {resultItemID} 아이템이 {spawnPos.Value}에 생성됨");
     }
 
     private int GetRandomItemID(List<ProduceResult> results)
