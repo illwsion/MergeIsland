@@ -5,6 +5,7 @@ using UnityEngine.U2D;
 using System.Drawing;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.WSA;
 
 public class ItemView : MonoBehaviour, IPointerClickHandler
 {
@@ -56,6 +57,15 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
         ResourceType costType = data.costResource.ToResourceType();
         int costValue = data.costValue;
 
+        //빈칸 체크
+        Vector2Int? spawnPos = BoardManager.Instance.FindNearestEmptyCell(coord);
+        if (spawnPos == null)
+        {
+            UIToast.Show("보드에 빈 칸이 없습니다!");
+            Debug.Log("빈 칸이 없습니다!");
+            return;
+        }
+
         // 자원 체크
         if (costType != ResourceType.None)
         {
@@ -79,13 +89,6 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
         if (resultItemID == -1)
         {
             Debug.LogError("[ProduceItem] 아이템 선택 실패");
-            return;
-        }
-
-        Vector2Int? spawnPos = BoardManager.Instance.FindNearestEmptyCell(coord);
-        if (spawnPos == null)
-        {
-            Debug.Log("빈 칸이 없습니다!");
             return;
         }
 
