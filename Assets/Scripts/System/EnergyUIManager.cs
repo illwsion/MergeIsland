@@ -38,7 +38,6 @@ public class EnergyUIManager : MonoBehaviour
         // Fill 길이 계산
         float percent = Mathf.Clamp01((float)currentEnergy / maxEnergy);
         fillBar.sizeDelta = new Vector2(percent * maxBarWidth, fillBar.sizeDelta.y);
-        Debug.Log($"[EnergyUI] 에너지: {currentEnergy}, Fill width: {fillBar.sizeDelta.x}");
         energyText.text = $"{currentEnergy} / {maxEnergy}";
     }
 

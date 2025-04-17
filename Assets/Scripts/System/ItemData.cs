@@ -6,7 +6,7 @@ public class ItemData
 {
     public int id;
     public string name;
-    public string type; // "tree", "log" 등 그룹 용도
+    //public string type; // "tree", "log" 등 그룹 용도
     public int level;
     public int maxLevel;
     public Category category;
@@ -17,17 +17,18 @@ public class ItemData
     public enum Category
     {
         Production,
-        Collectable,
+        General,
         NPC,
+        Weapon,
         Decoration // 단순 장식(UI 꾸미기용, 클릭 없음)
     };
-
 
     public enum ProduceType
     {
         None,
         Manual, //터치해서 아이템 생산
         Auto, // 자동 생산
+        Supply, // 아이템을 제공하여 생산
         Gather, //터치해서 자원 획득(골드, 보석, 경험치 등)
         Dialogue //NPC 대화, 상호작용
     }; 
@@ -62,6 +63,9 @@ public class ItemData
 
     public bool canMove; // 이동여부
     public bool canInventoryStore; // 인벤토리보관여부
+
+    public int hp; // 최대체력
+    public int attackPower; // 공격력
 
     
 }

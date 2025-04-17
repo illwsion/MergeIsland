@@ -111,39 +111,109 @@ public class BoardManager : MonoBehaviour
 
             ItemSelectorManager.Instance.SetSelectedCoord(toPos);
         }
-        else if (draggedItem.CanMergeWith(targetItem))
+
+        DropActionType actionType = DetermineDropAction(draggedItem, targetItem);
+
+        switch (actionType)
         {
-            int? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.id, targetItem.id);
+            case DropActionType.None:
+                HandleSwapOrMove(board, draggedItem, fromPos, toPos);
+                break;
 
-            MergeItem newItem = new MergeItem(resultId.Value);
-            board.PlaceItem(toPos.x, toPos.y, newItem, true);
-            board.grid[fromPos.x, fromPos.y] = null;
+            case DropActionType.Merge:
+                HandleMerge(board, draggedItem, targetItem, fromPos, toPos);
+                break;
 
-            ItemSelectorManager.Instance.SetSelectedCoord(toPos);
+            case DropActionType.Attack:
+                HandleAttack(board, draggedItem, targetItem, fromPos, toPos);
+                break;
 
-            StartCoroutine(SelectAfterFrame(toPos));
+            case DropActionType.Supply:
+                HandleSupply(board, draggedItem, targetItem, fromPos, toPos);
+                break;
+
+            case DropActionType.Split:
+                HandleSplit(board, draggedItem, targetItem, fromPos, toPos);
+                break;
+
+            default:
+                Debug.LogWarning("정의되지 않은 액션입니다.");
+                HandleSwapOrMove(board, draggedItem, fromPos, fromPos);
+                break;
         }
-        else //머지 실패할 경우 위치 바꿈
-        {
-            if (!targetItem.Data.canMove) // 드롭 대상이 이동 불가이면 취소
-            {
-                Debug.Log("[BoardManager] 해당 위치의 아이템은 교체할 수 없습니다.");
-                board.PlaceItem(fromPos.x, fromPos.y, draggedItem);
 
-                ItemSelectorManager.Instance.SetSelectedCoord(fromPos); // 기존 위치
-            }
-            else
-            {
-                board.grid[fromPos.x, fromPos.y] = targetItem;
-                board.grid[toPos.x, toPos.y] = draggedItem;
-
-                ItemSelectorManager.Instance.SetSelectedCoord(toPos); //새로운 위치
-            }
-            
-        }
-        //StartCoroutine(SelectAfterFrame(toPos));
         boardUI.DisplayBoard(board);
     }
+
+    private DropActionType DetermineDropAction(MergeItem draggedItem, MergeItem targetItem)
+    {
+        if (draggedItem == null) return DropActionType.None;
+
+        // 분할 아이템 (특수 아이템)
+
+        // 공격 (몬스터에게 무기 드랍)
+        if (draggedItem.Data.category == ItemData.Category.Weapon && targetItem != null && targetItem.Data.hp > 0)
+            return DropActionType.Attack;
+
+        // 생산 (Supply)
+        if (draggedItem.Data.produceType == ItemData.ProduceType.Gather && targetItem != null && targetItem.Data.produceType == ItemData.ProduceType.Supply)
+        {
+            // 사실 서플라이 가능한지 확인해야 함 아래처럼. 머지테이블에 같이 넣는 대신 Supply로 빠져도 될 듯
+            //CanMergeWith에 있고 targetItem.Data.produceType == 'Supply' 일 경우?
+            return DropActionType.Supply;
+        }
+            
+        // 머지 가능한 경우
+        if (targetItem != null && draggedItem.CanMergeWith(targetItem))
+            return DropActionType.Merge;
+
+        // 기본 처리 (교환 또는 이동)
+        return DropActionType.None;
+    }
+
+    void HandleSwapOrMove(MergeBoard board, MergeItem draggedItem, Vector2Int fromPos, Vector2Int toPos)
+    {
+
+    }
+
+    void HandleMerge(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
+    {
+
+    }
+
+    void HandleAttack(MergeBoard board, MergeItem weapon, MergeItem monster, Vector2Int fromPos, Vector2Int toPos)
+    {
+        monster.TakeDamage(weapon.Data.attackPower);
+
+        // 몬스터 사망 처리
+        if (monster.hp <= 0)
+        {
+            board.grid[toPos.x, toPos.y] = null; // 몬스터 삭제
+            // 보상 드랍 로직 추가 가능
+        }
+
+        // 무기 아이템 소모 처리
+        board.grid[fromPos.x, fromPos.y] = null;
+
+        ItemSelectorManager.Instance.ClearSelection();
+    }
+
+    void HandleSupply(MergeBoard board, MergeItem food, MergeItem producer, Vector2Int fromPos, Vector2Int toPos)
+    {
+        // 생산 시작 로직
+       // producer.StartProduction(food.id);
+
+        // 먹이 아이템 소모 처리
+        //board.RemoveItem(fromPos.x, fromPos.y);
+
+        ItemSelectorManager.Instance.ClearSelection();
+    }
+
+    void HandleSplit(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
+    {
+
+    }
+
 
     private bool IsValidCell(MergeBoard board, Vector2Int pos)
     {

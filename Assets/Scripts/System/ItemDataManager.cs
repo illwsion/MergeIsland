@@ -92,6 +92,8 @@ public class ItemDataManager : MonoBehaviour
         item.descriptionID = ParseIntSafe(values[index++], "descriptionID");
         item.canMove = ParseBoolSafe(values[index++], "canMove");
         item.canInventoryStore = ParseBoolSafe(values[index++], "canInventoryStore");
+        item.hp = ParseIntSafe(values[index++], "hp");
+        item.attackPower = ParseIntSafe(values[index++], "attackPower");
 
         return item;
     }
