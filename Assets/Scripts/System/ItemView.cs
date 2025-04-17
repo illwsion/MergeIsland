@@ -38,17 +38,41 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
 
         var selector = ItemSelectorManager.Instance;
 
-        // 같은 아이템이 이미 선택된 상태면 → 생산
+        // 같은 아이템을 또 터치했을 경우
         if (selector.GetSelectedItem() == mergeItem)
         {
-            Debug.Log("[ItemView] 같은 아이템 터치 → 생산 실행");
-            ProduceItem();
+            switch (mergeItem.ProduceType)
+            {
+                case ItemData.ProduceType.Manual:
+                    Debug.Log("[ItemView] Manual 아이템 → 생산 실행");
+                    ProduceItem();
+                    break;
+
+                case ItemData.ProduceType.Gather:
+                    Debug.Log("[ItemView] Gather 아이템 → 자원 수확 실행");
+                    //CollectResource(); // 이건 이후에 추가 가능
+                    break;
+
+                case ItemData.ProduceType.Dialogue:
+                    Debug.Log("[ItemView] Dialogue 아이템 → NPC 대화 실행");
+                    //TriggerNPCDialogue(); // 이후 확장 시 정의
+                    break;
+
+                case ItemData.ProduceType.Auto:
+                    Debug.Log("[ItemView] Auto 아이템 → 터치 시 아무 동작 없음");
+                    break;
+
+                case ItemData.ProduceType.None:
+                default:
+                    Debug.Log("[ItemView] 정의되지 않은 ProduceType → 무시");
+                    break;
+            }
+
+            return;
         }
-        else
-        {
-            // 새로운 아이템 선택
-            selector.Select(this);
-        }
+
+        // 새로운 아이템 선택
+        selector.Select(this);
     }
 
     private void ProduceItem()
