@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using System.Collections;
+using static UnityEditor.PlayerSettings;
 
 public class BoardManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class BoardManager : MonoBehaviour
     private Vector2Int currentBoardPos = Vector2Int.zero;
     public BoardUI boardUI;
     public static BoardManager Instance;
+
+    private List<MergeItem> timeDrivenProducers = new List<MergeItem>();
 
     // 타입별 최대 레벨 정의
     private Dictionary<string, int> maxLevels = new Dictionary<string, int>
@@ -42,10 +45,10 @@ public class BoardManager : MonoBehaviour
         boardMap[new Vector2Int(0, 0)] = new MergeBoard(3, 2); // 1스테이지
         boardMap[new Vector2Int(1, 0)] = new MergeBoard(5, 5); // 오른쪽 보드
         boardMap[new Vector2Int(0, 1)] = new MergeBoard(6, 4); // 아래 보드
-        boardMap[new Vector2Int(0, 0)].PlaceItem(2, 1, new MergeItem(1003)); // 셀 (2,1)에 레벨 3 나무 배치
-        boardMap[new Vector2Int(0, 0)].PlaceItem(1, 1, new MergeItem(1003)); // 셀 (2,1)에 레벨 3 나무 배치
-        boardMap[new Vector2Int(0, 0)].PlaceItem(0, 1, new MergeItem(1004)); // 셀 (2,1)에 레벨 3 나무 배치
-        boardMap[new Vector2Int(0, 1)].PlaceItem(3, 3, new MergeItem(1003)); // 셀 (2,1)에 레벨 3 나무 배치
+        PlaceInitialItem(new Vector2Int(0, 0), 2, 1, 1003);
+        PlaceInitialItem(new Vector2Int(0, 0), 1, 1, 1003);
+        PlaceInitialItem(new Vector2Int(0, 0), 0, 1, 1004);
+        PlaceInitialItem(new Vector2Int(0, 1), 3, 3, 1003);
 
         currentBoardPos = new Vector2Int(0, 0);
         Debug.Log("시작 보드: (0, 0)");
@@ -55,6 +58,8 @@ public class BoardManager : MonoBehaviour
 
     void Update()
     {
+        UpdateProductionItems(Time.deltaTime);
+
         if (DragManager.Instance.IsDragging)
             return;
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -73,6 +78,8 @@ public class BoardManager : MonoBehaviour
         {
             MoveBoard(Vector2Int.down); // 아래로 이동
         }
+
+
     }
 
     public void MoveBoard(Vector2Int direction)
@@ -186,12 +193,17 @@ public class BoardManager : MonoBehaviour
     {
         int? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.id, targetItem.id);
 
+        UnregisterProducer(draggedItem);
+        UnregisterProducer(targetItem);
+
         MergeItem newItem = new MergeItem(resultId.Value);
         board.PlaceItem(toPos.x, toPos.y, newItem, true);
+        RegisterProducer(newItem);
+
         board.grid[fromPos.x, fromPos.y] = null;
 
         ItemSelectorManager.Instance.SetSelectedCoord(toPos);
-        Debug.Log("머지 실행");
+
         StartCoroutine(SelectAfterFrame(toPos));
     }
 
@@ -288,6 +300,7 @@ public class BoardManager : MonoBehaviour
         }
 
         board.PlaceItem(position.x, position.y, new MergeItem(itemID));
+        RegisterProducer(board.GetItem(position.x, position.y));
         boardUI.DisplayBoard(board);
     }
 
@@ -317,6 +330,53 @@ public class BoardManager : MonoBehaviour
     public bool HasBoard(Vector2Int pos)
     {
         return boardMap.ContainsKey(pos);
+    }
+    /*
+    public void RegisterProducer(MergeItem item)
+    {
+        if (item != null && item.IsTimeDrivenProducer() && !timeDrivenProducers.Contains(item))
+        {
+            timeDrivenProducers.Add(item);
+            Debug.Log($"[BoardManager] 등록됨: {item.name}");
+        }
+    }
+    */
+    public void RegisterProducer(MergeItem item)
+    {
+        if (item != null && item.IsTimeDrivenProducer())
+        {
+            if (!timeDrivenProducers.Contains(item))
+            {
+                timeDrivenProducers.Add(item);
+                Debug.Log($"[등록됨] {item.name} | hash={item.GetHashCode()}");
+            }
+            else
+            {
+                Debug.Log($"[이미 등록됨] {item.name} | hash={item.GetHashCode()}");
+            }
+        }
+    }
+
+    public void UnregisterProducer(MergeItem item)
+    {
+        if (timeDrivenProducers.Contains(item))
+        {
+            timeDrivenProducers.Remove(item);
+        }
+    }
+
+    private void UpdateProductionItems(float deltaTime)
+    {
+        foreach (var item in timeDrivenProducers)
+        {
+            item.UpdateProductionStorage(deltaTime);
+        }
+    }
+    private void PlaceInitialItem(Vector2Int boardPos, int x, int y, int id)
+    {
+        MergeItem item = new MergeItem(id);
+        boardMap[boardPos].PlaceItem(x, y, item);
+        RegisterProducer(item);
     }
 }
 

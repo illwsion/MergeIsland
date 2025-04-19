@@ -78,8 +78,17 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
     private void ProduceItem()
     {
         var data = mergeItem.Data;
-        ResourceType costType = data.costResource.ToResourceType();
-        int costValue = data.costValue;
+
+        // Manual 방식인 경우: 저장량 체크
+        if (mergeItem.ProduceType == ItemData.ProduceType.Manual)
+        {
+            if (!mergeItem.CanProduce())
+            {
+                UIToast.Show("저장량이 부족합니다!");
+                Debug.Log("저장량이 부족합니다.");
+                return;
+            }
+        }
 
         //빈칸 체크
         Vector2Int? spawnPos = BoardManager.Instance.FindNearestEmptyCell(coord);
@@ -91,12 +100,15 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
         }
 
         // 자원 체크
+        ResourceType costType = data.costResource.ToResourceType();
+        int costValue = data.costValue;
+        
         if (costType != ResourceType.None)
         {
             if (!PlayerResourceManager.Instance.TrySpend(costType, costValue))
             {
                 Debug.LogWarning($"[ProduceItem] 자원이 부족합니다: {costType} {costValue}");
-                // TODO: UI 알림
+                UIToast.Show("자원이 부족합니다!");
                 return;
             }
         }
@@ -116,6 +128,10 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
             return;
         }
 
+        if (mergeItem.ProduceType == ItemData.ProduceType.Manual)
+        {
+            mergeItem.ConsumeStorage();
+        }
         BoardManager.Instance.SpawnItem(resultItemID, spawnPos.Value);
     }
 

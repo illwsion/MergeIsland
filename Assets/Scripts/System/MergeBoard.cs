@@ -1,4 +1,5 @@
 // MergeBoard.cs
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class MergeBoard

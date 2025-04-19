@@ -19,8 +19,15 @@ public class ItemSelectorManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
-    
-    
+
+    private void Update()
+    {
+        if (selectedItem != null && itemInfoUI != null)
+        {
+            itemInfoUI.Refresh(selectedItem);
+        }
+    }
+
     public void Select(ItemView view)
     {
         if (selectedItemView == view)
