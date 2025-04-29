@@ -22,6 +22,7 @@ public class MergeBoard
             if (grid[x, y] == null || overwrite)
             {
                 grid[x, y] = item;
+                item.coord = new Vector2Int(x, y);
             }
             else
             {
@@ -37,5 +38,41 @@ public class MergeBoard
             return grid[x, y];
         }
         return null;
+    }
+
+    public Vector2Int? FindNearestEmptyCell(Vector2Int origin)
+    {
+        int maxDistance = 10; // °Ë»ö ¹üÀ§ Á¦ÇÑ
+        for (int distance = 0; distance <= maxDistance; distance++)
+        {
+            for (int dx = -distance; dx <= distance; dx++)
+            {
+                for (int dy = -distance; dy <= distance; dy++)
+                {
+                    // ¿Ü°û¸¸ °Ë»ç
+                    if (Mathf.Abs(dx) != distance && Mathf.Abs(dy) != distance)
+                        continue;
+
+                    Vector2Int checkPos = new Vector2Int(origin.x + dx, origin.y + dy);
+
+                    if (IsValidCell(checkPos) && IsCellEmpty(checkPos))
+                    {
+                        return checkPos;
+                    }
+                }
+            }
+        }
+
+        return null; // ºóÄ­ ¾øÀ½
+    }
+
+    public bool IsValidCell(Vector2Int pos)
+    {
+        return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
+    }
+
+    public bool IsCellEmpty(Vector2Int pos)
+    {
+        return grid[pos.x, pos.y] == null;
     }
 }

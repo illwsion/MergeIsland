@@ -42,7 +42,7 @@ public class BoardManager : MonoBehaviour
         }
 
         // 보드 위치: (0,0), (1,0), (0,1) 식으로 설정
-        boardMap[new Vector2Int(0, 0)] = new MergeBoard(3, 2); // 1스테이지
+        boardMap[new Vector2Int(0, 0)] = new MergeBoard(4, 4); // 1스테이지
         boardMap[new Vector2Int(1, 0)] = new MergeBoard(5, 5); // 오른쪽 보드
         boardMap[new Vector2Int(0, 1)] = new MergeBoard(6, 4); // 아래 보드
         PlaceInitialItem(new Vector2Int(0, 0), 2, 1, 1003);
@@ -107,7 +107,7 @@ public class BoardManager : MonoBehaviour
     {
         MergeBoard board = boardMap[currentBoardPos];
 
-        if (!IsValidCell(board, fromPos) || !IsValidCell(board, toPos)) return;
+        if (!board.IsValidCell(fromPos) || !board.IsValidCell(toPos)) return;
 
         MergeItem targetItem = board.GetItem(toPos.x, toPos.y);
 
@@ -182,7 +182,9 @@ public class BoardManager : MonoBehaviour
         else
         {
             board.grid[fromPos.x, fromPos.y] = targetItem;
+            targetItem.coord = fromPos;
             board.grid[toPos.x, toPos.y] = draggedItem;
+            draggedItem.coord = toPos;
 
             ItemSelectorManager.Instance.SetSelectedCoord(toPos); //새로운 위치
         }
@@ -231,7 +233,7 @@ public class BoardManager : MonoBehaviour
         int? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.id, targetItem.id);
 
         //생성 위치 계산
-        Vector2Int? spawnPos = BoardManager.Instance.FindNearestEmptyCell(toPos);
+        Vector2Int? spawnPos = board.FindNearestEmptyCell(toPos);
         if (spawnPos == null)
         {
             spawnPos = fromPos;
@@ -241,52 +243,14 @@ public class BoardManager : MonoBehaviour
         board.grid[fromPos.x, fromPos.y] = null;
 
         //아이템 생성
-        SpawnItem(resultId.Value, spawnPos.Value);
+        SpawnItem(board, resultId.Value, spawnPos.Value);
 
         ItemSelectorManager.Instance.ClearSelection();
     }
 
-    private bool IsValidCell(MergeBoard board, Vector2Int pos)
+    public void SpawnItem(MergeBoard board, int itemID, Vector2Int position)
     {
-        return pos.x >= 0 && pos.x < board.width && pos.y >= 0 && pos.y < board.height;
-    }
-
-    public bool IsCellEmpty(MergeBoard board, Vector2Int pos)
-    {
-        return board.GetItem(pos.x, pos.y) == null; // 아이템이 없으면 빈 칸
-    }
-
-    public Vector2Int? FindNearestEmptyCell(Vector2Int origin) //빈칸 탐색 함수
-    {
-        MergeBoard board = boardMap[currentBoardPos];
-        int maxDistance = 10; // 검색 범위 제한 (보드 크기에 맞게 조절)
-        for (int distance = 0; distance <= maxDistance; distance++)
-        {
-            for (int dx = -distance; dx <= distance; dx++)
-            {
-                for (int dy = -distance; dy <= distance; dy++)
-                {
-                    // 외곽만 검사 (정사각형 셸 방식)
-                    if (Mathf.Abs(dx) != distance && Mathf.Abs(dy) != distance)
-                        continue;
-
-                    Vector2Int checkPos = new Vector2Int(origin.x + dx, origin.y + dy);
-
-                    if (IsValidCell(board, checkPos) && IsCellEmpty(board,checkPos))
-                    {
-                        return checkPos;
-                    }
-                }
-            }
-        }
-
-        return null; // 빈칸 없음
-    }
-
-    public void SpawnItem(int itemID, Vector2Int position)
-    {
-        MergeBoard board = boardMap[currentBoardPos];
-        if (!IsValidCell(board, position))
+        if (!board.IsValidCell(position))
         {
             Debug.LogError($"[BoardManager] 유효하지 않은 위치에 아이템 생성 시도: {position}");
             return;
@@ -298,10 +262,11 @@ public class BoardManager : MonoBehaviour
             Debug.LogError($"[BoardManager] 유효하지 않은 아이템 ID: {itemID}");
             return;
         }
+        MergeItem newItem = new MergeItem(itemID);
+        newItem.board = board; // 소속 보드 등록
 
-        board.PlaceItem(position.x, position.y, new MergeItem(itemID));
+        board.PlaceItem(position.x, position.y, newItem);
         RegisterProducer(board.GetItem(position.x, position.y));
-        boardUI.DisplayBoard(board);
     }
 
     IEnumerator SelectAfterFrame(Vector2Int pos)
@@ -331,16 +296,7 @@ public class BoardManager : MonoBehaviour
     {
         return boardMap.ContainsKey(pos);
     }
-    /*
-    public void RegisterProducer(MergeItem item)
-    {
-        if (item != null && item.IsTimeDrivenProducer() && !timeDrivenProducers.Contains(item))
-        {
-            timeDrivenProducers.Add(item);
-            Debug.Log($"[BoardManager] 등록됨: {item.name}");
-        }
-    }
-    */
+
     public void RegisterProducer(MergeItem item)
     {
         if (item != null && item.IsTimeDrivenProducer())
@@ -374,9 +330,17 @@ public class BoardManager : MonoBehaviour
     }
     private void PlaceInitialItem(Vector2Int boardPos, int x, int y, int id)
     {
+        MergeBoard board = boardMap[boardPos];
+
         MergeItem item = new MergeItem(id);
+        item.board = board;
+        item.coord = new Vector2Int(x, y);
         boardMap[boardPos].PlaceItem(x, y, item);
         RegisterProducer(item);
+    }
+    public MergeBoard GetCurrentBoard()
+    {
+        return boardMap[currentBoardPos];
     }
 }
 

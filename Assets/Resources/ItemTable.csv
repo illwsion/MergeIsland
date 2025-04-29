@@ -4,7 +4,7 @@ int,string,enum,int,int,enum,int,enum,int,enum,int,float,int,bool,int,int,int,bo
 id,name,Category,level,maxLevel,ProduceType,produceTableID,CostItem,costValue,GatherItem,gatherValue,productionInterval,maxProductionAmount,isSellable,sellValue,itemNameID,descriptionID,canMove,canInventoryStore,hp,attackPower
 1001,tree_0,Production,1,12,Manual,1001,Energy,1,None,null,60,40,FALSE,null,1001,2001,TRUE,TRUE,null,null
 1002,tree_1,Production,2,12,Manual,1002,Energy,1,None,null,60,40,FALSE,null,1002,2002,TRUE,TRUE,null,null
-1003,tree_2,Production,3,12,Manual,1003,Energy,1,None,null,60,40,FALSE,null,1003,2003,TRUE,TRUE,null,null
+1003,tree_2,Production,3,12,Auto,1003,Energy,1,None,null,5,40,FALSE,null,1003,2003,TRUE,TRUE,null,null
 1004,tree_3,Production,4,12,Manual,1004,Energy,1,None,null,60,40,FALSE,null,1004,2004,TRUE,TRUE,null,null
 1005,tree_4,Production,5,12,Manual,1005,Energy,1,None,null,60,40,FALSE,null,1005,2005,TRUE,TRUE,null,null
 1006,tree_5,Production,6,12,Manual,1006,Energy,1,None,null,60,40,FALSE,null,1006,2006,TRUE,TRUE,null,null

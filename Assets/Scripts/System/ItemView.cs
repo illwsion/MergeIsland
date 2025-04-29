@@ -45,7 +45,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
             {
                 case ItemData.ProduceType.Manual:
                     Debug.Log("[ItemView] Manual 아이템 → 생산 실행");
-                    ProduceItem();
+                    mergeItem.ProduceManual();
                     break;
 
                 case ItemData.ProduceType.Gather:
@@ -73,91 +73,6 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
 
         // 새로운 아이템 선택
         selector.Select(this);
-    }
-
-    private void ProduceItem()
-    {
-        var data = mergeItem.Data;
-
-        // Manual 방식인 경우: 저장량 체크
-        if (mergeItem.ProduceType == ItemData.ProduceType.Manual)
-        {
-            if (!mergeItem.CanProduce())
-            {
-                UIToast.Show("저장량이 부족합니다!");
-                Debug.Log("저장량이 부족합니다.");
-                return;
-            }
-        }
-
-        //빈칸 체크
-        Vector2Int? spawnPos = BoardManager.Instance.FindNearestEmptyCell(coord);
-        if (spawnPos == null)
-        {
-            UIToast.Show("보드에 빈 칸이 없습니다!");
-            Debug.Log("빈 칸이 없습니다!");
-            return;
-        }
-
-        // 자원 체크
-        ResourceType costType = data.costResource.ToResourceType();
-        int costValue = data.costValue;
-        
-        if (costType != ResourceType.None)
-        {
-            if (!PlayerResourceManager.Instance.TrySpend(costType, costValue))
-            {
-                Debug.LogWarning($"[ProduceItem] 자원이 부족합니다: {costType} {costValue}");
-                UIToast.Show("자원이 부족합니다!");
-                return;
-            }
-        }
-
-        // 생산 테이블에서 결과 얻기
-        var table = ProduceTableManager.Instance.GetTable(mergeItem.Data.produceTableID);
-        if (table == null || table.results.Count == 0)
-        {
-            Debug.LogWarning("[ProduceItem] 생산 테이블이 비어있습니다.");
-            return;
-        }
-
-        int resultItemID = GetRandomItemID(table.results);
-        if (resultItemID == -1)
-        {
-            Debug.LogError("[ProduceItem] 아이템 선택 실패");
-            return;
-        }
-
-        if (mergeItem.ProduceType == ItemData.ProduceType.Manual)
-        {
-            mergeItem.ConsumeStorage();
-        }
-        BoardManager.Instance.SpawnItem(resultItemID, spawnPos.Value);
-    }
-
-    private int GetRandomItemID(List<ProduceResult> results)
-    {
-        int total = 0;
-        foreach (var result in results)
-            total += result.probability;
-
-        if (total <= 0)
-        {
-            Debug.LogError("[ProduceItem] 확률 총합이 0 이하입니다.");
-            return -1;
-        }
-
-        int roll = Random.Range(0, total); // 0 ~ total-1
-        int accum = 0;
-
-        foreach (var result in results)
-        {
-            accum += result.probability;
-            if (roll < accum)
-                return result.itemID;
-        }
-
-        return -1; // 실패
     }
 
     public int GetLevel()
