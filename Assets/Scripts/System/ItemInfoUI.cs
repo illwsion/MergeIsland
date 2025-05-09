@@ -5,53 +5,100 @@ using TMPro;
 
 public class ItemInfoUI : MonoBehaviour
 {
-    public GameObject root;
-    public Image iconImage;
-    public TMP_Text nameText;
-    public TMP_Text descText;
-    public TMP_Text levelText;
-    public TMP_Text storageText;
-    public TMP_Text timerText;
+    [Header("Root")]
+    [SerializeField] private GameObject root;
+
+    [Header("Header")]
+    [SerializeField] private Image iconImage;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private Button itemInfoDetailButton;
+
+    [Header("Optional Blocks")]
+    [SerializeField] private TMP_Text descText;
+
+    [Header("HP Block")]
+    [SerializeField] private GameObject hpBlock;
+    [SerializeField] private TMP_Text hpText;
+    [SerializeField] private RectTransform hpFillBar;
+
+    [Header("Storage Block")]
+    [SerializeField] private GameObject storageBlock;
+    [SerializeField] private TMP_Text storageText;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private RectTransform timerFillBar;
+
+    [Header("Settings")]
+    public float maxBarWidth = 200f; // Fill 바의 최대 길이 (px) 기준
 
     public void Show(MergeItem item)
     {
         root.SetActive(true);
 
-        // 아이콘 표시
-        string spriteName = item.name;
-        iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);
-
-        // 텍스트 표시
-        string localizedName = StringTableManager.Instance.GetLocalized(item.Data.itemNameID);
-        nameText.text = localizedName;
-        string localizedDesc = StringTableManager.Instance.GetLocalized(item.Data.descriptionID);
-        descText.text = localizedDesc;
+        // Header
+        iconImage.sprite = AtlasManager.Instance.GetSprite(item.name);
+        nameText.text = StringTableManager.Instance.GetLocalized(item.Data.itemNameID);
         levelText.text = $"Lv.{item.level}";
 
-        // 저장량 UI 표시
-        if (item.IsTimeDrivenProducer())
+        // Description
+        descText.text = StringTableManager.Instance.GetLocalized(item.Data.descriptionID);
+        
+        // HP Block (조건부 표시)
+        if (item.maxHP > 0)
         {
-            storageText.gameObject.SetActive(true);
-            timerText.gameObject.SetActive(true);
-
-            storageText.text = $"{item.currentStorage} / {item.maxStorage}";
-
-            if (item.currentStorage >= item.maxStorage)
-            {
-                timerText.text = "Full";
-            }
-            else
-            {
-                float remain = item.Data.productionInterval - item.recoveryTimer;
-                int minutes = Mathf.FloorToInt(remain / 60f);
-                int seconds = Mathf.FloorToInt(remain % 60f);
-                timerText.text = $"{minutes:D2}:{seconds:D2}";
-            }
+            hpBlock.SetActive(true);
+            //Fill 길이 계산
+            float hpPercent = Mathf.Clamp01((float)item.currentHP / (float)item.maxHP);
+            hpFillBar.sizeDelta = new Vector2(hpPercent * maxBarWidth, hpFillBar.sizeDelta.y);
+            hpText.text = $"{item.currentHP} / {item.maxHP}";
         }
         else
         {
-            storageText.gameObject.SetActive(false);
-            timerText.gameObject.SetActive(false);
+            hpBlock.SetActive(false);
+        }
+
+        // Storage Block (조건부 표시)
+        if (item.ProduceType == ItemData.ProduceType.Auto)
+        {
+            storageBlock.SetActive(true);
+            UpdateStorageBlock(item);
+        }
+        else
+        {
+            storageBlock.SetActive(false);
+        }
+    }
+
+    public void Refresh(MergeItem item)
+    {
+        if (!root.activeSelf) return;
+
+        if (item.IsTimeDrivenProducer())
+        {
+            UpdateStorageBlock(item);
+        }
+        if (item.maxHP > 0)
+        {
+            float hpPercent = Mathf.Clamp01((float)item.currentHP / (float)item.maxHP);
+            hpFillBar.sizeDelta = new Vector2(hpPercent * maxBarWidth, hpFillBar.sizeDelta.y);
+            hpText.text = $"{item.currentHP} / {item.maxHP}";
+        }
+    }
+
+    private void UpdateStorageBlock(MergeItem item)
+    {
+        storageText.text = $"{item.currentStorage} / {item.maxStorage}";
+
+        float remain = item.Data.productionInterval - item.recoveryTimer;
+        timerText.text = (item.currentStorage >= item.maxStorage)
+            ? "Full"
+            : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
+
+        // Fill 길이 조절 (직접 width 조정 방식)
+        if (timerFillBar != null)
+        {
+            float percent = Mathf.Clamp01(remain / item.Data.productionInterval);
+            timerFillBar.sizeDelta = new Vector2(percent * maxBarWidth, timerFillBar.sizeDelta.y);
         }
     }
 
@@ -66,29 +113,11 @@ public class ItemInfoUI : MonoBehaviour
         iconImage.sprite = null;
         nameText.text = "아이템 없음";
         levelText.text = "";
-        storageText.gameObject.SetActive(false);
+        descText.text = "아이템을 선택하면 정보가 표시됩니다";
+        hpBlock.SetActive(false);
+        storageBlock.SetActive(false);
         timerText.gameObject.SetActive(false);
     }
 
-    public void Refresh(MergeItem item)
-    {
-        if (!root.activeSelf) return;
-
-        if (item.IsTimeDrivenProducer())
-        {
-            storageText.text = $"{item.currentStorage} / {item.maxStorage}";
-
-            if (item.currentStorage >= item.maxStorage)
-            {
-                timerText.text = "Full";
-            }
-            else
-            {
-                float remain = item.Data.productionInterval - item.recoveryTimer;
-                int minutes = Mathf.FloorToInt(remain / 60f);
-                int seconds = Mathf.FloorToInt(remain % 60f);
-                timerText.text = $"{minutes:D2}:{seconds:D2}";
-            }
-        }
-    }
+    
 }

@@ -14,7 +14,8 @@ public class MergeItem
     public int level => Data?.level ?? -1;
     public ItemData.Category Category => Data?.category ?? ItemData.Category.Production;
     public ItemData.ProduceType ProduceType => Data?.produceType ?? ItemData.ProduceType.None;
-    public int? hp { get; private set; }
+    public int? maxHP { get; private set; }
+    public int currentHP;
     public int? attackPower => Data.attackPower;
 
     // 런타임 저장량 관련 상태
@@ -26,7 +27,8 @@ public class MergeItem
     public MergeItem(int id)
     {
         this.id = id;
-        hp = Data.hp;  // 여기서 hp 초기화
+        maxHP = Data.hp;  // 여기서 hp 초기화
+        currentHP = Data.hp;
 
         if (IsTimeDrivenProducer())
         {
@@ -37,7 +39,7 @@ public class MergeItem
 
     public void TakeDamage(int damage)
     {
-        hp -= damage;
+        currentHP -= damage;
     }
 
     public bool CanMergeWith(MergeItem other)

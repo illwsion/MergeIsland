@@ -214,7 +214,7 @@ public class BoardManager : MonoBehaviour
         monster.TakeDamage(weapon.Data.attackPower);
 
         // 몬스터 사망 처리
-        if (monster.hp <= 0)
+        if (monster.currentHP <= 0)
         {
             board.grid[toPos.x, toPos.y] = null; // 몬스터 삭제
             // 몬스터 사망 애니메이션
