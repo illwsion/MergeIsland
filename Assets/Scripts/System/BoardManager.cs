@@ -199,6 +199,7 @@ public class BoardManager : MonoBehaviour
         UnregisterProducer(targetItem);
 
         MergeItem newItem = new MergeItem(resultId.Value);
+        newItem.board = board;
         board.PlaceItem(toPos.x, toPos.y, newItem, true);
         RegisterProducer(newItem);
 
@@ -264,7 +265,7 @@ public class BoardManager : MonoBehaviour
         }
         MergeItem newItem = new MergeItem(itemID);
         newItem.board = board; // 소속 보드 등록
-
+        
         board.PlaceItem(position.x, position.y, newItem);
         RegisterProducer(board.GetItem(position.x, position.y));
     }

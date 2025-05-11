@@ -14,7 +14,7 @@ public class ItemInfoUI : MonoBehaviour
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Button itemInfoDetailButton;
 
-    [Header("Optional Blocks")]
+    [Header("Description")]
     [SerializeField] private TMP_Text descText;
 
     [Header("HP Block")]
@@ -22,14 +22,17 @@ public class ItemInfoUI : MonoBehaviour
     [SerializeField] private TMP_Text hpText;
     [SerializeField] private RectTransform hpFillBar;
 
-    [Header("Storage Block")]
-    [SerializeField] private GameObject storageBlock;
-    [SerializeField] private TMP_Text storageText;
-    [SerializeField] private TMP_Text timerText;
-    [SerializeField] private RectTransform timerFillBar;
+    [Header("Manual Block")]
+    [SerializeField] private GameObject manualBlock;
+    [SerializeField] private TMP_Text manualStorageText;
+    [SerializeField] private TMP_Text manualTimerText;
+    [SerializeField] private RectTransform manualTimerFillBar;
 
-    [Header("Settings")]
-    public float maxBarWidth = 200f; // Fill 바의 최대 길이 (px) 기준
+    [Header("Auto Block")]
+    [SerializeField] private GameObject autoBlock;
+    [SerializeField] private TMP_Text autoStorageText;
+    [SerializeField] private TMP_Text autoTimerText;
+    [SerializeField] private RectTransform autoTimerFillBar;
 
     public void Show(MergeItem item)
     {
@@ -49,7 +52,8 @@ public class ItemInfoUI : MonoBehaviour
             hpBlock.SetActive(true);
             //Fill 길이 계산
             float hpPercent = Mathf.Clamp01((float)item.currentHP / (float)item.maxHP);
-            hpFillBar.sizeDelta = new Vector2(hpPercent * maxBarWidth, hpFillBar.sizeDelta.y);
+            float barWidth = hpFillBar.parent.GetComponent<RectTransform>().rect.width;
+            hpFillBar.sizeDelta = new Vector2(hpPercent * barWidth, hpFillBar.sizeDelta.y);
             hpText.text = $"{item.currentHP} / {item.maxHP}";
         }
         else
@@ -57,15 +61,38 @@ public class ItemInfoUI : MonoBehaviour
             hpBlock.SetActive(false);
         }
 
-        // Storage Block (조건부 표시)
-        if (item.ProduceType == ItemData.ProduceType.Auto)
+        // Manual Block
+        if (item.ProduceType == ItemData.ProduceType.Manual)
         {
-            storageBlock.SetActive(true);
-            UpdateStorageBlock(item);
+            manualBlock.SetActive(true);
+            autoBlock.SetActive(false);
+
+            float percent = Mathf.Clamp01((float)item.currentStorage / item.maxStorage);
+            manualStorageText.text = $"{item.currentStorage} / {item.maxStorage}";
+            manualTimerText.text = item.currentStorage >= item.maxStorage ? "Full" : ""; // Optional timer text
+            float barWidth = manualTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
+            manualTimerFillBar.sizeDelta = new Vector2(percent * barWidth, manualTimerFillBar.sizeDelta.y);
+        }
+        // Auto Block
+        else if (item.ProduceType == ItemData.ProduceType.Auto)
+        {
+            manualBlock.SetActive(false);
+            autoBlock.SetActive(true);
+
+            float remain = item.Data.productionInterval - item.recoveryTimer;
+            float percent = Mathf.Clamp01(item.recoveryTimer / item.Data.productionInterval);
+
+            autoStorageText.text = $"{item.currentStorage} / {item.maxStorage}";
+            autoTimerText.text = item.currentStorage >= item.maxStorage
+                ? "Full"
+                : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
+            float barWidth = autoTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
+            autoTimerFillBar.sizeDelta = new Vector2(percent * barWidth, autoTimerFillBar.sizeDelta.y);
         }
         else
         {
-            storageBlock.SetActive(false);
+            manualBlock.SetActive(false);
+            autoBlock.SetActive(false);
         }
     }
 
@@ -73,32 +100,36 @@ public class ItemInfoUI : MonoBehaviour
     {
         if (!root.activeSelf) return;
 
-        if (item.IsTimeDrivenProducer())
-        {
-            UpdateStorageBlock(item);
-        }
         if (item.maxHP > 0)
         {
             float hpPercent = Mathf.Clamp01((float)item.currentHP / (float)item.maxHP);
-            hpFillBar.sizeDelta = new Vector2(hpPercent * maxBarWidth, hpFillBar.sizeDelta.y);
+            float barWidth = hpFillBar.parent.GetComponent<RectTransform>().rect.width;
+            hpFillBar.sizeDelta = new Vector2(hpPercent * barWidth, hpFillBar.sizeDelta.y);
             hpText.text = $"{item.currentHP} / {item.maxHP}";
         }
-    }
 
-    private void UpdateStorageBlock(MergeItem item)
-    {
-        storageText.text = $"{item.currentStorage} / {item.maxStorage}";
-
-        float remain = item.Data.productionInterval - item.recoveryTimer;
-        timerText.text = (item.currentStorage >= item.maxStorage)
-            ? "Full"
-            : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
-
-        // Fill 길이 조절 (직접 width 조정 방식)
-        if (timerFillBar != null)
+        if (item.ProduceType == ItemData.ProduceType.Manual)
         {
-            float percent = Mathf.Clamp01(remain / item.Data.productionInterval);
-            timerFillBar.sizeDelta = new Vector2(percent * maxBarWidth, timerFillBar.sizeDelta.y);
+            float remain = item.Data.productionInterval - item.recoveryTimer;
+            float percent = Mathf.Clamp01((float)item.currentStorage / item.maxStorage);
+            manualStorageText.text = $"{item.currentStorage} / {item.maxStorage}";
+            manualTimerText.text = item.currentStorage >= item.maxStorage
+                ? "Full"
+                : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
+            float barWidth = manualTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
+            manualTimerFillBar.sizeDelta = new Vector2(percent * barWidth, manualTimerFillBar.sizeDelta.y);
+        }
+        else if (item.ProduceType == ItemData.ProduceType.Auto)
+        {
+            float remain = item.Data.productionInterval - item.recoveryTimer;
+            float percent = Mathf.Clamp01(item.recoveryTimer / item.Data.productionInterval);
+
+            autoStorageText.text = $"{item.currentStorage} / {item.maxStorage}";
+            autoTimerText.text = item.currentStorage >= item.maxStorage
+                ? "Full"
+                : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
+            float barWidth = autoTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
+            autoTimerFillBar.sizeDelta = new Vector2(percent * barWidth, autoTimerFillBar.sizeDelta.y);
         }
     }
 
@@ -114,9 +145,10 @@ public class ItemInfoUI : MonoBehaviour
         nameText.text = "아이템 없음";
         levelText.text = "";
         descText.text = "아이템을 선택하면 정보가 표시됩니다";
+
         hpBlock.SetActive(false);
-        storageBlock.SetActive(false);
-        timerText.gameObject.SetActive(false);
+        manualBlock.SetActive(false);
+        autoBlock.SetActive(false);
     }
 
     
