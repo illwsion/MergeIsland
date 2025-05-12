@@ -34,6 +34,8 @@ public class ItemInfoUI : MonoBehaviour
     [SerializeField] private TMP_Text autoTimerText;
     [SerializeField] private RectTransform autoTimerFillBar;
 
+    [SerializeField] private EffectGroup effectGroup;
+
     public void Show(MergeItem item)
     {
         root.SetActive(true);
