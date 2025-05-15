@@ -32,14 +32,19 @@ public class ItemData
         Gather, //터치해서 자원 획득(골드, 보석, 경험치 등)
         Dialogue //NPC 대화, 상호작용
     }; 
-    public int produceTableID; // ProduceTable/ID
+    public int produceTableID; // 생산테이블
+    public int dropTableID; // 드랍테이블
+    public int supplyTableID; // 공급테이블
 
     public enum CostResource
     {
         None,
         Energy,
         Gold,
-        Wood
+        Wood,
+        Stone,
+        Iron,
+        Gem
     }
     public int costValue;
 
@@ -48,7 +53,10 @@ public class ItemData
         None,
         Energy,
         Gold,
-        Wood
+        Wood,
+        Stone,
+        Iron,
+        Gem
     }
     public int gatherValue; //획득량
 
@@ -67,5 +75,6 @@ public class ItemData
     public int hp; // 최대체력
     public int attackPower; // 공격력
 
+    public string imageName; //이미지 이름
     
 }

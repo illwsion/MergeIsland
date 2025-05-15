@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class ItemInfoUI : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class ItemInfoUI : MonoBehaviour
         root.SetActive(true);
 
         // Header
-        iconImage.sprite = AtlasManager.Instance.GetSprite(item.name);
+        iconImage.sprite = AtlasManager.Instance.GetSprite(item.imageName);
         nameText.text = StringTableManager.Instance.GetLocalized(item.Data.itemNameID);
         levelText.text = $"Lv.{item.level}";
 
@@ -95,6 +96,14 @@ public class ItemInfoUI : MonoBehaviour
         {
             manualBlock.SetActive(false);
             autoBlock.SetActive(false);
+        }
+
+        //EffectGroup 
+        effectGroup.Clear();
+        List<EffectData> effects = CreateEffectDataList(item);
+        foreach (var effect in effects)
+        {
+            effectGroup.AddEffect(effect);
         }
     }
 
@@ -153,5 +162,142 @@ public class ItemInfoUI : MonoBehaviour
         autoBlock.SetActive(false);
     }
 
-    
+    private List<EffectData> CreateEffectDataList(MergeItem item)
+    {
+        var effects = new List<EffectData>();
+
+        // 1. 터치해서 획득
+        if (item.ProduceType == ItemData.ProduceType.Gather)
+        {
+            var gatherType = item.GatherResource;
+            var icon = GetGatherIcon(gatherType);
+            effects.Add(new EffectData
+            {
+                type = EffectType.Gather,
+                blockSize = EffectBlockSize.Small,
+                label = StringTableManager.Instance.GetLocalized("effectLabel_Gather"),
+                icon1 = icon,
+                value = $"+{item.gatherValue}"
+            });
+        }
+
+        // 2. 판매
+        if (item.sellValue > 0)
+        {
+            effects.Add(new EffectData
+            {
+                type = EffectType.Sell,
+                blockSize = EffectBlockSize.Small,
+                label = StringTableManager.Instance.GetLocalized("effectLabel_Sell"),
+                icon1 = AtlasManager.Instance.GetSprite("resourceIcon_gold"),
+                value = $"+{item.sellValue}"
+            });
+        }
+
+        // 3. 대미지
+        if (item.attackPower > 0)
+        {
+            effects.Add(new EffectData
+            {
+                type = EffectType.Damage,
+                blockSize = EffectBlockSize.Small,
+                label = StringTableManager.Instance.GetLocalized("effectLabel_Damage"),
+                icon1 = AtlasManager.Instance.GetSprite("effectIcon_damage"),
+                value = item.attackPower.ToString()
+            });
+            
+        }
+
+        // 4. 공급
+        if (item.ProduceType == ItemData.ProduceType.Supply)
+        {
+            Sprite icon = GetMainProduceIcon(item.produceTableID);
+
+            effects.Add(new EffectData
+            {
+                type = EffectType.Supply,
+                blockSize = EffectBlockSize.Large,
+                label = StringTableManager.Instance.GetLocalized("effectLabel_Supply"),
+                icon1 = AtlasManager.Instance.GetSprite("supply"),
+                icon2 = AtlasManager.Instance.GetSprite("supply"),
+                //소모 아이템과 생산 아이템 이미지
+                value = null
+            });
+        }
+
+        // 5. 드랍
+        if (item.maxHP > 0)
+        {
+            effects.Add(new EffectData
+            {
+                type = EffectType.Drop,
+                blockSize = EffectBlockSize.Small,
+                label = StringTableManager.Instance.GetLocalized("effectLabel_Drop"),
+                icon1 = AtlasManager.Instance.GetSprite("chest"),
+                //드랍하는 아이템
+                value = null
+            });
+        }
+
+        // 6. 생산
+        if (item.Category == ItemData.Category.Production)
+        {
+            Sprite icon = GetMainProduceIcon(item.produceTableID);
+            //나중에 차례대로 바뀌고 아래에 확률 나와도 좋을 것 같음
+            effects.Add(new EffectData
+            {
+                type = EffectType.Produce,
+                blockSize = EffectBlockSize.Small,
+                label = StringTableManager.Instance.GetLocalized("effectLabel_Produce"),
+                icon1 = icon,
+                value = null
+            });
+        }
+
+        return effects;
+    }
+
+    private Sprite GetGatherIcon(ItemData.GatherResource type)
+    {
+        switch (type)
+        {
+            case ItemData.GatherResource.Gold:
+                return AtlasManager.Instance.GetSprite("resourceIcon_gold");
+            case ItemData.GatherResource.Wood:
+                return AtlasManager.Instance.GetSprite("resourceIcon_wood");
+            case ItemData.GatherResource.Stone:
+                return AtlasManager.Instance.GetSprite("resourceIcon_stone");
+            case ItemData.GatherResource.Iron:
+                return AtlasManager.Instance.GetSprite("resourceIcon_iron");
+            case ItemData.GatherResource.Energy:
+                return AtlasManager.Instance.GetSprite("resourceIcon_energy");
+            case ItemData.GatherResource.Gem:
+                return AtlasManager.Instance.GetSprite("resourceIcon_gem");
+            default:
+                return AtlasManager.Instance.GetSprite("resourceIcon_default");
+        }
+    }
+
+    public Sprite GetMainProduceIcon(int tableID)
+    {
+        var table = ProduceTableManager.Instance.GetTable(tableID);
+
+        if (table == null || table.results == null || table.results.Count == 0)
+            return AtlasManager.Instance.GetSprite("effectIcon_unknown");
+
+        // 확률이 가장 높은 결과 선택
+        ProduceResult best = table.results[0];
+
+        foreach (var r in table.results)
+        {
+            if (r.probability > best.probability)
+                best = r;
+        }
+
+        var bestItemData = ItemDataManager.Instance.GetItemData(best.itemID);
+        if (bestItemData == null)
+            return AtlasManager.Instance.GetSprite("effectIcon_unknown");
+
+        return AtlasManager.Instance.GetSprite(bestItemData.imageName); // name은 스프라이트 키
+    }
 }

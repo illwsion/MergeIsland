@@ -10,23 +10,55 @@ public class MergeItem
     public Vector2Int coord;
 
     public ItemData Data => ItemDataManager.Instance.GetItemData(id);
+
+    //Basic Info
     public string name => Data?.name;
     public int level => Data?.level ?? -1;
+    public int maxLevel => Data?.maxLevel ?? -1;
+    public string imageName => Data?.imageName;
+
+    //Categories
     public ItemData.Category Category => Data?.category ?? ItemData.Category.Production;
+
+    //Produce
     public ItemData.ProduceType ProduceType => Data?.produceType ?? ItemData.ProduceType.None;
+    private float ProductionInterval => Data.productionInterval;
+    public int maxProductionAmount => Data?.maxProductionAmount ?? 0;
+    public int produceTableID => Data?.produceTableID ?? -1;
+
+    //Resource
+    public ItemData.CostResource CostResource => Data?.costResource ?? ItemData.CostResource.None;
+    public int costValue => Data?.costValue ?? 0;
+    public ItemData.GatherResource GatherResource => Data?.gatherResource ?? ItemData.GatherResource.None;
+    public int gatherValue => Data?.gatherValue ?? 0;
+
+    //Selling
+    public bool IsSellable => Data?.isSellable ?? false;
+    public int sellValue => Data?.sellValue ?? 0;
+
+    //Text
+    public int ItemNameID => Data?.itemNameID ?? -1;
+    public int DescriptionID => Data?.descriptionID ?? -1;
+
+    // State Flags
+    public bool CanMove => Data?.canMove ?? false;
+    public bool CanInventoryStore => Data?.canInventoryStore ?? false;
+
+    // Combat
+    public int? attackPower => Data.attackPower;
     public int? maxHP { get; private set; }
     public int currentHP;
-    public int? attackPower => Data.attackPower;
 
-    // 런타임 저장량 관련 상태
+    // Runtime Production State
     public int maxStorage = 0;
     public int currentStorage = 0;
     public float recoveryTimer = 0f;
-    private float ProductionInterval => Data.productionInterval;
+    
 
     public MergeItem(int id)
     {
         this.id = id;
+
         maxHP = Data.hp;  // 여기서 hp 초기화
         currentHP = Data.hp;
 

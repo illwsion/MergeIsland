@@ -6,22 +6,22 @@ using TMPro;
 public class SmallEffectBlockUI : MonoBehaviour
 {
     [SerializeField] TMP_Text smallLabelText;
-    [SerializeField] Image smallIconImage;
+    [SerializeField] Image smallIcon;
     [SerializeField] TMP_Text smallValueText;
 
-    public void Set(string label, Sprite icon, string value = null)
+    public void Set(EffectData data)
     {
-        smallLabelText.text = label;
-        smallIconImage.sprite = icon;
+        smallLabelText.text = data.label;
+        smallIcon.sprite = data.icon1;
 
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(data.value))
         {
             smallValueText.gameObject.SetActive(false);
         }
         else
         {
             smallValueText.gameObject.SetActive(true);
-            smallValueText.text = value;
+            smallValueText.text = data.value;
         }
     }
 }

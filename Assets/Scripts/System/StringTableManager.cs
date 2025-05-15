@@ -17,6 +17,7 @@ public class StringTableManager : MonoBehaviour
 
     // id → (korean, english) 저장
     private Dictionary<int, LocalizedString> stringMap = new Dictionary<int, LocalizedString>();
+    private Dictionary<string, LocalizedString> stringKeyMap = new Dictionary<string, LocalizedString>();
 
     public class LocalizedString
     {
@@ -48,7 +49,7 @@ public class StringTableManager : MonoBehaviour
         }
 
         string[] lines = csvFile.text.Split('\n');
-
+        /*
         for (int i = 3; i < lines.Length; i++) // 첫 세 줄은 헤더
         {
             string line = lines[i].Trim();
@@ -67,6 +68,32 @@ public class StringTableManager : MonoBehaviour
                 };
             }
         }
+        */
+        for (int i = 3; i < lines.Length; i++) // 첫 3줄은 헤더
+        {
+            string line = lines[i].Trim();
+            if (string.IsNullOrEmpty(line)) continue;
+
+            string[] values = line.Split(',');
+            if (values.Length < 5) continue;
+
+            string key = values[0].Trim();
+            string idRaw = values[1].Trim();
+            string korean = values[3].Trim();
+            string english = values[4].Trim();
+
+            var localized = new LocalizedString
+            {
+                korean = korean,
+                english = english
+            };
+
+            if (int.TryParse(idRaw, out int id))
+                stringMap[id] = localized;
+
+            if (!string.IsNullOrEmpty(key))
+                stringKeyMap[key] = localized;
+        }
     }
 
     public string GetLocalized(int id)
@@ -82,6 +109,21 @@ public class StringTableManager : MonoBehaviour
         }
 
         return $"[문자열 없음: {id}]";
+    }
+
+    public string GetLocalized(string key)
+    {
+        if (stringKeyMap.TryGetValue(key, out var entry))
+        {
+            return currentLanguage switch
+            {
+                Language.Korean => entry.korean,
+                Language.English => entry.english,
+                _ => entry.korean
+            };
+        }
+
+        return $"[문자열 없음: {key}]";
     }
 
     public void SetLanguage(Language lang)

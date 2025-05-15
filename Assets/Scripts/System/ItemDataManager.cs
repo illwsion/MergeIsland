@@ -80,6 +80,8 @@ public class ItemDataManager : MonoBehaviour
         item.maxLevel = ParseIntSafe(values[index++], "maxLevel");
         item.produceType = ParseEnumSafe(values[index++], ItemData.ProduceType.None);
         item.produceTableID = ParseIntSafe(values[index++], "produceTableID");
+        item.dropTableID = ParseIntSafe(values[index++], "dropTableID");
+        item.supplyTableID = ParseIntSafe(values[index++], "supplyTableID");
         item.costResource = ParseEnumSafe(values[index++], ItemData.CostResource.None);
         item.costValue = ParseIntSafe(values[index++], "costValue");
         item.gatherResource = ParseEnumSafe(values[index++], ItemData.GatherResource.None);
@@ -94,6 +96,7 @@ public class ItemDataManager : MonoBehaviour
         item.canInventoryStore = ParseBoolSafe(values[index++], "canInventoryStore");
         item.hp = ParseIntSafe(values[index++], "hp");
         item.attackPower = ParseIntSafe(values[index++], "attackPower");
+        item.imageName = values[index++];
 
         return item;
     }
