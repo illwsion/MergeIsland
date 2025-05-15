@@ -153,7 +153,7 @@ public class BoardManager : MonoBehaviour
     private DropActionType DetermineDropAction(MergeItem draggedItem, MergeItem targetItem)
     {
         // 공격 (체력이 있는 유닛에게 무기 드랍)
-        if (draggedItem.Data.category == ItemData.Category.Weapon && targetItem.Data.hp > 0)
+        if (draggedItem.Data.attackPower > 0 && targetItem.Data.hp > 0)
             return DropActionType.Attack;
 
         // 생산 (Produce타입이 Supply인 아이템에 드랍하고 MergeTable에 있을 경우)
@@ -212,20 +212,42 @@ public class BoardManager : MonoBehaviour
 
     void HandleAttack(MergeBoard board, MergeItem weapon, MergeItem monster, Vector2Int fromPos, Vector2Int toPos)
     {
+        //피해 처리
         monster.TakeDamage(weapon.Data.attackPower);
 
-        // 몬스터 사망 처리
+        // 몬스터 사망한 경우
         if (monster.currentHP <= 0)
         {
-            board.grid[toPos.x, toPos.y] = null; // 몬스터 삭제
-            // 몬스터 사망 애니메이션
-            // 보상 드랍 로직 추가 가능. 드랍테이블에서 받아와서 toPos에 아이템 생성하면 될듯? 아니면 생산테이블 같이 써?
+            // 몬스터 제거
+            board.grid[toPos.x, toPos.y] = null;
+
+            // 아이템 드랍
+            var dropTable = DropTableManager.Instance.GetTable(monster.Data.dropTableID);
+            if (dropTable != null && dropTable.results.Count > 0)
+            {
+                int dropItemID = GetRandomItemID(dropTable.results); // 확률 기반 선택
+
+                if (dropItemID > 0)
+                {
+                    BoardManager.Instance.SpawnItem(board, dropItemID, toPos);
+                }
+            }
+            // 추후 : 몬스터 사망 애니메이션 등 추가
+
+            // 선택 상태 해제
+            ItemSelectorManager.Instance.ClearSelection();
+        }
+        else
+        {
+            // 몬스터 선택
+            ItemSelectorManager.Instance.SetSelectedCoord(toPos);
         }
 
-        // 무기 아이템 소모 처리
+        // 공격 아이템 제거
+        UnregisterProducer(weapon);
         board.grid[fromPos.x, fromPos.y] = null;
+        StartCoroutine(SelectAfterFrame(toPos));
 
-        ItemSelectorManager.Instance.ClearSelection();
     }
 
     void HandleSupply(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
@@ -342,6 +364,31 @@ public class BoardManager : MonoBehaviour
     public MergeBoard GetCurrentBoard()
     {
         return boardMap[currentBoardPos];
+    }
+
+    private int GetRandomItemID(List<DropResult> results)
+    {
+        int total = 0;
+        foreach (var result in results)
+            total += result.probability;
+
+        if (total <= 0)
+        {
+            Debug.LogError("[GetRandomItemID] 확률 총합이 0 이하입니다.");
+            return -1;
+        }
+
+        int roll = UnityEngine.Random.Range(0, total);
+        int accum = 0;
+
+        foreach (var result in results)
+        {
+            accum += result.probability;
+            if (roll < accum)
+                return result.itemID;
+        }
+
+        return -1;
     }
 }
 
