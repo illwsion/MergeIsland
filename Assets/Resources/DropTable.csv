@@ -1,5 +1,5 @@
 ﻿,ItemTable/ID,,ItemTable/ID,,ItemTable/ID,,ItemTable/ID,,ItemTable/ID,
-아이디,생산아이템1,아이템1확률(mil),생산아이템2,아이템2확률(mil),생산아이템3,아이템3확률(mil),생산아이템4,아이템4확률(mil),생산아이템5,아이템5확률(mil)
+아이디,드랍아이템1,아이템1확률(mil),드랍아이템2,아이템2확률(mil),드랍아이템3,아이템3확률(mil),드랍아이템4,아이템4확률(mil),드랍아이템5,아이템5확률(mil)
 int,int,int,int,int,int,int,int,int,int,int
 id,item1,item1chance,item2,item2chance,item3,item3chance,item4,item4chance,item5,item5chance
 1001,1013,1000,null,null,null,null,null,null,null,null

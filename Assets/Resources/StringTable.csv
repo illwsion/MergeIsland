@@ -53,3 +53,4 @@ effectLabel_Sell,100003,이펙트라벨_판매,판매,Sell
 effectLabel_Damage,100004,이펙트라벨_대미지,대미지,Damage
 effectLabel_Supply,100005,이펙트라벨_교환,공급,Supply
 effectLabel_Drop,100006,이펙트라벨_드랍,드랍,Drop
+uiText_unselectedText,200001,아이템을 선택해주세요,아이템을 선택하면 여기에 정보가 표시됩니다,Select an Item to know more about it

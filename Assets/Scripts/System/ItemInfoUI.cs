@@ -8,6 +8,8 @@ public class ItemInfoUI : MonoBehaviour
 {
     [Header("Root")]
     [SerializeField] private GameObject root;
+    [SerializeField] private GameObject unselectedOverlay;
+    [SerializeField] private TMP_Text unselectedText;
 
     [Header("Header")]
     [SerializeField] private Image iconImage;
@@ -37,14 +39,30 @@ public class ItemInfoUI : MonoBehaviour
 
     [SerializeField] private EffectGroup effectGroup;
 
+    void Start()
+    {
+        if (unselectedText == null)
+            Debug.LogError("[ItemInfoUI] unselectedText가 연결되지 않았습니다.");
+        unselectedText.text = StringTableManager.Instance.GetLocalized("uiText_unselectedText");
+    }
+
     public void Show(MergeItem item)
     {
         root.SetActive(true);
-
+        unselectedOverlay.SetActive(false);
+        iconImage.gameObject.SetActive(true);
         // Header
         iconImage.sprite = AtlasManager.Instance.GetSprite(item.imageName);
         nameText.text = StringTableManager.Instance.GetLocalized(item.Data.itemNameID);
-        levelText.text = $"Lv.{item.level}";
+        if (item.level > 0)
+        {
+            levelText.text = $"Lv.{item.level}";
+        }
+        else
+        {
+            levelText.text = "";
+        }
+
 
         // Description
         descText.text = StringTableManager.Instance.GetLocalized(item.Data.descriptionID);
@@ -152,11 +170,15 @@ public class ItemInfoUI : MonoBehaviour
     public void ShowEmpty()
     {
         root.SetActive(true);
+        unselectedOverlay.SetActive(true);
+
         iconImage.sprite = null;
         nameText.text = "아이템 없음";
         levelText.text = "";
         descText.text = "아이템을 선택하면 정보가 표시됩니다";
 
+        effectGroup.Clear();
+        iconImage.gameObject.SetActive(false);
         hpBlock.SetActive(false);
         manualBlock.SetActive(false);
         autoBlock.SetActive(false);
@@ -209,7 +231,7 @@ public class ItemInfoUI : MonoBehaviour
         }
 
         // 4. 공급
-        if (item.ProduceType == ItemData.ProduceType.Supply)
+        if (item.supplyTableID != 0)
         {
             // receiverItem로 시작하는 rule 중 첫 번째를 가져옴
             var rule = SupplyRuleManager.Instance.GetFirstRuleByReceiverItem(item.id);
@@ -251,21 +273,22 @@ public class ItemInfoUI : MonoBehaviour
         }
 
         // 5. 드랍
-        if (item.maxHP > 0)
+        if (item.dropTableID != 0)
         {
+            Sprite icon = GetMainDropIcon(item.dropTableID);
+            //나중에 차례대로 바뀌고 아래에 확률 나와도 좋을 것 같음
             effects.Add(new EffectData
             {
                 type = EffectType.Drop,
                 blockSize = EffectBlockSize.Small,
                 label = StringTableManager.Instance.GetLocalized("effectLabel_Drop"),
-                icon1 = AtlasManager.Instance.GetSprite("chest"),
-                //드랍하는 아이템
+                icon1 = icon,
                 value = null
             });
         }
 
         // 6. 생산
-        if (item.Category == ItemData.Category.Production)
+        if (item.produceTableID != 0)
         {
             Sprite icon = GetMainProduceIcon(item.produceTableID);
             //나중에 차례대로 바뀌고 아래에 확률 나와도 좋을 것 같음
@@ -312,6 +335,29 @@ public class ItemInfoUI : MonoBehaviour
 
         // 확률이 가장 높은 결과 선택
         ProduceResult best = table.results[0];
+
+        foreach (var r in table.results)
+        {
+            if (r.probability > best.probability)
+                best = r;
+        }
+
+        var bestItemData = ItemDataManager.Instance.GetItemData(best.itemID);
+        if (bestItemData == null)
+            return AtlasManager.Instance.GetSprite("effectIcon_unknown");
+
+        return AtlasManager.Instance.GetSprite(bestItemData.imageName); // name은 스프라이트 키
+    }
+
+    public Sprite GetMainDropIcon(int tableID)
+    {
+        var table = DropTableManager.Instance.GetTable(tableID);
+
+        if (table == null || table.results == null || table.results.Count == 0)
+            return AtlasManager.Instance.GetSprite("effectIcon_unknown");
+
+        // 확률이 가장 높은 결과 선택
+        DropResult best = table.results[0];
 
         foreach (var r in table.results)
         {

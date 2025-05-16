@@ -25,6 +25,8 @@ public class MergeItem
     private float ProductionInterval => Data.productionInterval;
     public int maxProductionAmount => Data?.maxProductionAmount ?? 0;
     public int produceTableID => Data?.produceTableID ?? -1;
+    public int dropTableID => Data?.dropTableID ?? -1;
+    public int supplyTableID => Data?.supplyTableID ?? -1;
 
     //Resource
     public ResourceType CostResource => Data?.costResource ?? ResourceType.None;
