@@ -48,7 +48,10 @@ public class BoardManager : MonoBehaviour
         PlaceInitialItem(new Vector2Int(0, 0), 2, 1, 1003);
         PlaceInitialItem(new Vector2Int(0, 0), 1, 1, 1003);
         PlaceInitialItem(new Vector2Int(0, 0), 0, 1, 1004);
-        PlaceInitialItem(new Vector2Int(0, 1), 3, 3, 1003);
+        PlaceInitialItem(new Vector2Int(0, 1), 3, 3, 1004);
+        PlaceInitialItem(new Vector2Int(0, 1), 0, 0, 2001);
+        PlaceInitialItem(new Vector2Int(0, 1), 0, 1, 2002);
+        PlaceInitialItem(new Vector2Int(0, 1), 0, 2, 2003);
 
         currentBoardPos = new Vector2Int(0, 0);
         Debug.Log("시작 보드: (0, 0)");
@@ -156,8 +159,7 @@ public class BoardManager : MonoBehaviour
         if (draggedItem.Data.attackPower > 0 && targetItem.Data.hp > 0)
             return DropActionType.Attack;
 
-        // 생산 (Produce타입이 Supply인 아이템에 드랍하고 MergeTable에 있을 경우)
-        if (draggedItem.CanMergeWith(targetItem) && targetItem.Data.produceType == ItemData.ProduceType.Supply)
+        if (SupplyRuleManager.Instance.GetRule(targetItem.id, draggedItem.id) != null)
         {
             return DropActionType.Supply;
         }
@@ -250,10 +252,19 @@ public class BoardManager : MonoBehaviour
 
     }
 
-    void HandleSupply(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
+    void HandleSupply(MergeBoard board, MergeItem suppliedItem, MergeItem receiverItem, Vector2Int fromPos, Vector2Int toPos)
     {
-        // 머지테이블에서 결과를 가져옴
-        int? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.id, targetItem.id);
+        // 공급 룰 가져옴
+        var rule = SupplyRuleManager.Instance.GetRule(receiverItem.id, suppliedItem.id);
+        if (rule == null)
+        {
+            Debug.LogWarning($"[HandleSupply] 공급 룰을 찾을 수 없습니다: A={receiverItem.id}, B={suppliedItem.id}");
+            return;
+        }
+
+        // 공급 아이템 소모 처리
+        UnregisterProducer(suppliedItem);
+        board.grid[fromPos.x, fromPos.y] = null;
 
         //생성 위치 계산
         Vector2Int? spawnPos = board.FindNearestEmptyCell(toPos);
@@ -262,11 +273,29 @@ public class BoardManager : MonoBehaviour
             spawnPos = fromPos;
         }
 
-        // 먹이 아이템 소모 처리
-        board.grid[fromPos.x, fromPos.y] = null;
+        // 결과 처리
+        switch (rule.resultType)
+        {
+            case SupplyRule.ResultType.Item:
+                BoardManager.Instance.SpawnItem(board, rule.resultItem, spawnPos.Value);
+                break;
 
-        //아이템 생성
-        SpawnItem(board, resultId.Value, spawnPos.Value);
+            case SupplyRule.ResultType.Gold:
+                PlayerResourceManager.Instance.Add(ResourceType.Gold, rule.resultValue);
+                break;
+
+            case SupplyRule.ResultType.Energy:
+                PlayerResourceManager.Instance.Add(ResourceType.Energy, rule.resultValue);
+                break;
+
+            case SupplyRule.ResultType.Wood:
+                PlayerResourceManager.Instance.Add(ResourceType.Wood, rule.resultValue);
+                break;
+
+            default:
+                Debug.LogWarning($"[HandleSupply] 알 수 없는 resultType: {rule.resultType}");
+                break;
+        }
 
         ItemSelectorManager.Instance.ClearSelection();
     }

@@ -1977,6 +1977,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876364894}
   m_CullTransparentMesh: 1
+--- !u!1 &912125641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912125643}
+  - component: {fileID: 912125642}
+  m_Layer: 0
+  m_Name: SupplyRuleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &912125642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912125641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8113f31bccaa4564d8931c4f8c4c2fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &912125643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912125641}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1600137, y: 0.62462693, z: 618.0773}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &912460505
 GameObject:
   m_ObjectHideFlags: 0
@@ -2565,6 +2609,9 @@ MonoBehaviour:
   - {fileID: 100100200, guid: 03f6673e61ac1e54bb3a4b0bb0f1561d, type: 3}
   - {fileID: 100100200, guid: c9a06331a5626c048bd160bb541be15a, type: 3}
   - {fileID: 100100200, guid: a7ac9e56cbb6cb04fb3587c21e8ae27e, type: 3}
+  - {fileID: 100100200, guid: e90d4b64aa9d00a4b81a6d7bbc62da83, type: 3}
+  - {fileID: 100100200, guid: d01bda1dbc3fdcf49996d300da0cbabb, type: 3}
+  - {fileID: 100100200, guid: 60f39ac75b0f71e43bbc2270c817e4a8, type: 3}
 --- !u!4 &1296789714
 Transform:
   m_ObjectHideFlags: 0
@@ -4491,3 +4538,4 @@ SceneRoots:
   - {fileID: 1602304509}
   - {fileID: 400121140}
   - {fileID: 1229705376}
+  - {fileID: 912125643}

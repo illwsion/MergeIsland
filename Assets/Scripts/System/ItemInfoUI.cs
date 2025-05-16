@@ -211,18 +211,43 @@ public class ItemInfoUI : MonoBehaviour
         // 4. 공급
         if (item.ProduceType == ItemData.ProduceType.Supply)
         {
-            Sprite icon = GetMainProduceIcon(item.produceTableID);
-
-            effects.Add(new EffectData
+            // receiverItem로 시작하는 rule 중 첫 번째를 가져옴
+            var rule = SupplyRuleManager.Instance.GetFirstRuleByReceiverItem(item.id);
+            if (rule == null)
             {
-                type = EffectType.Supply,
-                blockSize = EffectBlockSize.Large,
-                label = StringTableManager.Instance.GetLocalized("effectLabel_Supply"),
-                icon1 = AtlasManager.Instance.GetSprite("supply"),
-                icon2 = AtlasManager.Instance.GetSprite("supply"),
-                //소모 아이템과 생산 아이템 이미지
-                value = null
-            });
+                Debug.Log($"[CreateEffectDataList] SupplyRule이 존재하지 않음: itemID={item.id}");
+            }
+            if (rule != null)
+            {
+                var suppliedItemData = ItemDataManager.Instance.GetItemData(rule.suppliedItem);
+                Sprite icon1 = AtlasManager.Instance.GetSprite(suppliedItemData?.imageName);
+
+                // icon2 = 생산 결과
+                Sprite icon2;
+                string value = null;
+
+                if (rule.resultType == SupplyRule.ResultType.Item)
+                {
+                    var resultData = ItemDataManager.Instance.GetItemData(rule.resultItem);
+                    icon2 = AtlasManager.Instance.GetSprite(resultData?.imageName);
+                }
+                else
+                {
+                    //나중에 아이콘 바꿔야 함 (자원도 생산하게 된다면)
+                    icon2 = AtlasManager.Instance.GetSprite(rule.resultType.ToString().ToLower()); // 예: gold → gold 아이콘
+                    value = rule.resultValue.ToString();
+                }
+
+                effects.Add(new EffectData
+                {
+                    type = EffectType.Supply,
+                    blockSize = EffectBlockSize.Large,
+                    label = StringTableManager.Instance.GetLocalized("effectLabel_Supply"),
+                    icon1 = icon1,
+                    icon2 = icon2,
+                    value = value
+                });
+            }
         }
 
         // 5. 드랍

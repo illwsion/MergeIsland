@@ -27,10 +27,10 @@ public class EffectGroup : MonoBehaviour
             : bigEffectBlockPrefab;
 
         var go = Instantiate(prefab, blockParent);
-
+        
         if (data.blockSize == EffectBlockSize.Small)
             go.GetComponent<SmallEffectBlockUI>().Set(data);
         else
-            go.GetComponent<BigEffectBlockUI>().Set(data); // 향후 확장
+            go.GetComponent<BigEffectBlockUI>().Set(data);
     }
 }

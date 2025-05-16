@@ -42,12 +42,12 @@ public class MergeRuleManager : MonoBehaviour
 
             int id = int.Parse(values[0]);
             string note = values[1].Trim();
-            int itemA = int.Parse(values[2]);
-            int itemB = int.Parse(values[3]);
+            int receiverItem = int.Parse(values[2]);
+            int suppliedItem = int.Parse(values[3]);
             int result = int.Parse(values[4]);
             bool allowSwap = bool.Parse(values[5].Trim().ToLower());
 
-            rules.Add(new MergeRule(id, note, itemA, itemB, result, allowSwap));
+            rules.Add(new MergeRule(id, note, receiverItem, suppliedItem, result, allowSwap));
         }
     }
 

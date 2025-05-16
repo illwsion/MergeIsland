@@ -21,26 +21,32 @@ log_4_name,1017,통나무 5레벨 이름,통나무 5단계,Log Level 5
 log_5_name,1018,통나무 6레벨 이름,통나무 6단계,Log Level 6
 log_6_name,1019,통나무 7레벨 이름,통나무 7단계,Log Level 7
 log_7_name,1020,통나무 8레벨 이름,통나무 8단계,Log Level 8
-tree_0_desc,2001,나무 1레벨 설명,나무 1단계이다.,It's Tree Level 1
-tree_1_desc,2002,나무 2레벨 설명,나무 2단계이다.,It's Tree Level 2
-tree_2_desc,2003,나무 3레벨 설명,나무 3단계이다.,It's Tree Level 3
-tree_3_desc,2004,나무 4레벨 설명,나무 4단계이다.,It's Tree Level 4
-tree_4_desc,2005,나무 5레벨 설명,나무 5단계이다.,It's Tree Level 5
-tree_5_desc,2006,나무 6레벨 설명,나무 6단계이다.,It's Tree Level 6
-tree_6_desc,2007,나무 7레벨 설명,나무 7단계이다.,It's Tree Level 7
-tree_7_desc,2008,나무 8레벨 설명,나무 8단계이다.,It's Tree Level 8
-tree_8_desc,2009,나무 9레벨 설명,나무 9단계이다.,It's Tree Level 9
-tree_9_desc,2010,나무 10레벨 설명,나무 10단계이다.,It's Tree Level 10
-tree_10_desc,2011,나무 11레벨 설명,나무 11단계이다.,It's Tree Level 11
-tree_11_desc,2012,나무 12레벨 설명,나무 12단계이다.,It's Tree Level 12
-log_0_desc,2013,통나무 1레벨 설명,통나무 1단계이다.,It's Log Level 1
-log_1_desc,2014,통나무 2레벨 설명,통나무 2단계이다.,It's Log Level 2
-log_2_desc,2015,통나무 3레벨 설명,통나무 3단계이다.,It's Log Level 3
-log_3_desc,2016,통나무 4레벨 설명,통나무 4단계이다.,It's Log Level 4
-log_4_desc,2017,통나무 5레벨 설명,통나무 5단계이다.,It's Log Level 5
-log_5_desc,2018,통나무 6레벨 설명,통나무 6단계이다.,It's Log Level 6
-log_6_desc,2019,통나무 7레벨 설명,통나무 7단계이다.,It's Log Level 7
-log_7_desc,2020,통나무 8레벨 설명,통나무 8단계이다.,It's Log Level 8
+cow_name,1021,젖소,젖소,Cow
+hay_name,1022,건초,건초,Hay
+milk_name,1023,우유,우유,Milk
+tree_0_desc,10001,나무 1레벨 설명,나무 1단계이다.,It's Tree Level 1
+tree_1_desc,10002,나무 2레벨 설명,나무 2단계이다.,It's Tree Level 2
+tree_2_desc,10003,나무 3레벨 설명,나무 3단계이다.,It's Tree Level 3
+tree_3_desc,10004,나무 4레벨 설명,나무 4단계이다.,It's Tree Level 4
+tree_4_desc,10005,나무 5레벨 설명,나무 5단계이다.,It's Tree Level 5
+tree_5_desc,10006,나무 6레벨 설명,나무 6단계이다.,It's Tree Level 6
+tree_6_desc,10007,나무 7레벨 설명,나무 7단계이다.,It's Tree Level 7
+tree_7_desc,10008,나무 8레벨 설명,나무 8단계이다.,It's Tree Level 8
+tree_8_desc,10009,나무 9레벨 설명,나무 9단계이다.,It's Tree Level 9
+tree_9_desc,10010,나무 10레벨 설명,나무 10단계이다.,It's Tree Level 10
+tree_10_desc,10011,나무 11레벨 설명,나무 11단계이다.,It's Tree Level 11
+tree_11_desc,10012,나무 12레벨 설명,나무 12단계이다.,It's Tree Level 12
+log_0_desc,10013,통나무 1레벨 설명,통나무 1단계이다.,It's Log Level 1
+log_1_desc,10014,통나무 2레벨 설명,통나무 2단계이다.,It's Log Level 2
+log_2_desc,10015,통나무 3레벨 설명,통나무 3단계이다.,It's Log Level 3
+log_3_desc,10016,통나무 4레벨 설명,통나무 4단계이다.,It's Log Level 4
+log_4_desc,10017,통나무 5레벨 설명,통나무 5단계이다.,It's Log Level 5
+log_5_desc,10018,통나무 6레벨 설명,통나무 6단계이다.,It's Log Level 6
+log_6_desc,10019,통나무 7레벨 설명,통나무 7단계이다.,It's Log Level 7
+log_7_desc,10020,통나무 8레벨 설명,통나무 8단계이다.,It's Log Level 8
+cow_desc,10021,젖소,젖소이다,This is Cow
+hay_desc,10022,건초,건초이다,This is Hay
+milk_desc,10023,우유,우유이다,This is Milk
 effectLabel_Gather,100001,이펙트라벨_획득,획득,Gather
 effectLabel_Produce,100002,이펙트라벨_생산,생산,Produce
 effectLabel_Sell,100003,이펙트라벨_판매,판매,Sell
