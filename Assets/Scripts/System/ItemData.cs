@@ -11,8 +11,8 @@ public class ItemData
     public int maxLevel;
     public Category category;
     public ProduceType produceType;
-    public CostResource costResource;
-    public GatherResource gatherResource;
+    public ResourceType costResource;
+    public ResourceType gatherResource;
 
     public enum Category
     {
@@ -36,28 +36,8 @@ public class ItemData
     public int dropTableID; // 드랍테이블
     public int supplyTableID; // 공급테이블
 
-    public enum CostResource
-    {
-        None,
-        Energy,
-        Gold,
-        Wood,
-        Stone,
-        Iron,
-        Gem
-    }
-    public int costValue;
 
-    public enum GatherResource
-    {
-        None,
-        Energy,
-        Gold,
-        Wood,
-        Stone,
-        Iron,
-        Gem
-    }
+    public int costValue;
     public int gatherValue; //획득량
 
     public float productionInterval; // 생산주기(초)

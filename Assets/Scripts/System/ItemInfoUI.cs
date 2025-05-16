@@ -282,21 +282,21 @@ public class ItemInfoUI : MonoBehaviour
         return effects;
     }
 
-    private Sprite GetGatherIcon(ItemData.GatherResource type)
+    private Sprite GetGatherIcon(ResourceType type)
     {
         switch (type)
         {
-            case ItemData.GatherResource.Gold:
+            case ResourceType.Gold:
                 return AtlasManager.Instance.GetSprite("resourceIcon_gold");
-            case ItemData.GatherResource.Wood:
+            case ResourceType.Wood:
                 return AtlasManager.Instance.GetSprite("resourceIcon_wood");
-            case ItemData.GatherResource.Stone:
+            case ResourceType.Stone:
                 return AtlasManager.Instance.GetSprite("resourceIcon_stone");
-            case ItemData.GatherResource.Iron:
+            case ResourceType.Iron:
                 return AtlasManager.Instance.GetSprite("resourceIcon_iron");
-            case ItemData.GatherResource.Energy:
+            case ResourceType.Energy:
                 return AtlasManager.Instance.GetSprite("resourceIcon_energy");
-            case ItemData.GatherResource.Gem:
+            case ResourceType.Gem:
                 return AtlasManager.Instance.GetSprite("resourceIcon_gem");
             default:
                 return AtlasManager.Instance.GetSprite("resourceIcon_default");

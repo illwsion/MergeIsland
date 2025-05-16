@@ -27,9 +27,9 @@ public class MergeItem
     public int produceTableID => Data?.produceTableID ?? -1;
 
     //Resource
-    public ItemData.CostResource CostResource => Data?.costResource ?? ItemData.CostResource.None;
+    public ResourceType CostResource => Data?.costResource ?? ResourceType.None;
     public int costValue => Data?.costValue ?? 0;
-    public ItemData.GatherResource GatherResource => Data?.gatherResource ?? ItemData.GatherResource.None;
+    public ResourceType GatherResource => Data?.gatherResource ?? ResourceType.None;
     public int gatherValue => Data?.gatherValue ?? 0;
 
     //Selling
@@ -156,7 +156,7 @@ public class MergeItem
             return;
         }
 
-        ResourceType costType = Data.costResource.ToResourceType();
+        ResourceType costType = Data.costResource;
         int costValue = Data.costValue;
 
         if (costType != ResourceType.None)

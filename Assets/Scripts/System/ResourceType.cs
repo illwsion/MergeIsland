@@ -1,9 +1,25 @@
 // ResourceType.cs
 public enum ResourceType
 {
-    None,
-    Energy,
+    None = 0,
+
+    // 화폐
     Gold,
+    Gem,
+
+    // 에너지
+    Energy,
+
+    // 재료
     Wood,
-    // 이후 확장을 위해 Gem, Key 등도 추가 가능
+    Stone,
+    Iron,
+
+    // 음식류, 소모품
+    Food,
+    Water,
+
+    // 확장 가능
+    Exp,
+    Ticket
 }

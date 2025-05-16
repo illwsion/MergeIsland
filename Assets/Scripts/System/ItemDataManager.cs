@@ -82,9 +82,9 @@ public class ItemDataManager : MonoBehaviour
         item.produceTableID = ParseIntSafe(values[index++], "produceTableID");
         item.dropTableID = ParseIntSafe(values[index++], "dropTableID");
         item.supplyTableID = ParseIntSafe(values[index++], "supplyTableID");
-        item.costResource = ParseEnumSafe(values[index++], ItemData.CostResource.None);
+        item.costResource = ParseEnumSafe(values[index++], ResourceType.None);
         item.costValue = ParseIntSafe(values[index++], "costValue");
-        item.gatherResource = ParseEnumSafe(values[index++], ItemData.GatherResource.None);
+        item.gatherResource = ParseEnumSafe(values[index++], ResourceType.None);
         item.gatherValue = ParseIntSafe(values[index++], "gatherValue");
         item.productionInterval = ParseFloatSafe(values[index++], "productionInterval");
         item.maxProductionAmount = ParseIntSafe(values[index++], "maxProductionAmount");
