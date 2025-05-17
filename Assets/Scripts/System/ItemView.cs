@@ -51,7 +51,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
 
                 case ItemData.ProduceType.Gather:
                     Debug.Log("[ItemView] Gather 아이템 → 자원 수확 실행");
-                    //CollectResource(); // 이건 이후에 추가 가능
+                    mergeItem.ProduceGather();
                     break;
 
                 case ItemData.ProduceType.Dialogue:

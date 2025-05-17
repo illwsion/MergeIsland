@@ -2,6 +2,7 @@
 using static ItemData;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Resources;
 
 public class MergeItem
 {
@@ -200,6 +201,55 @@ public class MergeItem
         recoveryTimer = 0f; // 생산 성공 시 리셋
     }
 
+    public void ProduceGather()
+    {
+        var data = this.Data;
+
+        // 1. 어떤 자원을 생산하는지
+        var type = data.gatherResource;
+        var amount = data.gatherValue;
+
+        if (type == ResourceType.None || amount <= 0)
+        {
+            Debug.LogWarning("[MergeItem] Gather 실패: 잘못된 자원 정보");
+            return;
+        }
+
+        // 2. 창고가 꽉 찼는지 확인
+        int current = PlayerResourceManager.Instance.GetAmount(type);
+        int max = PlayerResourceManager.Instance.GetMax(type);
+
+        if (current >= max)
+        {
+            UIToast.Show("창고가 꽉 찼습니다!");
+            Debug.LogWarning($"[MergeItem] Gather 차단: {type} 창고가 가득 찼습니다.");
+            return;
+        }
+
+        // 2. 자원 추가
+        PlayerResourceManager.Instance.Add(type, amount);
+        Debug.Log($"[MergeItem] {type} +{amount} 획득!");
+
+        // 3. 생산자 목록에서 제거
+        BoardManager.Instance.UnregisterProducer(this);
+
+        // 4. 보드에서 제거
+        if (board != null)
+        {
+            Vector2Int pos = coord;
+            board.grid[pos.x, pos.y] = null;
+        }
+        else
+        {
+            Debug.LogWarning("[MergeItem] 보드 정보가 없어 제거 실패");
+        }
+        // 생산 시 현재 보는 보드와 같으면 UI 갱신
+        if (board == BoardManager.Instance.GetCurrentBoard())
+        {
+            BoardManager.Instance.RefreshBoard();
+        }
+    }
+
     private bool TryPrepareProduction(out int resultItemID, out Vector2Int spawnPos)
     {
         resultItemID = -1;
@@ -263,4 +313,5 @@ public class MergeItem
 
         return -1;
     }
+
 }
