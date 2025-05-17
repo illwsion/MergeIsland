@@ -15,11 +15,6 @@ public enum ResourceType
     Stone,
     Iron,
 
-    // 음식류, 소모품
-    Food,
-    Water,
-
     // 확장 가능
     Exp,
-    Ticket
 }

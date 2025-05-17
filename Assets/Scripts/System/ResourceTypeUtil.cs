@@ -24,11 +24,8 @@ public static class ResourceTypeUtil
                 return ResourceCategory.Material;
 
             case ResourceType.Energy:
-            case ResourceType.Food:
-            case ResourceType.Water:
                 return ResourceCategory.Consumable;
 
-            case ResourceType.Ticket:
             case ResourceType.Exp:
                 return ResourceCategory.Special;
 

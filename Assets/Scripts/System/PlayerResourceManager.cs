@@ -7,7 +7,8 @@ public class PlayerResourceManager : MonoBehaviour
     public static PlayerResourceManager Instance { get; private set; }
 
     private Dictionary<ResourceType, int> resourceTable = new Dictionary<ResourceType, int>();
-    [SerializeField] private EnergyUIManager uiManager;
+    private Dictionary<ResourceType, int> maxResourceTable = new Dictionary<ResourceType, int>();
+    [SerializeField] private ResourceUIManager resourceUIManager;
 
     [Header("Energy Settings")]
     public int MaxEnergy = 100;
@@ -21,10 +22,17 @@ public class PlayerResourceManager : MonoBehaviour
 
     private void Start()
     {
-        if (uiManager == null)
-            Debug.LogWarning("[PlayerResourceManager] EnergyUIManager가 연결되지 않았습니다.");
+        resourceUIManager.Init();
+        InitializeResources(); // 자원, 최대치 설정
 
-        UpdateUI();
+        // UI 초기화는 여기서! (slotTable이 null일 수 없게 됨)
+        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
+        {
+            if (type == ResourceType.None) continue;
+            UpdateUI(type);
+        }
+        Add(ResourceType.Wood, 10);
+        Add(ResourceType.Energy, 100);
     }
 
     private void Awake()
@@ -32,11 +40,6 @@ public class PlayerResourceManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-
-            // 초기 자원 세팅 (예시)
-            resourceTable[ResourceType.Energy] = 100;
-            resourceTable[ResourceType.Gold] = 100;
-            resourceTable[ResourceType.Wood] = 50;
         }
         else
         {
@@ -84,7 +87,7 @@ public class PlayerResourceManager : MonoBehaviour
         resourceTable[type] -= value;
         //Debug.Log($"[PlayerResource] {type} -{value} → {resourceTable[type]} 남음");
 
-        UpdateUI();
+        UpdateUI(type);
         return true;
     }
 
@@ -93,9 +96,13 @@ public class PlayerResourceManager : MonoBehaviour
         if (!resourceTable.ContainsKey(type))
             resourceTable[type] = 0;
 
-        resourceTable[type] += value;
-        //Debug.Log($"[PlayerResource] {type} +{value} → {resourceTable[type]}");
-        UpdateUI();
+        int current = resourceTable[type];
+        int max = GetMax(type);
+
+        int newValue = Mathf.Min(current + value, max);
+        resourceTable[type] = newValue;
+
+        UpdateUI(type);
     }
 
     public int GetAmount(ResourceType type)
@@ -103,8 +110,64 @@ public class PlayerResourceManager : MonoBehaviour
         return resourceTable.ContainsKey(type) ? resourceTable[type] : 0;
     }
 
-    private void UpdateUI()
+    public int GetMax(ResourceType type)
     {
-        uiManager?.UpdateUI(GetAmount(ResourceType.Energy));
+        return maxResourceTable.ContainsKey(type) ? maxResourceTable[type] : 0;
+    }
+
+    public void SetMax(ResourceType type, int value)
+    {
+        maxResourceTable[type] = value;
+        UpdateUI(type);
+    }
+
+    public void AddMax(ResourceType type, int value)
+    {
+        if (!maxResourceTable.ContainsKey(type))
+            maxResourceTable[type] = 0;
+
+        maxResourceTable[type] += value;
+        UpdateUI(type);
+    }
+
+    private void UpdateUI(ResourceType type)
+    {
+        int current = GetAmount(type);
+        int max = GetMax(type);
+        resourceUIManager?.UpdateUI(type, current, max);
+    }
+
+    private void InitializeResources()
+    {
+        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
+        {
+            if (type == ResourceType.None) continue;
+
+            if (!resourceTable.ContainsKey(type))
+                resourceTable[type] = 0;
+
+            if (!maxResourceTable.ContainsKey(type))
+            {
+                // 기본 최대치 설정
+                switch (type)
+                {
+                    case ResourceType.Energy:
+                        maxResourceTable[type] = MaxEnergy;
+                        break;
+                    case ResourceType.Wood:
+                    case ResourceType.Stone:
+                    case ResourceType.Iron:
+                        maxResourceTable[type] = 100;
+                        break;
+                    default:
+                        maxResourceTable[type] = 999999; // 사실상 무제한
+                        break;
+                }
+            }
+
+            UpdateUI(type);
+        }
+
+        
     }
 }
