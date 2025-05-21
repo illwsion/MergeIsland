@@ -90,7 +90,18 @@ public class ItemInfoUI : MonoBehaviour
 
             float percent = Mathf.Clamp01((float)item.currentStorage / item.maxStorage);
             manualStorageText.text = $"{item.currentStorage} / {item.maxStorage}";
-            manualTimerText.text = item.currentStorage >= item.maxStorage ? "Full" : ""; // Optional timer text
+
+            if (!item.Data.isProductionLimited)
+            {
+                manualTimerText.text = item.currentStorage >= item.maxStorage
+                    ? "Full"
+                    : $"{Mathf.FloorToInt(item.GetRecoveryRemainingTime() / 60f):D2}:{Mathf.FloorToInt(item.GetRecoveryRemainingTime() % 60f):D2}";
+            }
+            else
+            {
+                Debug.Log("비표시");
+                manualTimerText.text = ""; // 시간 비표시
+            }
             float barWidth = manualTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
             manualTimerFillBar.sizeDelta = new Vector2(percent * barWidth, manualTimerFillBar.sizeDelta.y);
         }
@@ -103,10 +114,14 @@ public class ItemInfoUI : MonoBehaviour
             float remain = item.Data.productionInterval - item.recoveryTimer;
             float percent = Mathf.Clamp01(item.recoveryTimer / item.Data.productionInterval);
 
-            autoStorageText.text = $"{item.currentStorage} / {item.maxStorage}";
-            autoTimerText.text = item.currentStorage >= item.maxStorage
+            autoStorageText.text = item.Data.isProductionLimited 
+                ? $"{item.currentStorage} / {item.maxStorage}" 
+                : ""; // 비표시
+
+            autoTimerText.text = (item.Data.isProductionLimited && item.currentStorage >= item.maxStorage)
                 ? "Full"
                 : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
+
             float barWidth = autoTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
             autoTimerFillBar.sizeDelta = new Vector2(percent * barWidth, autoTimerFillBar.sizeDelta.y);
         }
@@ -139,12 +154,19 @@ public class ItemInfoUI : MonoBehaviour
 
         if (item.ProduceType == ItemData.ProduceType.Manual)
         {
-            float remain = item.Data.productionInterval - item.recoveryTimer;
             float percent = Mathf.Clamp01((float)item.currentStorage / item.maxStorage);
             manualStorageText.text = $"{item.currentStorage} / {item.maxStorage}";
-            manualTimerText.text = item.currentStorage >= item.maxStorage
-                ? "Full"
-                : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
+            if (!item.Data.isProductionLimited)
+            {
+                float remain = item.Data.productionInterval - item.recoveryTimer;
+                manualTimerText.text = item.currentStorage >= item.maxStorage
+                    ? "Full"
+                    : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
+            }
+            else
+            {
+                manualTimerText.text = ""; // 시간 비표시
+            }
             float barWidth = manualTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
             manualTimerFillBar.sizeDelta = new Vector2(percent * barWidth, manualTimerFillBar.sizeDelta.y);
         }
@@ -153,8 +175,11 @@ public class ItemInfoUI : MonoBehaviour
             float remain = item.Data.productionInterval - item.recoveryTimer;
             float percent = Mathf.Clamp01(item.recoveryTimer / item.Data.productionInterval);
 
-            autoStorageText.text = $"{item.currentStorage} / {item.maxStorage}";
-            autoTimerText.text = item.currentStorage >= item.maxStorage
+            autoStorageText.text = item.Data.isProductionLimited 
+                ? $"{item.currentStorage} / {item.maxStorage}" 
+                : ""; // 비표시
+
+            autoTimerText.text = (item.Data.isProductionLimited && item.currentStorage >= item.maxStorage)
                 ? "Full"
                 : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
             float barWidth = autoTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
@@ -273,7 +298,7 @@ public class ItemInfoUI : MonoBehaviour
         }
 
         // 5. 드랍
-        if (item.dropTableKey != "null")
+        if (!string.IsNullOrEmpty(item.dropTableKey))
         {
             Sprite icon = GetMainDropIcon(item.dropTableKey);
             //나중에 차례대로 바뀌고 아래에 확률 나와도 좋을 것 같음
@@ -288,7 +313,7 @@ public class ItemInfoUI : MonoBehaviour
         }
 
         // 6. 생산
-        if (item.produceTableKey != "null")
+        if (!string.IsNullOrEmpty(item.produceTableKey))
         {
             Sprite icon = GetMainProduceIcon(item.produceTableKey);
             //나중에 차례대로 바뀌고 아래에 확률 나와도 좋을 것 같음

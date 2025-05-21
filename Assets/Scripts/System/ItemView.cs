@@ -9,6 +9,7 @@ using UnityEngine.WSA;
 
 public class ItemView : MonoBehaviour, IPointerClickHandler
 {
+    //생산시간이 돌아가고 있을 때는 시계 아이콘 추가
     public Image iconImage;       // 셀에 표시할 아이템 이미지
     private int currentLevel;     // 현재 아이템 레벨 저장
     public MergeItem mergeItem;

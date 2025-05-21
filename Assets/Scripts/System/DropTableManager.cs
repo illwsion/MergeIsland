@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class DropTableManager : MonoBehaviour
@@ -28,6 +29,45 @@ public class DropTableManager : MonoBehaviour
 
         Debug.LogWarning($"[DropTableManager] ID {key} 테이블을 찾을 수 없습니다.");
         return null;
+    }
+
+    public string GetRandomDropItem(MergeItem item)
+    {
+        var dropTable = GetTable(item.Data.dropTableKey);
+        if (dropTable != null && dropTable.results.Count > 0)
+        {
+            string dropItemKey = GetRandomItemKey(dropTable.results); // 확률 기반 선택
+            return dropItemKey;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private string GetRandomItemKey(List<DropResult> results)
+    {
+        int total = 0;
+        foreach (var result in results)
+            total += result.probability;
+
+        if (total <= 0)
+        {
+            Debug.LogError("[GetRandomItemID] 확률 총합이 0 이하입니다.");
+            return "null";
+        }
+
+        int roll = UnityEngine.Random.Range(0, total);
+        int accum = 0;
+
+        foreach (var result in results)
+        {
+            accum += result.probability;
+            if (roll < accum)
+                return result.itemKey;
+        }
+
+        return "null";
     }
 
     private void LoadDropTable()
@@ -65,7 +105,7 @@ public class DropTableManager : MonoBehaviour
 
                     int chance = ParseIntSafe(chanceStr, $"item{j + 1}chance");
 
-                    if (itemKey != "null" && chance > 0)
+                    if (itemKey != null && chance > 0)
                     {
                         results.Add(new DropResult
                         {

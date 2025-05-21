@@ -65,7 +65,7 @@ public class ProduceTableManager : MonoBehaviour
 
                     int chance = ParseIntSafe(chanceStr, $"item{j + 1}chance");
 
-                    if (itemKey != "null" && chance > 0)
+                    if (itemKey != null && chance > 0)
                     {
                         results.Add(new ProduceResult
                         {

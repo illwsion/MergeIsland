@@ -3,6 +3,8 @@ using static ItemData;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Resources;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using System.Threading;
 
 public class MergeItem
 {
@@ -100,8 +102,33 @@ public class MergeItem
 
     public void ConsumeStorage()
     {
-        if (currentStorage > 0)
-            currentStorage--;
+        currentStorage = Mathf.Max(0, currentStorage - 1);
+
+        if (Data.isProductionLimited && currentStorage <= 0)
+        {
+            HandleLimitedProductionDepletion();
+        }
+    }
+
+    private void HandleLimitedProductionDepletion()
+    {
+        Debug.Log($"[LimitedProduction] {name}의 생산량 소진 → 제거 처리 시작");
+
+        BoardManager.Instance.RemoveItem(this);
+        if (!string.IsNullOrEmpty(Data.dropTableKey))
+        {
+            string dropItemKey = DropTableManager.Instance.GetRandomDropItem(this);
+            if (!string.IsNullOrEmpty(dropItemKey))
+            {
+                BoardManager.Instance.SpawnItem(board, dropItemKey, this.coord);
+            }
+            else
+            {
+                Debug.Log("드랍테이블이 비어있음");
+            }
+
+        }
+        ItemSelectorManager.Instance.ClearSelection();
     }
 
     public float GetRecoveryRemainingTime()
@@ -118,7 +145,7 @@ public class MergeItem
         switch (ProduceType)
         {
             case ItemData.ProduceType.Manual:
-                if (currentStorage >= maxStorage) // 최대치 도달 시 회복 중단
+                if (Data.isProductionLimited || currentStorage >= maxStorage) // 한정 생산이거나 최대치 도달 시 회복 중단
                 {
                     recoveryTimer = 0f;
                     return;
@@ -193,7 +220,13 @@ public class MergeItem
             return;
         }
         BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
-        Debug.Log($"[ProduceManual] {name} → {resultItemKey} 생산 완료");
+        Debug.Log($"[ProduceAuto] {name} → {resultItemKey} 생산 완료");
+
+        if (Data.isProductionLimited)
+        {
+            ConsumeStorage();
+        }
+
         // 생산 시 현재 보는 보드와 같으면 UI 갱신
         if (board == BoardManager.Instance.GetCurrentBoard())
         {

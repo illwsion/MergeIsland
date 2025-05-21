@@ -45,9 +45,10 @@ public class BoardManager : MonoBehaviour
         boardMap[new Vector2Int(0, 0)] = new MergeBoard(4, 4); // 1스테이지
         boardMap[new Vector2Int(1, 0)] = new MergeBoard(5, 5); // 오른쪽 보드
         boardMap[new Vector2Int(0, 1)] = new MergeBoard(6, 4); // 아래 보드
-        PlaceInitialItem(new Vector2Int(0, 0), 2, 1, "ITEM_TREE_2");
-        PlaceInitialItem(new Vector2Int(0, 0), 1, 1, "ITEM_TREE_2");
-        PlaceInitialItem(new Vector2Int(0, 0), 0, 1, "ITEM_TREE_3");
+        PlaceInitialItem(new Vector2Int(0, 0), 2, 1, "ITEM_TREE_0");
+        PlaceInitialItem(new Vector2Int(0, 0), 1, 1, "ITEM_TREE_1");
+        PlaceInitialItem(new Vector2Int(0, 0), 0, 1, "ITEM_TREE_2");
+        PlaceInitialItem(new Vector2Int(0, 0), 3, 3, "ITEM_TREE_3");
         PlaceInitialItem(new Vector2Int(0, 1), 3, 3, "ITEM_TREE_3");
         PlaceInitialItem(new Vector2Int(0, 1), 0, 0, "ITEM_COW");
         PlaceInitialItem(new Vector2Int(0, 1), 0, 1, "ITEM_HAY");
@@ -225,16 +226,12 @@ public class BoardManager : MonoBehaviour
             board.grid[toPos.x, toPos.y] = null;
 
             // 아이템 드랍
-            var dropTable = DropTableManager.Instance.GetTable(monster.Data.dropTableKey);
-            if (dropTable != null && dropTable.results.Count > 0)
+            string dropItemKey = DropTableManager.Instance.GetRandomDropItem(monster);
+            if (dropItemKey != null)
             {
-                string dropItemKey = GetRandomItemKey(dropTable.results); // 확률 기반 선택
-
-                if (dropItemKey != "null")
-                {
-                    BoardManager.Instance.SpawnItem(board, dropItemKey, toPos);
-                }
+                BoardManager.Instance.SpawnItem(board, dropItemKey, toPos);
             }
+
             // 추후 : 몬스터 사망 애니메이션 등 추가
 
             // 선택 상태 해제
@@ -247,8 +244,7 @@ public class BoardManager : MonoBehaviour
         }
 
         // 공격 아이템 제거
-        UnregisterProducer(weapon);
-        board.grid[fromPos.x, fromPos.y] = null;
+        RemoveItem(weapon);
         StartCoroutine(SelectAfterFrame(toPos));
 
     }
@@ -264,8 +260,7 @@ public class BoardManager : MonoBehaviour
         }
 
         // 공급 아이템 소모 처리
-        UnregisterProducer(suppliedItem);
-        board.grid[fromPos.x, fromPos.y] = null;
+        RemoveItem(suppliedItem);
 
         //생성 위치 계산
         Vector2Int? spawnPos = board.FindNearestEmptyCell(toPos);
@@ -376,11 +371,20 @@ public class BoardManager : MonoBehaviour
 
     private void UpdateProductionItems(float deltaTime)
     {
-        foreach (var item in timeDrivenProducers)
+        var producers = timeDrivenProducers.ToArray();
+        foreach (var item in producers)
         {
             item.UpdateProductionStorage(deltaTime);
         }
     }
+
+    public void RemoveItem(MergeItem item)
+    {
+        UnregisterProducer(item);
+        MergeBoard board = item.board;
+        board.grid[item.coord.x, item.coord.y] = null;
+    }
+
     private void PlaceInitialItem(Vector2Int boardPos, int x, int y, string key)
     {
         MergeBoard board = boardMap[boardPos];
@@ -391,6 +395,7 @@ public class BoardManager : MonoBehaviour
         boardMap[boardPos].PlaceItem(x, y, item);
         RegisterProducer(item);
     }
+
     public MergeBoard GetCurrentBoard()
     {
         return boardMap[currentBoardPos];

@@ -2,10 +2,10 @@
 키,이름,타입,카테고리,레벨,최대레벨,생산타입,생산제한,도구타입,재질,생산테이블,드랍테이블,소모재화,소모재화수량,획득재화,획득재화수량,자동생산주기(초),최대저장량,판매가능여부,판매가격,아이템 이름,아이템 설명,이동가능여부,인벤토리수납가능여부,최대체력,공격력,이미지
 string,string,string,enum,int,int,enum,bool,enum,enum,string,string,enum,int,enum,int,float,int,bool,int,string,string,bool,bool,int,int,string
 key,name,type,Category,level,maxLevel,ProduceType,isProductionLimited,ToolType,TargetMaterial,produceTableKey,dropTableKey,CostResource,costValue,GatherResource,gatherValue,productionInterval,maxProductionAmount,isSellable,sellValue,itemNameKey,descriptionKey,canMove,canInventoryStore,hp,attackPower,imageName
-ITEM_TREE_0,tree_0,tree,Production,1,12,None,FALSE,None,Wood,null,DROP_TREE_0,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_0,ITEM_DESC_TREE_0,TRUE,TRUE,100,null,tree_0
-ITEM_TREE_1,tree_1,tree,Production,2,12,None,FALSE,None,Wood,null,DROP_TREE_1,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_1,ITEM_DESC_TREE_1,TRUE,TRUE,100,null,tree_1
-ITEM_TREE_2,tree_2,tree,Production,3,12,None,FALSE,None,Wood,null,DROP_TREE_2,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_2,ITEM_DESC_TREE_2,TRUE,TRUE,100,null,tree_2
-ITEM_TREE_3,tree_3,tree,Production,4,12,None,FALSE,None,Wood,null,DROP_TREE_3,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_3,ITEM_DESC_TREE_3,TRUE,TRUE,100,null,tree_3
+ITEM_TREE_0,tree_0,tree,Production,1,12,Manual,FALSE,None,Wood,PRODUCE_TREE_CHOPPED_0,DROP_TREE_0,None,null,None,null,10,10,FALSE,null,ITEM_NAME_TREE_0,ITEM_DESC_TREE_0,TRUE,TRUE,100,null,tree_0
+ITEM_TREE_1,tree_1,tree,Production,2,12,Manual,TRUE,None,Wood,PRODUCE_TREE_CHOPPED_0,DROP_TREE_1,None,null,None,null,10,10,FALSE,null,ITEM_NAME_TREE_1,ITEM_DESC_TREE_1,TRUE,TRUE,100,null,tree_1
+ITEM_TREE_2,tree_2,tree,Production,3,12,Auto,FALSE,None,Wood,PRODUCE_TREE_CHOPPED_0,DROP_TREE_2,None,null,None,null,10,10,FALSE,null,ITEM_NAME_TREE_2,ITEM_DESC_TREE_2,TRUE,TRUE,100,null,tree_2
+ITEM_TREE_3,tree_3,tree,Production,4,12,Auto,TRUE,None,Wood,PRODUCE_TREE_CHOPPED_0,DROP_TREE_3,None,null,None,null,5,2,FALSE,null,ITEM_NAME_TREE_3,ITEM_DESC_TREE_3,TRUE,TRUE,100,null,tree_3
 ITEM_TREE_4,tree_4,tree,Production,5,12,None,FALSE,None,Wood,null,DROP_TREE_4,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_4,ITEM_DESC_TREE_4,TRUE,TRUE,100,null,tree_4
 ITEM_TREE_5,tree_5,tree,Production,6,12,None,FALSE,None,Wood,null,DROP_TREE_5,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_5,ITEM_DESC_TREE_5,TRUE,TRUE,100,null,tree_5
 ITEM_TREE_6,tree_6,tree,Production,7,12,None,FALSE,None,Wood,null,DROP_TREE_6,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_6,ITEM_DESC_TREE_6,TRUE,TRUE,100,null,tree_6
@@ -25,7 +25,7 @@ ITEM_LOG_7,log_7,log,General,8,8,Gather,FALSE,None,None,null,null,None,null,Wood
 ITEM_TREE_CHOPPED_0,tree_chopped_0,tree_chopped,Production,1,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_0,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_0,ITEM_DESC_TREE_CHOPPED_0,TRUE,TRUE,null,null,tree_0
 ITEM_TREE_CHOPPED_1,tree_chopped_1,tree_chopped,Production,2,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_1,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_1,ITEM_DESC_TREE_CHOPPED_1,TRUE,TRUE,null,null,tree_1
 ITEM_TREE_CHOPPED_2,tree_chopped_2,tree_chopped,Production,3,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_2,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_2,ITEM_DESC_TREE_CHOPPED_2,TRUE,TRUE,null,null,tree_2
-ITEM_TREE_CHOPPED_3,tree_chopped_3,tree_chopped,Production,4,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_3,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_3,ITEM_DESC_TREE_CHOPPED_3,TRUE,TRUE,null,null,tree_3
+ITEM_TREE_CHOPPED_3,tree_chopped_3,tree_chopped,Production,4,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_3,null,Energy,1,None,null,5,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_3,ITEM_DESC_TREE_CHOPPED_3,TRUE,TRUE,null,null,tree_3
 ITEM_TREE_CHOPPED_4,tree_chopped_4,tree_chopped,Production,5,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_4,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_4,ITEM_DESC_TREE_CHOPPED_4,TRUE,TRUE,null,null,tree_4
 ITEM_TREE_CHOPPED_5,tree_chopped_5,tree_chopped,Production,6,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_5,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_5,ITEM_DESC_TREE_CHOPPED_5,TRUE,TRUE,null,null,tree_5
 ITEM_TREE_CHOPPED_6,tree_chopped_6,tree_chopped,Production,7,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_6,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_6,ITEM_DESC_TREE_CHOPPED_6,TRUE,TRUE,null,null,tree_6
@@ -34,7 +34,7 @@ ITEM_TREE_CHOPPED_8,tree_chopped_8,tree_chopped,Production,9,12,Manual,TRUE,None
 ITEM_TREE_CHOPPED_9,tree_chopped_9,tree_chopped,Production,10,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_9,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_9,ITEM_DESC_TREE_CHOPPED_9,TRUE,TRUE,null,null,tree_9
 ITEM_TREE_CHOPPED_10,tree_chopped_10,tree_chopped,Production,11,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_10,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_10,ITEM_DESC_TREE_CHOPPED_10,TRUE,TRUE,null,null,tree_10
 ITEM_TREE_CHOPPED_11,tree_chopped_11,tree_chopped,Production,12,12,Manual,TRUE,None,None,PRODUCE_TREE_CHOPPED_11,null,Energy,1,None,null,null,10,FALSE,null,ITEM_NAME_TREE_CHOPPED_11,ITEM_DESC_TREE_CHOPPED_11,TRUE,TRUE,null,null,tree_11
-ITEM_AXE_0,axe_0,axe,Tool,1,10,None,FALSE,Axe,None,null,null,None,null,None,null,null,null,TRUE,1,ITEM_NAME_AXE_0,ITEM_DESC_AXE_0,TRUE,TRUE,null,10,tree_0
+ITEM_AXE_0,axe_0,axe,Tool,1,10,None,FALSE,Axe,None,null,null,None,null,None,null,null,null,TRUE,1,ITEM_NAME_AXE_0,ITEM_DESC_AXE_0,TRUE,TRUE,null,100,tree_0
 ITEM_AXE_1,axe_1,axe,Tool,2,10,None,FALSE,Axe,None,null,null,None,null,None,null,null,null,TRUE,1,ITEM_NAME_AXE_1,ITEM_DESC_AXE_1,TRUE,TRUE,null,25,tree_1
 ITEM_AXE_2,axe_2,axe,Tool,3,10,None,FALSE,Axe,None,null,null,None,null,None,null,null,null,TRUE,1,ITEM_NAME_AXE_2,ITEM_DESC_AXE_2,TRUE,TRUE,null,70,tree_2
 ITEM_AXE_3,axe_3,axe,Tool,4,10,None,FALSE,Axe,None,null,null,None,null,None,null,null,null,TRUE,1,ITEM_NAME_AXE_3,ITEM_DESC_AXE_3,TRUE,TRUE,null,70,tree_3

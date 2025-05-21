@@ -73,9 +73,9 @@ public class ItemDataManager : MonoBehaviour
         var item = new ItemData();
         int index = 0;
 
-        item.key = values[index++];
-        item.name = values[index++];
-        item.type = values[index++];
+        item.key = ParseStringSafe(values[index++], "key");
+        item.name = ParseStringSafe(values[index++], "name");
+        item.type = ParseStringSafe(values[index++], "type");
         item.category = ParseEnumSafe(values[index++], ItemData.Category.Production);
         item.level = ParseIntSafe(values[index++], "level");
         item.maxLevel = ParseIntSafe(values[index++], "maxLevel");
@@ -83,8 +83,8 @@ public class ItemDataManager : MonoBehaviour
         item.isProductionLimited = ParseBoolSafe(values[index++], "isProductionLimited");
         item.toolType = ParseEnumSafe(values[index++], ItemData.ToolType.None);
         item.targetMaterial = ParseEnumSafe(values[index++], ItemData.TargetMaterial.None);
-        item.produceTableKey = values[index++];
-        item.dropTableKey = values[index++];
+        item.produceTableKey = ParseStringSafe(values[index++], "produceTableKey");
+        item.dropTableKey = ParseStringSafe(values[index++], "dropTableKey");
         item.costResource = ParseEnumSafe(values[index++], ResourceType.None);
         item.costValue = ParseIntSafe(values[index++], "costValue");
         item.gatherResource = ParseEnumSafe(values[index++], ResourceType.None);
@@ -93,13 +93,13 @@ public class ItemDataManager : MonoBehaviour
         item.maxProductionAmount = ParseIntSafe(values[index++], "maxProductionAmount");
         item.isSellable = ParseBoolSafe(values[index++], "isSellable");
         item.sellValue = ParseIntSafe(values[index++], "sellValue");
-        item.itemNameKey = values[index++];
-        item.itemDescriptionKey = values[index++];
+        item.itemNameKey = ParseStringSafe(values[index++], "itemNameKey");
+        item.itemDescriptionKey = ParseStringSafe(values[index++], "itemDescriptionKey");
         item.canMove = ParseBoolSafe(values[index++], "canMove");
         item.canInventoryStore = ParseBoolSafe(values[index++], "canInventoryStore");
         item.hp = ParseIntSafe(values[index++], "hp");
         item.attackPower = ParseIntSafe(values[index++], "attackPower");
-        item.imageName = values[index++];
+        item.imageName = ParseStringSafe(values[index++], "imageName");
 
         return item;
     }
@@ -129,6 +129,7 @@ public class ItemDataManager : MonoBehaviour
         Debug.LogError($"[ItemDataManager] float 파싱 실패: '{value}' (필드: {fieldName})");
         return 0f;
     }
+
     private T ParseEnumSafe<T>(string value, T defaultValue) where T : struct
     {
         value = value.Trim();
@@ -141,6 +142,7 @@ public class ItemDataManager : MonoBehaviour
         Debug.LogError($"[ItemDataManager] enum 파싱 실패: '{value}' → 기본값 {defaultValue} 반환");
         return defaultValue;
     }
+
     private bool ParseBoolSafe(string value, string fieldName)
     {
         value = value.Trim().ToLower();
@@ -149,5 +151,16 @@ public class ItemDataManager : MonoBehaviour
 
         Debug.LogError($"[ItemDataManager] bool 파싱 실패: '{value}' (필드: {fieldName})");
         return false; // 기본값
+    }
+
+    private string ParseStringSafe(string value, string fieldName)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return null;
+
+        string trimmed = value.Trim();
+        if (trimmed.Equals("null", StringComparison.OrdinalIgnoreCase))
+            return null;
+
+        return trimmed;
     }
 }
