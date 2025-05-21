@@ -6,14 +6,15 @@ using System.Resources;
 
 public class MergeItem
 {
-    public int id;
+    public string key;
     public MergeBoard board;
     public Vector2Int coord;
 
-    public ItemData Data => ItemDataManager.Instance.GetItemData(id);
+    public ItemData Data => ItemDataManager.Instance.GetItemData(key);
 
     //Basic Info
     public string name => Data?.name;
+    public string type => Data?.type;
     public int level => Data?.level ?? -1;
     public int maxLevel => Data?.maxLevel ?? -1;
     public string imageName => Data?.imageName;
@@ -23,11 +24,11 @@ public class MergeItem
 
     //Produce
     public ItemData.ProduceType ProduceType => Data?.produceType ?? ItemData.ProduceType.None;
-    private float ProductionInterval => Data.productionInterval;
+    public bool isProductionLimited => Data?.isProductionLimited ?? false;
+    private float productionInterval => Data.productionInterval;
     public int maxProductionAmount => Data?.maxProductionAmount ?? 0;
-    public int produceTableID => Data?.produceTableID ?? -1;
-    public int dropTableID => Data?.dropTableID ?? -1;
-    public int supplyTableID => Data?.supplyTableID ?? -1;
+    public string produceTableKey => Data?.produceTableKey;
+    public string dropTableKey => Data?.dropTableKey;
 
     //Resource
     public ResourceType CostResource => Data?.costResource ?? ResourceType.None;
@@ -40,8 +41,8 @@ public class MergeItem
     public int sellValue => Data?.sellValue ?? 0;
 
     //Text
-    public int ItemNameID => Data?.itemNameID ?? -1;
-    public int DescriptionID => Data?.descriptionID ?? -1;
+    public string itemNameKey => Data?.itemNameKey;
+    public string itemDescriptionKey => Data?.itemDescriptionKey;
 
     // State Flags
     public bool CanMove => Data?.canMove ?? false;
@@ -58,9 +59,9 @@ public class MergeItem
     public float recoveryTimer = 0f;
     
 
-    public MergeItem(int id)
+    public MergeItem(string key)
     {
-        this.id = id;
+        this.key = key;
 
         maxHP = Data.hp;  // 여기서 hp 초기화
         currentHP = Data.hp;
@@ -82,7 +83,7 @@ public class MergeItem
         if (other == null || this.Data == null || other.Data == null)
             return false;
 
-        return MergeRuleManager.Instance.GetMergeResult(this.id, other.id).HasValue;
+        return MergeRuleManager.Instance.GetMergeResult(this.key, other.key) != null;
     }
 
     public bool IsTimeDrivenProducer()
@@ -105,7 +106,7 @@ public class MergeItem
 
     public float GetRecoveryRemainingTime()
     {
-        return ProductionInterval - recoveryTimer;
+        return productionInterval - recoveryTimer;
     }
 
     public void UpdateProductionStorage(float deltaTime)
@@ -123,16 +124,16 @@ public class MergeItem
                     return;
                 }
 
-                if (recoveryTimer >= ProductionInterval)
+                if (recoveryTimer >= productionInterval)
                 {
-                    int recovered = Mathf.FloorToInt(recoveryTimer / ProductionInterval);
+                    int recovered = Mathf.FloorToInt(recoveryTimer / productionInterval);
                     currentStorage = Mathf.Min(currentStorage + recovered, maxStorage);
                     recoveryTimer = 0f;
                 }
                 break;
 
             case ItemData.ProduceType.Auto:
-                if (recoveryTimer >= ProductionInterval)
+                if (recoveryTimer >= productionInterval)
                 {
                     ProduceAuto();
                     // recoveryTimer는 성공할 때만 리셋 (빈칸 없으면 대기)
@@ -153,7 +154,7 @@ public class MergeItem
             return;
         }
 
-        if (!TryPrepareProduction(out int resultItemID, out Vector2Int spawnPos))
+        if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
         {
             // 내부에서 빈칸 없음/결과 없음 로그 출력
             return;
@@ -173,26 +174,26 @@ public class MergeItem
         }
 
         ConsumeStorage();
-        BoardManager.Instance.SpawnItem(board, resultItemID, spawnPos);
+        BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
         // 생산 시 현재 보는 보드와 같으면 UI 갱신
         if (board == BoardManager.Instance.GetCurrentBoard())
         {
             BoardManager.Instance.RefreshBoard();
         }
 
-        Debug.Log($"[ProduceManual] {name} → {resultItemID} 생산 완료");
+        Debug.Log($"[ProduceManual] {name} → {resultItemKey} 생산 완료");
     }
 
     // 자동 생산
     private void ProduceAuto()
     {
-        if (!TryPrepareProduction(out int resultItemID, out Vector2Int spawnPos))
+        if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
         {
             // 내부에서 빈칸 없음/결과 없음 로그 출력
             return;
         }
-        BoardManager.Instance.SpawnItem(board, resultItemID, spawnPos);
-        Debug.Log($"[ProduceManual] {name} → {resultItemID} 생산 완료");
+        BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
+        Debug.Log($"[ProduceManual] {name} → {resultItemKey} 생산 완료");
         // 생산 시 현재 보는 보드와 같으면 UI 갱신
         if (board == BoardManager.Instance.GetCurrentBoard())
         {
@@ -250,9 +251,9 @@ public class MergeItem
         }
     }
 
-    private bool TryPrepareProduction(out int resultItemID, out Vector2Int spawnPos)
+    private bool TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos)
     {
-        resultItemID = -1;
+        resultItemKey = "null";
         spawnPos = Vector2Int.zero;
 
         if (board == null)
@@ -270,26 +271,26 @@ public class MergeItem
             return false;
         }
 
-        var table = ProduceTableManager.Instance.GetTable(Data.produceTableID);
+        var table = ProduceTableManager.Instance.GetTable(Data.produceTableKey);
         if (table == null || table.results.Count == 0)
         {
             Debug.LogWarning("[TryPrepareProduction] 생산 테이블이 비어있습니다.");
             return false;
         }
 
-        int result = GetRandomItemID(table.results);
-        if (result == -1)
+        string result = GetRandomItemKey(table.results);
+        if (result == "null")
         {
             Debug.LogError("[TryPrepareProduction] 아이템 선택 실패");
             return false;
         }
 
-        resultItemID = result;
+        resultItemKey = result;
         spawnPos = pos.Value;
         return true;
     }
 
-    private int GetRandomItemID(List<ProduceResult> results)
+    private string GetRandomItemKey(List<ProduceResult> results)
     {
         int total = 0;
         foreach (var result in results)
@@ -297,8 +298,8 @@ public class MergeItem
 
         if (total <= 0)
         {
-            Debug.LogError("[GetRandomItemID] 확률 총합이 0 이하입니다.");
-            return -1;
+            Debug.LogError("[GetRandomItemKey] 확률 총합이 0 이하입니다.");
+            return "null";
         }
 
         int roll = UnityEngine.Random.Range(0, total);
@@ -308,10 +309,10 @@ public class MergeItem
         {
             accum += result.probability;
             if (roll < accum)
-                return result.itemID;
+                return result.itemKey;
         }
 
-        return -1;
+        return "null";
     }
 
 }

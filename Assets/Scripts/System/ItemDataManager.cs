@@ -10,7 +10,7 @@ public class ItemDataManager : MonoBehaviour
 {
     public static ItemDataManager Instance;
 
-    private Dictionary<int, ItemData> itemDataMap = new Dictionary<int, ItemData>();
+    private Dictionary<string, ItemData> itemDataMap = new Dictionary<string, ItemData>();
 
     void Awake()
     {
@@ -26,15 +26,15 @@ public class ItemDataManager : MonoBehaviour
         }
     }
 
-    public ItemData GetItemData(int id)
+    public ItemData GetItemData(string key)
     {
-        if (itemDataMap.TryGetValue(id, out var data))
+        if (itemDataMap.TryGetValue(key, out var data))
         {
             return data;
         }
            
 
-        Debug.LogWarning($"[ItemDataManager] ID {id} 아이템 데이터를 찾을 수 없습니다.");
+        Debug.LogWarning($"[ItemDataManager] ID {key} 아이템 데이터를 찾을 수 없습니다.");
         return null;
     }
 
@@ -59,7 +59,7 @@ public class ItemDataManager : MonoBehaviour
             try
             {
                 var item = ParseItemData(values);
-                itemDataMap[item.id] = item;
+                itemDataMap[item.key] = item;
             }
             catch (System.Exception e)
             {
@@ -73,15 +73,18 @@ public class ItemDataManager : MonoBehaviour
         var item = new ItemData();
         int index = 0;
 
-        item.id = ParseIntSafe(values[index++], "id");
+        item.key = values[index++];
         item.name = values[index++];
+        item.type = values[index++];
         item.category = ParseEnumSafe(values[index++], ItemData.Category.Production);
         item.level = ParseIntSafe(values[index++], "level");
         item.maxLevel = ParseIntSafe(values[index++], "maxLevel");
         item.produceType = ParseEnumSafe(values[index++], ItemData.ProduceType.None);
-        item.produceTableID = ParseIntSafe(values[index++], "produceTableID");
-        item.dropTableID = ParseIntSafe(values[index++], "dropTableID");
-        item.supplyTableID = ParseIntSafe(values[index++], "supplyTableID");
+        item.isProductionLimited = ParseBoolSafe(values[index++], "isProductionLimited");
+        item.toolType = ParseEnumSafe(values[index++], ItemData.ToolType.None);
+        item.targetMaterial = ParseEnumSafe(values[index++], ItemData.TargetMaterial.None);
+        item.produceTableKey = values[index++];
+        item.dropTableKey = values[index++];
         item.costResource = ParseEnumSafe(values[index++], ResourceType.None);
         item.costValue = ParseIntSafe(values[index++], "costValue");
         item.gatherResource = ParseEnumSafe(values[index++], ResourceType.None);
@@ -90,8 +93,8 @@ public class ItemDataManager : MonoBehaviour
         item.maxProductionAmount = ParseIntSafe(values[index++], "maxProductionAmount");
         item.isSellable = ParseBoolSafe(values[index++], "isSellable");
         item.sellValue = ParseIntSafe(values[index++], "sellValue");
-        item.itemNameID = ParseIntSafe(values[index++], "itemNameID");
-        item.descriptionID = ParseIntSafe(values[index++], "descriptionID");
+        item.itemNameKey = values[index++];
+        item.itemDescriptionKey = values[index++];
         item.canMove = ParseBoolSafe(values[index++], "canMove");
         item.canInventoryStore = ParseBoolSafe(values[index++], "canInventoryStore");
         item.hp = ParseIntSafe(values[index++], "hp");
@@ -100,6 +103,7 @@ public class ItemDataManager : MonoBehaviour
 
         return item;
     }
+
     private int ParseIntSafe(string value, string fieldName)
     {
         value = value.Trim().ToLower();

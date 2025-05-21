@@ -41,15 +41,15 @@ public class SupplyRuleManager : MonoBehaviour
 
             try
             {
-                int id = int.Parse(values[0]);
+                string key = values[0].Trim();
                 string note = values[1].Trim();
-                int receiverItem = int.Parse(values[2]);
-                int suppliedItem = int.Parse(values[3]);
+                string suppliedItem = values[2].Trim();
+                string receiverItem = values[3].Trim();
                 var resultType = (SupplyRule.ResultType)System.Enum.Parse(typeof(SupplyRule.ResultType), values[4]);
-                int resultItem = int.Parse(values[5]);
+                string resultItem = values[5].Trim();
                 int resultValue = int.Parse(values[6]);
 
-                rules.Add(new SupplyRule(id, note, receiverItem, suppliedItem, resultType, resultItem, resultValue));
+                rules.Add(new SupplyRule(key, note, suppliedItem, receiverItem, resultType, resultItem, resultValue));
             }
             catch (System.Exception e)
             {
@@ -58,7 +58,7 @@ public class SupplyRuleManager : MonoBehaviour
         }
     }
 
-    public SupplyRule GetRule(int a, int b)
+    public SupplyRule GetRule(string a, string b)
     {
         foreach (var rule in rules)
         {
@@ -68,7 +68,7 @@ public class SupplyRuleManager : MonoBehaviour
         return null;
     }
 
-    public SupplyRule GetFirstRuleByReceiverItem(int receiverItem)
+    public SupplyRule GetFirstRuleByReceiverItem(string receiverItem)
     {
         Debug.Log(receiverItem);
         foreach (var rule in rules)
@@ -79,7 +79,7 @@ public class SupplyRuleManager : MonoBehaviour
         return null;
     }
 
-    public bool CanSupply(int a, int b)
+    public bool CanSupply(string a, string b)
     {
         return GetRule(a, b) != null;
     }

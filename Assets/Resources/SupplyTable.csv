@@ -1,6 +1,6 @@
-﻿,,ItemTable/ID,ItemTable/ID,,ItemTable/ID,
-아이디,노트,아이템A,아이템B,결과타입,결과아이템,결과수량
-int,string,int,int,enum,int,int
-id,note,receiverItem,suppliedItem,resultType,resultItem,resultValue
-2001,젖소+건초=우유,2001,2002,Item,2003,1
-2002,젖소+우유=건초,2001,2003,Item,2002,1
+﻿,,ItemTable/Key,ItemTable/KEY,,ItemTable/KEY,
+아이디,노트,주는 아이템,받는 아이템,결과타입,결과아이템,결과수량
+string,string,string,string,enum,string,int
+key,note,suppliedItem,receiverItem,resultType,resultItem,resultValue
+SUPPLY_COW_HAY,젖소+건초=우유,ITEM_HAY,ITEM_COW,Item,ITEM_MILK,1
+SUPPLY_COW_MILK,젖소+우유=건초,ITEM_MILK,ITEM_COW,Item,ITEM_HAY,1

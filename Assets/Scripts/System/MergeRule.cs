@@ -1,28 +1,28 @@
 // MergeRule.cs
 public class MergeRule
 {
-    public int id;
+    public string key;
     public string note;
-    public int itemA;
-    public int itemB;
-    public int resultItem;
+    public string suppliedItem;
+    public string receiverItem;
+    public string resultItem;
     public bool allowSwap;
 
-    public MergeRule(int id, string note, int itemA, int itemB, int resultItem, bool allowSwap)
+    public MergeRule(string key, string note, string suppliedItem, string receiverItem, string resultItem, bool allowSwap)
     {
-        this.id = id;
+        this.key = key;
         this.note = note;
-        this.itemA = itemA;
-        this.itemB = itemB;
+        this.suppliedItem = suppliedItem;
+        this.receiverItem = receiverItem;
         this.resultItem = resultItem;
         this.allowSwap = allowSwap;
     }
 
-    public bool Matches(int a, int b)
+    public bool Matches(string a, string b)
     {
         if (allowSwap)
-            return (a == itemA && b == itemB) || (a == itemB && b == itemA);
+            return (a == suppliedItem && b == receiverItem) || (a == receiverItem && b == suppliedItem);
         else
-            return a == itemA && b == itemB;
+            return a == suppliedItem && b == receiverItem;
     }
 }

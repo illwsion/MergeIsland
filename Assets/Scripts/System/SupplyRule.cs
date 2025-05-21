@@ -1,25 +1,25 @@
 public class SupplyRule
 {
-    public int id;
+    public string key;
     public string note;
-    public int receiverItem; // 공급 대상 아이템 (남음)
-    public int suppliedItem; // 공급 되는 아이템 (사라짐)
+    public string suppliedItem; // 공급 되는 아이템 (사라짐)
+    public string receiverItem; // 공급 대상 아이템 (남음)
     public ResultType resultType;
-    public int resultItem;
+    public string resultItem;
     public int resultValue;
 
-    public SupplyRule(int id, string note, int receiverItem, int suppliedItem, ResultType resultType, int resultItem, int resultValue)
+    public SupplyRule(string key, string note, string suppliedItem, string receiverItem, ResultType resultType, string resultItem, int resultValue)
     {
-        this.id = id;
+        this.key = key;
         this.note = note;
-        this.receiverItem = receiverItem;
         this.suppliedItem = suppliedItem;
+        this.receiverItem = receiverItem;
         this.resultType = resultType;
         this.resultItem = resultItem;
         this.resultValue = resultValue;
     }
 
-    public bool Matches(int a, int b)
+    public bool Matches(string a, string b)
     {
         return a == receiverItem && b == suppliedItem;
     }

@@ -16,8 +16,7 @@ public class StringTableManager : MonoBehaviour
     public Language currentLanguage = Language.Korean;
 
     // id → (korean, english) 저장
-    private Dictionary<int, LocalizedString> stringMap = new Dictionary<int, LocalizedString>();
-    private Dictionary<string, LocalizedString> stringKeyMap = new Dictionary<string, LocalizedString>();
+    private Dictionary<string, LocalizedString> stringMap = new Dictionary<string, LocalizedString>();
 
     public class LocalizedString
     {
@@ -75,12 +74,11 @@ public class StringTableManager : MonoBehaviour
             if (string.IsNullOrEmpty(line)) continue;
 
             string[] values = line.Split(',');
-            if (values.Length < 5) continue;
+            if (values.Length < 4) continue;
 
             string key = values[0].Trim();
-            string idRaw = values[1].Trim();
-            string korean = values[3].Trim();
-            string english = values[4].Trim();
+            string korean = values[2].Trim();
+            string english = values[3].Trim();
 
             var localized = new LocalizedString
             {
@@ -88,32 +86,14 @@ public class StringTableManager : MonoBehaviour
                 english = english
             };
 
-            if (int.TryParse(idRaw, out int id))
-                stringMap[id] = localized;
-
             if (!string.IsNullOrEmpty(key))
-                stringKeyMap[key] = localized;
+                stringMap[key] = localized;
         }
-    }
-
-    public string GetLocalized(int id)
-    {
-        if (stringMap.TryGetValue(id, out var entry))
-        {
-            return currentLanguage switch
-            {
-                Language.Korean => entry.korean,
-                Language.English => entry.english,
-                _ => entry.korean
-            };
-        }
-
-        return $"[문자열 없음: {id}]";
     }
 
     public string GetLocalized(string key)
     {
-        if (stringKeyMap.TryGetValue(key, out var entry))
+        if (stringMap.TryGetValue(key, out var entry))
         {
             return currentLanguage switch
             {

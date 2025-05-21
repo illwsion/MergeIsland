@@ -1,6 +1,8 @@
 // MergeRuleManager.cs
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class MergeRuleManager : MonoBehaviour
 {
@@ -40,18 +42,18 @@ public class MergeRuleManager : MonoBehaviour
 
             string[] values = line.Split(',');
 
-            int id = int.Parse(values[0]);
+            string key = values[0].Trim();
             string note = values[1].Trim();
-            int receiverItem = int.Parse(values[2]);
-            int suppliedItem = int.Parse(values[3]);
-            int result = int.Parse(values[4]);
+            string receiverItem = values[2].Trim();
+            string suppliedItem = values[3].Trim();
+            string result = values[4].Trim();
             bool allowSwap = bool.Parse(values[5].Trim().ToLower());
 
-            rules.Add(new MergeRule(id, note, receiverItem, suppliedItem, result, allowSwap));
+            rules.Add(new MergeRule(key, note, receiverItem, suppliedItem, result, allowSwap));
         }
     }
 
-    public int? GetMergeResult(int a, int b)
+    public string? GetMergeResult(string a, string b)
     {
         foreach (var rule in rules)
         {
@@ -61,8 +63,8 @@ public class MergeRuleManager : MonoBehaviour
         return null;
     }
 
-    public bool CanMerge(int a, int b)
+    public bool CanMerge(string a, string b)
     {
-        return GetMergeResult(a, b).HasValue;
+        return GetMergeResult(a, b) != null;
     }
 }

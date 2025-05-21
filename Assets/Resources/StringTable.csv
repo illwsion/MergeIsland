@@ -1,56 +1,102 @@
-﻿키,아이디,설명,한글,영어
-string,int,string,string,string
-key,id,label,korean,english
-tree_0_name,1001,나무 1레벨 이름,나무 1단계,Tree Level 1
-tree_1_name,1002,나무 2레벨 이름,나무 2단계,Tree Level 2
-tree_2_name,1003,나무 3레벨 이름,나무 3단계,Tree Level 3
-tree_3_name,1004,나무 4레벨 이름,나무 4단계,Tree Level 4
-tree_4_name,1005,나무 5레벨 이름,나무 5단계,Tree Level 5
-tree_5_name,1006,나무 6레벨 이름,나무 6단계,Tree Level 6
-tree_6_name,1007,나무 7레벨 이름,나무 7단계,Tree Level 7
-tree_7_name,1008,나무 8레벨 이름,나무 8단계,Tree Level 8
-tree_8_name,1009,나무 9레벨 이름,나무 9단계,Tree Level 9
-tree_9_name,1010,나무 10레벨 이름,나무 10단계,Tree Level 10
-tree_10_name,1011,나무 11레벨 이름,나무 11단계,Tree Level 11
-tree_11_name,1012,나무 12레벨 이름,나무 12단계,Tree Level 12
-log_0_name,1013,통나무 1레벨 이름,통나무 1단계,Log Level 1
-log_1_name,1014,통나무 2레벨 이름,통나무 2단계,Log Level 2
-log_2_name,1015,통나무 3레벨 이름,통나무 3단계,Log Level 3
-log_3_name,1016,통나무 4레벨 이름,통나무 4단계,Log Level 4
-log_4_name,1017,통나무 5레벨 이름,통나무 5단계,Log Level 5
-log_5_name,1018,통나무 6레벨 이름,통나무 6단계,Log Level 6
-log_6_name,1019,통나무 7레벨 이름,통나무 7단계,Log Level 7
-log_7_name,1020,통나무 8레벨 이름,통나무 8단계,Log Level 8
-cow_name,1021,젖소,젖소,Cow
-hay_name,1022,건초,건초,Hay
-milk_name,1023,우유,우유,Milk
-tree_0_desc,10001,나무 1레벨 설명,나무 1단계이다.,It's Tree Level 1
-tree_1_desc,10002,나무 2레벨 설명,나무 2단계이다.,It's Tree Level 2
-tree_2_desc,10003,나무 3레벨 설명,나무 3단계이다.,It's Tree Level 3
-tree_3_desc,10004,나무 4레벨 설명,나무 4단계이다.,It's Tree Level 4
-tree_4_desc,10005,나무 5레벨 설명,나무 5단계이다.,It's Tree Level 5
-tree_5_desc,10006,나무 6레벨 설명,나무 6단계이다.,It's Tree Level 6
-tree_6_desc,10007,나무 7레벨 설명,나무 7단계이다.,It's Tree Level 7
-tree_7_desc,10008,나무 8레벨 설명,나무 8단계이다.,It's Tree Level 8
-tree_8_desc,10009,나무 9레벨 설명,나무 9단계이다.,It's Tree Level 9
-tree_9_desc,10010,나무 10레벨 설명,나무 10단계이다.,It's Tree Level 10
-tree_10_desc,10011,나무 11레벨 설명,나무 11단계이다.,It's Tree Level 11
-tree_11_desc,10012,나무 12레벨 설명,나무 12단계이다.,It's Tree Level 12
-log_0_desc,10013,통나무 1레벨 설명,통나무 1단계이다.,It's Log Level 1
-log_1_desc,10014,통나무 2레벨 설명,통나무 2단계이다.,It's Log Level 2
-log_2_desc,10015,통나무 3레벨 설명,통나무 3단계이다.,It's Log Level 3
-log_3_desc,10016,통나무 4레벨 설명,통나무 4단계이다.,It's Log Level 4
-log_4_desc,10017,통나무 5레벨 설명,통나무 5단계이다.,It's Log Level 5
-log_5_desc,10018,통나무 6레벨 설명,통나무 6단계이다.,It's Log Level 6
-log_6_desc,10019,통나무 7레벨 설명,통나무 7단계이다.,It's Log Level 7
-log_7_desc,10020,통나무 8레벨 설명,통나무 8단계이다.,It's Log Level 8
-cow_desc,10021,젖소,젖소이다,This is Cow
-hay_desc,10022,건초,건초이다,This is Hay
-milk_desc,10023,우유,우유이다,This is Milk
-effectLabel_Gather,100001,이펙트라벨_획득,획득,Gather
-effectLabel_Produce,100002,이펙트라벨_생산,생산,Produce
-effectLabel_Sell,100003,이펙트라벨_판매,판매,Sell
-effectLabel_Damage,100004,이펙트라벨_대미지,대미지,Damage
-effectLabel_Supply,100005,이펙트라벨_교환,공급,Supply
-effectLabel_Drop,100006,이펙트라벨_드랍,드랍,Drop
-uiText_unselectedText,200001,아이템을 선택해주세요,아이템을 선택하면 여기에 정보가 표시됩니다,Select an Item to know more about it
+﻿키,설명,한글,영어
+string,string,string,string
+key,label,korean,english
+ITEM_NAME_TREE_0,나무 1레벨 이름,나무 1단계,Tree Level 1
+ITEM_DESC_TREE_0,나무 1레벨 설명,나무 1단계이다.,It's Tree Level 1
+ITEM_NAME_TREE_1,나무 2레벨 이름,나무 2단계,Tree Level 2
+ITEM_DESC_TREE_1,나무 2레벨 설명,나무 2단계이다.,It's Tree Level 2
+ITEM_NAME_TREE_2,나무 3레벨 이름,나무 3단계,Tree Level 3
+ITEM_DESC_TREE_2,나무 3레벨 설명,나무 3단계이다.,It's Tree Level 3
+ITEM_NAME_TREE_3,나무 4레벨 이름,나무 4단계,Tree Level 4
+ITEM_DESC_TREE_3,나무 4레벨 설명,나무 4단계이다.,It's Tree Level 4
+ITEM_NAME_TREE_4,나무 5레벨 이름,나무 5단계,Tree Level 5
+ITEM_DESC_TREE_4,나무 5레벨 설명,나무 5단계이다.,It's Tree Level 5
+ITEM_NAME_TREE_5,나무 6레벨 이름,나무 6단계,Tree Level 6
+ITEM_DESC_TREE_5,나무 6레벨 설명,나무 6단계이다.,It's Tree Level 6
+ITEM_NAME_TREE_6,나무 7레벨 이름,나무 7단계,Tree Level 7
+ITEM_DESC_TREE_6,나무 7레벨 설명,나무 7단계이다.,It's Tree Level 7
+ITEM_NAME_TREE_7,나무 8레벨 이름,나무 8단계,Tree Level 8
+ITEM_DESC_TREE_7,나무 8레벨 설명,나무 8단계이다.,It's Tree Level 8
+ITEM_NAME_TREE_8,나무 9레벨 이름,나무 9단계,Tree Level 9
+ITEM_DESC_TREE_8,나무 9레벨 설명,나무 9단계이다.,It's Tree Level 9
+ITEM_NAME_TREE_9,나무 10레벨 이름,나무 10단계,Tree Level 10
+ITEM_DESC_TREE_9,나무 10레벨 설명,나무 10단계이다.,It's Tree Level 10
+ITEM_NAME_TREE_10,나무 11레벨 이름,나무 11단계,Tree Level 11
+ITEM_DESC_TREE_10,나무 11레벨 설명,나무 11단계이다.,It's Tree Level 11
+ITEM_NAME_TREE_11,나무 12레벨 이름,나무 12단계,Tree Level 12
+ITEM_DESC_TREE_11,나무 12레벨 설명,나무 12단계이다.,It's Tree Level 12
+ITEM_NAME_LOG_0,통나무 1레벨 이름,통나무 1단계,Log Level 1
+ITEM_DESC_LOG_0,통나무 1레벨 설명,통나무 1단계이다.,It's Log Level 1
+ITEM_NAME_LOG_1,통나무 2레벨 이름,통나무 2단계,Log Level 2
+ITEM_DESC_LOG_1,통나무 2레벨 설명,통나무 2단계이다.,It's Log Level 2
+ITEM_NAME_LOG_2,통나무 3레벨 이름,통나무 3단계,Log Level 3
+ITEM_DESC_LOG_2,통나무 3레벨 설명,통나무 3단계이다.,It's Log Level 3
+ITEM_NAME_LOG_3,통나무 4레벨 이름,통나무 4단계,Log Level 4
+ITEM_DESC_LOG_3,통나무 4레벨 설명,통나무 4단계이다.,It's Log Level 4
+ITEM_NAME_LOG_4,통나무 5레벨 이름,통나무 5단계,Log Level 5
+ITEM_DESC_LOG_4,통나무 5레벨 설명,통나무 5단계이다.,It's Log Level 5
+ITEM_NAME_LOG_5,통나무 6레벨 이름,통나무 6단계,Log Level 6
+ITEM_DESC_LOG_5,통나무 6레벨 설명,통나무 6단계이다.,It's Log Level 6
+ITEM_NAME_LOG_6,통나무 7레벨 이름,통나무 7단계,Log Level 7
+ITEM_DESC_LOG_6,통나무 7레벨 설명,통나무 7단계이다.,It's Log Level 7
+ITEM_NAME_LOG_7,통나무 8레벨 이름,통나무 8단계,Log Level 8
+ITEM_DESC_LOG_7,통나무 8레벨 설명,통나무 8단계이다.,It's Log Level 8
+ITEM_NAME_TREE_CHOPPED_0,벌목된 나무 1레벨 이름,벌목된 나무 1단계,Chopped Tree Level 1
+ITEM_DESC_TREE_CHOPPED_0,벌목된 나무 1레벨 설명,벌목된 나무 1단계이다.,It's Chopped Tree Level 1
+ITEM_NAME_TREE_CHOPPED_1,벌목된 나무 2레벨 이름,벌목된 나무 2단계,Chopped Tree Level 2
+ITEM_DESC_TREE_CHOPPED_1,벌목된 나무 2레벨 설명,벌목된 나무 2단계이다.,It's Chopped Tree Level 2
+ITEM_NAME_TREE_CHOPPED_2,벌목된 나무 3레벨 이름,벌목된 나무 3단계,Chopped Tree Level 3
+ITEM_DESC_TREE_CHOPPED_2,벌목된 나무 3레벨 설명,벌목된 나무 3단계이다.,It's Chopped Tree Level 3
+ITEM_NAME_TREE_CHOPPED_3,벌목된 나무 4레벨 이름,벌목된 나무 4단계,Chopped Tree Level 4
+ITEM_DESC_TREE_CHOPPED_3,벌목된 나무 4레벨 설명,벌목된 나무 4단계이다.,It's Chopped Tree Level 4
+ITEM_NAME_TREE_CHOPPED_4,벌목된 나무 5레벨 이름,벌목된 나무 5단계,Chopped Tree Level 5
+ITEM_DESC_TREE_CHOPPED_4,벌목된 나무 5레벨 설명,벌목된 나무 5단계이다.,It's Chopped Tree Level 5
+ITEM_NAME_TREE_CHOPPED_5,벌목된 나무 6레벨 이름,벌목된 나무 6단계,Chopped Tree Level 6
+ITEM_DESC_TREE_CHOPPED_5,벌목된 나무 6레벨 설명,벌목된 나무 6단계이다.,It's Chopped Tree Level 6
+ITEM_NAME_TREE_CHOPPED_6,벌목된 나무 7레벨 이름,벌목된 나무 7단계,Chopped Tree Level 7
+ITEM_DESC_TREE_CHOPPED_6,벌목된 나무 7레벨 설명,벌목된 나무 7단계이다.,It's Chopped Tree Level 7
+ITEM_NAME_TREE_CHOPPED_7,벌목된 나무 8레벨 이름,벌목된 나무 8단계,Chopped Tree Level 8
+ITEM_DESC_TREE_CHOPPED_7,벌목된 나무 8레벨 설명,벌목된 나무 8단계이다.,It's Chopped Tree Level 8
+ITEM_NAME_TREE_CHOPPED_8,벌목된 나무 9레벨 이름,벌목된 나무 9단계,Chopped Tree Level 9
+ITEM_DESC_TREE_CHOPPED_8,벌목된 나무 9레벨 설명,벌목된 나무 9단계이다.,It's Chopped Tree Level 9
+ITEM_NAME_TREE_CHOPPED_9,벌목된 나무 10레벨 이름,벌목된 나무 10단계,Chopped Tree Level 10
+ITEM_DESC_TREE_CHOPPED_9,벌목된 나무 10레벨 설명,벌목된 나무 10단계이다.,It's Chopped Tree Level 10
+ITEM_NAME_TREE_CHOPPED_10,벌목된 나무 11레벨 이름,벌목된 나무 11단계,Chopped Tree Level 11
+ITEM_DESC_TREE_CHOPPED_10,벌목된 나무 11레벨 설명,벌목된 나무 11단계이다.,It's Chopped Tree Level 11
+ITEM_NAME_TREE_CHOPPED_11,벌목된 나무 12레벨 이름,벌목된 나무 12단계,Chopped Tree Level 12
+ITEM_DESC_TREE_CHOPPED_11,벌목된 나무 12레벨 설명,벌목된 나무 12단계이다.,It's Chopped Tree Level 12
+ITEM_NAME_AXE_0,도끼 1레벨 이름,도끼 1단계,Axe level 1
+ITEM_DESC_AXE_0,도끼 1레벨 설명,도끼 1레벨이다.,It's Axe Level 1
+ITEM_NAME_AXE_1,도끼 2레벨 이름,도끼 2단계,Axe level 2
+ITEM_DESC_AXE_1,도끼 2레벨 설명,도끼 2레벨이다.,It's Axe Level 2
+ITEM_NAME_AXE_2,도끼 3레벨 이름,도끼 3단계,Axe level 3
+ITEM_DESC_AXE_2,도끼 3레벨 설명,도끼 3레벨이다.,It's Axe Level 3
+ITEM_NAME_AXE_3,도끼 4레벨 이름,도끼 4단계,Axe level 4
+ITEM_DESC_AXE_3,도끼 4레벨 설명,도끼 4레벨이다.,It's Axe Level 4
+ITEM_NAME_AXE_4,도끼 5레벨 이름,도끼 5단계,Axe level 5
+ITEM_DESC_AXE_4,도끼 5레벨 설명,도끼 5레벨이다.,It's Axe Level 5
+ITEM_NAME_AXE_5,도끼 6레벨 이름,도끼 6단계,Axe level 6
+ITEM_DESC_AXE_5,도끼 6레벨 설명,도끼 6레벨이다.,It's Axe Level 6
+ITEM_NAME_AXE_6,도끼 7레벨 이름,도끼 7단계,Axe level 7
+ITEM_DESC_AXE_6,도끼 7레벨 설명,도끼 7레벨이다.,It's Axe Level 7
+ITEM_NAME_AXE_7,도끼 8레벨 이름,도끼 8단계,Axe level 8
+ITEM_DESC_AXE_7,도끼 8레벨 설명,도끼 8레벨이다.,It's Axe Level 8
+ITEM_NAME_AXE_8,도끼 9레벨 이름,도끼 9단계,Axe level 9
+ITEM_DESC_AXE_8,도끼 9레벨 설명,도끼 9레벨이다.,It's Axe Level 9
+ITEM_NAME_AXE_9,도끼 10레벨 이름,도끼 10단계,Axe level 10
+ITEM_DESC_AXE_9,도끼 10레벨 설명,도끼 10레벨이다.,It's Axe Level 10
+ITEM_NAME_COW,소,소,Cow
+ITEM_DESC_COW,젖소,젖소이다,This is Cow
+ITEM_NAME_HAY,건초,건초,Hay
+ITEM_DESC_HAY,건초,건초이다,This is Hay
+ITEM_NAME_MILK,우유,우유,Milk
+ITEM_DESC_MILK,우유,우유이다,This is Milk
+ITEM_NAME_WORKBENCH,작업대 이름,작업대,Workbench
+ITEM_DESC_WORKBENCH,작업대 설명,터치하여 도끼 생산,Touch to produce Axes
+EFFECTLABEL_GATHER,이펙트라벨_획득,획득,Gather
+EFFECTLABEL_PRODUCE,이펙트라벨_생산,생산,Produce
+EFFECTLABEL_SELL,이펙트라벨_판매,판매,Sell
+EFFECTLABEL_DAMAGE,이펙트라벨_대미지,대미지,Damage
+EFFECTLABEL_SUPPLY,이펙트라벨_교환,공급,Supply
+EFFECTLABEL_DROP,이펙트라벨_드랍,드랍,Drop
+UITEXT_UNSELECTEDTEXT,아이템을 선택해주세요,아이템을 선택하면 여기에 정보가 표시됩니다,Select an Item to know more about it

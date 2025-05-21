@@ -18,7 +18,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
     {
         if (item.Data == null)
         {
-            Debug.LogWarning($"[ItemView] 아이템 데이터가 없습니다. id: {item.id}");
+            Debug.LogWarning($"[ItemView] 아이템 데이터가 없습니다. id: {item.key}");
             return;
         }
         mergeItem = item;

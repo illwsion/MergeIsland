@@ -5,7 +5,7 @@ public class DropTableManager : MonoBehaviour
 {
     public static DropTableManager Instance;
 
-    private Dictionary<int, DropTableEntry> tableMap = new Dictionary<int, DropTableEntry>();
+    private Dictionary<string, DropTableEntry> tableMap = new Dictionary<string, DropTableEntry>();
 
     void Awake()
     {
@@ -21,12 +21,12 @@ public class DropTableManager : MonoBehaviour
         }
     }
 
-    public DropTableEntry GetTable(int id)
+    public DropTableEntry GetTable(string key)
     {
-        if (tableMap.TryGetValue(id, out var table))
+        if (tableMap.TryGetValue(key, out var table))
             return table;
 
-        Debug.LogWarning($"[DropTableManager] ID {id} 테이블을 찾을 수 없습니다.");
+        Debug.LogWarning($"[DropTableManager] ID {key} 테이블을 찾을 수 없습니다.");
         return null;
     }
 
@@ -51,32 +51,31 @@ public class DropTableManager : MonoBehaviour
             try
             {
                 int index = 0;
-                int id = ParseIntSafe(values[index++], "id");
+                string key = values[index++];
 
                 var results = new List<DropResult>();
 
                 for (int j = 0; j < 5; j++) // item1 ~ item5
                 {
-                    string itemStr = values[index++].Trim();
+                    string itemKey = values[index++].Trim();
                     string chanceStr = values[index++].Trim();
 
-                    if (string.IsNullOrEmpty(itemStr) || itemStr.ToLower() == "null") continue;
+                    if (string.IsNullOrEmpty(itemKey) || itemKey.ToLower() == "null") continue;
                     if (string.IsNullOrEmpty(chanceStr) || chanceStr.ToLower() == "null") continue;
 
-                    int itemID = ParseIntSafe(itemStr, $"item{j + 1}");
                     int chance = ParseIntSafe(chanceStr, $"item{j + 1}chance");
 
-                    if (itemID != 0 && chance > 0)
+                    if (itemKey != "null" && chance > 0)
                     {
                         results.Add(new DropResult
                         {
-                            itemID = itemID,
+                            itemKey = itemKey,
                             probability = chance
                         });
                     }
                 }
 
-                tableMap[id] = new DropTableEntry { id = id, results = results };
+                tableMap[key] = new DropTableEntry { key = key, results = results };
             }
             catch (System.Exception e)
             {

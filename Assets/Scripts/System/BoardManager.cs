@@ -45,13 +45,14 @@ public class BoardManager : MonoBehaviour
         boardMap[new Vector2Int(0, 0)] = new MergeBoard(4, 4); // 1스테이지
         boardMap[new Vector2Int(1, 0)] = new MergeBoard(5, 5); // 오른쪽 보드
         boardMap[new Vector2Int(0, 1)] = new MergeBoard(6, 4); // 아래 보드
-        PlaceInitialItem(new Vector2Int(0, 0), 2, 1, 1003);
-        PlaceInitialItem(new Vector2Int(0, 0), 1, 1, 1003);
-        PlaceInitialItem(new Vector2Int(0, 0), 0, 1, 1004);
-        PlaceInitialItem(new Vector2Int(0, 1), 3, 3, 1004);
-        PlaceInitialItem(new Vector2Int(0, 1), 0, 0, 2001);
-        PlaceInitialItem(new Vector2Int(0, 1), 0, 1, 2002);
-        PlaceInitialItem(new Vector2Int(0, 1), 0, 2, 2003);
+        PlaceInitialItem(new Vector2Int(0, 0), 2, 1, "ITEM_TREE_2");
+        PlaceInitialItem(new Vector2Int(0, 0), 1, 1, "ITEM_TREE_2");
+        PlaceInitialItem(new Vector2Int(0, 0), 0, 1, "ITEM_TREE_3");
+        PlaceInitialItem(new Vector2Int(0, 1), 3, 3, "ITEM_TREE_3");
+        PlaceInitialItem(new Vector2Int(0, 1), 0, 0, "ITEM_COW");
+        PlaceInitialItem(new Vector2Int(0, 1), 0, 1, "ITEM_HAY");
+        PlaceInitialItem(new Vector2Int(0, 1), 0, 2, "ITEM_MILK");
+        PlaceInitialItem(new Vector2Int(0, 1), 0, 3, "ITEM_WORKBENCH");
 
         currentBoardPos = new Vector2Int(0, 0);
         Debug.Log("시작 보드: (0, 0)");
@@ -159,7 +160,7 @@ public class BoardManager : MonoBehaviour
         if (draggedItem.Data.attackPower > 0 && targetItem.Data.hp > 0)
             return DropActionType.Attack;
 
-        if (SupplyRuleManager.Instance.GetRule(targetItem.id, draggedItem.id) != null)
+        if (SupplyRuleManager.Instance.GetRule(targetItem.key, draggedItem.key) != null)
         {
             return DropActionType.Supply;
         }
@@ -195,12 +196,12 @@ public class BoardManager : MonoBehaviour
 
     void HandleMerge(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
     {
-        int? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.id, targetItem.id);
+        string? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.key, targetItem.key);
 
         UnregisterProducer(draggedItem);
         UnregisterProducer(targetItem);
 
-        MergeItem newItem = new MergeItem(resultId.Value);
+        MergeItem newItem = new MergeItem(resultId);
         newItem.board = board;
         board.PlaceItem(toPos.x, toPos.y, newItem, true);
         RegisterProducer(newItem);
@@ -224,14 +225,14 @@ public class BoardManager : MonoBehaviour
             board.grid[toPos.x, toPos.y] = null;
 
             // 아이템 드랍
-            var dropTable = DropTableManager.Instance.GetTable(monster.Data.dropTableID);
+            var dropTable = DropTableManager.Instance.GetTable(monster.Data.dropTableKey);
             if (dropTable != null && dropTable.results.Count > 0)
             {
-                int dropItemID = GetRandomItemID(dropTable.results); // 확률 기반 선택
+                string dropItemKey = GetRandomItemKey(dropTable.results); // 확률 기반 선택
 
-                if (dropItemID > 0)
+                if (dropItemKey != "null")
                 {
-                    BoardManager.Instance.SpawnItem(board, dropItemID, toPos);
+                    BoardManager.Instance.SpawnItem(board, dropItemKey, toPos);
                 }
             }
             // 추후 : 몬스터 사망 애니메이션 등 추가
@@ -255,10 +256,10 @@ public class BoardManager : MonoBehaviour
     void HandleSupply(MergeBoard board, MergeItem suppliedItem, MergeItem receiverItem, Vector2Int fromPos, Vector2Int toPos)
     {
         // 공급 룰 가져옴
-        var rule = SupplyRuleManager.Instance.GetRule(receiverItem.id, suppliedItem.id);
+        var rule = SupplyRuleManager.Instance.GetRule(receiverItem.key, suppliedItem.key);
         if (rule == null)
         {
-            Debug.LogWarning($"[HandleSupply] 공급 룰을 찾을 수 없습니다: A={receiverItem.id}, B={suppliedItem.id}");
+            Debug.LogWarning($"[HandleSupply] 공급 룰을 찾을 수 없습니다: A={receiverItem.key}, B={suppliedItem.key}");
             return;
         }
 
@@ -300,7 +301,7 @@ public class BoardManager : MonoBehaviour
         ItemSelectorManager.Instance.ClearSelection();
     }
 
-    public void SpawnItem(MergeBoard board, int itemID, Vector2Int position)
+    public void SpawnItem(MergeBoard board, string itemKey, Vector2Int position)
     {
         if (!board.IsValidCell(position))
         {
@@ -308,13 +309,13 @@ public class BoardManager : MonoBehaviour
             return;
         }
 
-        ItemData data = ItemDataManager.Instance.GetItemData(itemID);
+        ItemData data = ItemDataManager.Instance.GetItemData(itemKey);
         if (data == null)
         {
-            Debug.LogError($"[BoardManager] 유효하지 않은 아이템 ID: {itemID}");
+            Debug.LogError($"[BoardManager] 유효하지 않은 아이템 ID: {itemKey}");
             return;
         }
-        MergeItem newItem = new MergeItem(itemID);
+        MergeItem newItem = new MergeItem(itemKey);
         newItem.board = board; // 소속 보드 등록
         
         board.PlaceItem(position.x, position.y, newItem);
@@ -380,11 +381,11 @@ public class BoardManager : MonoBehaviour
             item.UpdateProductionStorage(deltaTime);
         }
     }
-    private void PlaceInitialItem(Vector2Int boardPos, int x, int y, int id)
+    private void PlaceInitialItem(Vector2Int boardPos, int x, int y, string key)
     {
         MergeBoard board = boardMap[boardPos];
 
-        MergeItem item = new MergeItem(id);
+        MergeItem item = new MergeItem(key);
         item.board = board;
         item.coord = new Vector2Int(x, y);
         boardMap[boardPos].PlaceItem(x, y, item);
@@ -395,7 +396,7 @@ public class BoardManager : MonoBehaviour
         return boardMap[currentBoardPos];
     }
 
-    private int GetRandomItemID(List<DropResult> results)
+    private string GetRandomItemKey(List<DropResult> results)
     {
         int total = 0;
         foreach (var result in results)
@@ -404,7 +405,7 @@ public class BoardManager : MonoBehaviour
         if (total <= 0)
         {
             Debug.LogError("[GetRandomItemID] 확률 총합이 0 이하입니다.");
-            return -1;
+            return "null";
         }
 
         int roll = UnityEngine.Random.Range(0, total);
@@ -414,10 +415,10 @@ public class BoardManager : MonoBehaviour
         {
             accum += result.probability;
             if (roll < accum)
-                return result.itemID;
+                return result.itemKey;
         }
 
-        return -1;
+        return "null";
     }
 }
 

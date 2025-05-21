@@ -43,7 +43,7 @@ public class ItemInfoUI : MonoBehaviour
     {
         if (unselectedText == null)
             Debug.LogError("[ItemInfoUI] unselectedText가 연결되지 않았습니다.");
-        unselectedText.text = StringTableManager.Instance.GetLocalized("uiText_unselectedText");
+        unselectedText.text = StringTableManager.Instance.GetLocalized("UITEXT_UNSELECTEDTEXT");
     }
 
     public void Show(MergeItem item)
@@ -53,7 +53,7 @@ public class ItemInfoUI : MonoBehaviour
         iconImage.gameObject.SetActive(true);
         // Header
         iconImage.sprite = AtlasManager.Instance.GetSprite(item.imageName);
-        nameText.text = StringTableManager.Instance.GetLocalized(item.Data.itemNameID);
+        nameText.text = StringTableManager.Instance.GetLocalized(item.Data.itemNameKey);
         if (item.level > 0)
         {
             levelText.text = $"Lv.{item.level}";
@@ -65,7 +65,7 @@ public class ItemInfoUI : MonoBehaviour
 
 
         // Description
-        descText.text = StringTableManager.Instance.GetLocalized(item.Data.descriptionID);
+        descText.text = StringTableManager.Instance.GetLocalized(item.Data.itemDescriptionKey);
         
         // HP Block (조건부 표시)
         if (item.maxHP > 0)
@@ -197,7 +197,7 @@ public class ItemInfoUI : MonoBehaviour
             {
                 type = EffectType.Gather,
                 blockSize = EffectBlockSize.Small,
-                label = StringTableManager.Instance.GetLocalized("effectLabel_Gather"),
+                label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATHER"),
                 icon1 = icon,
                 value = $"+{item.gatherValue}"
             });
@@ -210,7 +210,7 @@ public class ItemInfoUI : MonoBehaviour
             {
                 type = EffectType.Sell,
                 blockSize = EffectBlockSize.Small,
-                label = StringTableManager.Instance.GetLocalized("effectLabel_Sell"),
+                label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_SELL"),
                 icon1 = AtlasManager.Instance.GetSprite("resourceIcon_gold"),
                 value = $"+{item.sellValue}"
             });
@@ -223,7 +223,7 @@ public class ItemInfoUI : MonoBehaviour
             {
                 type = EffectType.Damage,
                 blockSize = EffectBlockSize.Small,
-                label = StringTableManager.Instance.GetLocalized("effectLabel_Damage"),
+                label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_DAMAGE"),
                 icon1 = AtlasManager.Instance.GetSprite("effectIcon_damage"),
                 value = item.attackPower.ToString()
             });
@@ -231,13 +231,13 @@ public class ItemInfoUI : MonoBehaviour
         }
 
         // 4. 공급
-        if (item.supplyTableID != 0)
+        if (SupplyRuleManager.Instance.GetFirstRuleByReceiverItem(item.key) != null)
         {
             // receiverItem로 시작하는 rule 중 첫 번째를 가져옴
-            var rule = SupplyRuleManager.Instance.GetFirstRuleByReceiverItem(item.id);
+            var rule = SupplyRuleManager.Instance.GetFirstRuleByReceiverItem(item.key);
             if (rule == null)
             {
-                Debug.Log($"[CreateEffectDataList] SupplyRule이 존재하지 않음: itemID={item.id}");
+                Debug.Log($"[CreateEffectDataList] SupplyRule이 존재하지 않음: itemID={item.key}");
             }
             if (rule != null)
             {
@@ -264,7 +264,7 @@ public class ItemInfoUI : MonoBehaviour
                 {
                     type = EffectType.Supply,
                     blockSize = EffectBlockSize.Large,
-                    label = StringTableManager.Instance.GetLocalized("effectLabel_Supply"),
+                    label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_SUPPLY"),
                     icon1 = icon1,
                     icon2 = icon2,
                     value = value
@@ -273,30 +273,30 @@ public class ItemInfoUI : MonoBehaviour
         }
 
         // 5. 드랍
-        if (item.dropTableID != 0)
+        if (item.dropTableKey != "null")
         {
-            Sprite icon = GetMainDropIcon(item.dropTableID);
+            Sprite icon = GetMainDropIcon(item.dropTableKey);
             //나중에 차례대로 바뀌고 아래에 확률 나와도 좋을 것 같음
             effects.Add(new EffectData
             {
                 type = EffectType.Drop,
                 blockSize = EffectBlockSize.Small,
-                label = StringTableManager.Instance.GetLocalized("effectLabel_Drop"),
+                label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_DROP"),
                 icon1 = icon,
                 value = null
             });
         }
 
         // 6. 생산
-        if (item.produceTableID != 0)
+        if (item.produceTableKey != "null")
         {
-            Sprite icon = GetMainProduceIcon(item.produceTableID);
+            Sprite icon = GetMainProduceIcon(item.produceTableKey);
             //나중에 차례대로 바뀌고 아래에 확률 나와도 좋을 것 같음
             effects.Add(new EffectData
             {
                 type = EffectType.Produce,
                 blockSize = EffectBlockSize.Small,
-                label = StringTableManager.Instance.GetLocalized("effectLabel_Produce"),
+                label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_PRODUCE"),
                 icon1 = icon,
                 value = null
             });
@@ -326,9 +326,9 @@ public class ItemInfoUI : MonoBehaviour
         }
     }
 
-    public Sprite GetMainProduceIcon(int tableID)
+    public Sprite GetMainProduceIcon(string tableKey)
     {
-        var table = ProduceTableManager.Instance.GetTable(tableID);
+        var table = ProduceTableManager.Instance.GetTable(tableKey);
 
         if (table == null || table.results == null || table.results.Count == 0)
             return AtlasManager.Instance.GetSprite("effectIcon_unknown");
@@ -342,16 +342,16 @@ public class ItemInfoUI : MonoBehaviour
                 best = r;
         }
 
-        var bestItemData = ItemDataManager.Instance.GetItemData(best.itemID);
+        var bestItemData = ItemDataManager.Instance.GetItemData(best.itemKey);
         if (bestItemData == null)
             return AtlasManager.Instance.GetSprite("effectIcon_unknown");
 
         return AtlasManager.Instance.GetSprite(bestItemData.imageName); // name은 스프라이트 키
     }
 
-    public Sprite GetMainDropIcon(int tableID)
+    public Sprite GetMainDropIcon(string tableKey)
     {
-        var table = DropTableManager.Instance.GetTable(tableID);
+        var table = DropTableManager.Instance.GetTable(tableKey);
 
         if (table == null || table.results == null || table.results.Count == 0)
             return AtlasManager.Instance.GetSprite("effectIcon_unknown");
@@ -365,7 +365,7 @@ public class ItemInfoUI : MonoBehaviour
                 best = r;
         }
 
-        var bestItemData = ItemDataManager.Instance.GetItemData(best.itemID);
+        var bestItemData = ItemDataManager.Instance.GetItemData(best.itemKey);
         if (bestItemData == null)
             return AtlasManager.Instance.GetSprite("effectIcon_unknown");
 
