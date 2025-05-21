@@ -59,6 +59,7 @@ public class MergeItem
     public int maxStorage = 0;
     public int currentStorage = 0;
     public float recoveryTimer = 0f;
+    public bool isProductionBlocked;
     
 
     public MergeItem(string key)
@@ -217,8 +218,12 @@ public class MergeItem
         if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
         {
             // 내부에서 빈칸 없음/결과 없음 로그 출력
+            isProductionBlocked = true;
             return;
         }
+        //공간 있음 -> 생산 정상 진행
+        isProductionBlocked = false;
+
         BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
         Debug.Log($"[ProduceAuto] {name} → {resultItemKey} 생산 완료");
 
@@ -232,6 +237,7 @@ public class MergeItem
         {
             BoardManager.Instance.RefreshBoard();
         }
+
         recoveryTimer = 0f; // 생산 성공 시 리셋
     }
 

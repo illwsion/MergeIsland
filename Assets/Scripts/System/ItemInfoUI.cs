@@ -118,8 +118,9 @@ public class ItemInfoUI : MonoBehaviour
                 ? $"{item.currentStorage} / {item.maxStorage}" 
                 : ""; // 비표시
 
-            autoTimerText.text = (item.Data.isProductionLimited && item.currentStorage >= item.maxStorage)
-                ? "Full"
+
+            autoTimerText.text = (item.isProductionBlocked)
+                ? "Blocked"
                 : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
 
             float barWidth = autoTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
@@ -179,9 +180,10 @@ public class ItemInfoUI : MonoBehaviour
                 ? $"{item.currentStorage} / {item.maxStorage}" 
                 : ""; // 비표시
 
-            autoTimerText.text = (item.Data.isProductionLimited && item.currentStorage >= item.maxStorage)
-                ? "Full"
+            autoTimerText.text = (item.isProductionBlocked)
+                ? "Blocked"
                 : $"{Mathf.FloorToInt(remain / 60f):D2}:{Mathf.FloorToInt(remain % 60f):D2}";
+
             float barWidth = autoTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
             autoTimerFillBar.sizeDelta = new Vector2(percent * barWidth, autoTimerFillBar.sizeDelta.y);
         }
