@@ -301,26 +301,39 @@ public class MergeItem
             return false;
         }
 
+        // 1. produceTableKey 유효성 검사
+        if (string.IsNullOrEmpty(Data.produceTableKey) || Data.produceTableKey == "null")
+        {
+            Debug.LogWarning($"[TryPrepareProduction] {name}의 produceTableKey가 비어 있음");
+            return false;
+        }
+
+        // 2. 빈 칸 찾기
         Vector2Int? pos = board.FindNearestEmptyCell(coord);
         if (pos == null)
         {
             if (ProduceType == ItemData.ProduceType.Manual)
+            {
                 UIToast.Show("보드에 빈 칸이 없습니다!");
+            }
+
             Debug.LogWarning($"[TryPrepareProduction] {name}: 빈 칸 없음");
             return false;
         }
 
+        // 3. 테이블 조회
         var table = ProduceTableManager.Instance.GetTable(Data.produceTableKey);
-        if (table == null || table.results.Count == 0)
+        if (table == null || table.results == null || table.results.Count == 0)
         {
-            Debug.LogWarning("[TryPrepareProduction] 생산 테이블이 비어있습니다.");
+            Debug.LogWarning($"[TryPrepareProduction] {name}: 생산 테이블 '{Data.produceTableKey}'이 비어 있음");
             return false;
         }
 
+        // 4. 결과 아이템 선택
         string result = GetRandomItemKey(table.results);
-        if (result == "null")
+        if (string.IsNullOrEmpty(result) || result == "null")
         {
-            Debug.LogError("[TryPrepareProduction] 아이템 선택 실패");
+            Debug.LogError($"[TryPrepareProduction] {name}: 아이템 선택 실패 (테이블 {Data.produceTableKey})");
             return false;
         }
 

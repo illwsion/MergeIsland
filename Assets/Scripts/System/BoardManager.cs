@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using System.Collections;
 using static UnityEditor.PlayerSettings;
+using static ItemData;
 
 public class BoardManager : MonoBehaviour
 {
@@ -157,8 +158,17 @@ public class BoardManager : MonoBehaviour
 
     private DropActionType DetermineDropAction(MergeItem draggedItem, MergeItem targetItem)
     {
+        //공격 가능 판단
+        var tool = draggedItem.Data.toolType;
+        var target = targetItem.Data.targetMaterial;
+
+        bool isAttackMatch =
+            (tool == ToolType.Axe && target == TargetMaterial.Wood) ||
+            (tool == ToolType.Pickaxe && (target == TargetMaterial.Stone || target == TargetMaterial.Iron)) ||
+            (tool == ToolType.Weapon && target == TargetMaterial.Monster);
+
         // 공격 (체력이 있는 유닛에게 무기 드랍)
-        if (draggedItem.Data.attackPower > 0 && targetItem.Data.hp > 0)
+        if (isAttackMatch && draggedItem.Data.attackPower > 0 && targetItem.Data.hp > 0)
             return DropActionType.Attack;
 
         if (SupplyRuleManager.Instance.GetRule(targetItem.key, draggedItem.key) != null)

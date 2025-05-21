@@ -23,6 +23,12 @@ public class ProduceTableManager : MonoBehaviour
 
     public ProduceTableEntry GetTable(string key)
     {
+        if (string.IsNullOrEmpty(key))
+        {
+            Debug.LogWarning("[ProduceTableManager] key가 null 또는 비어 있음");
+            return null;
+        }
+
         if (tableMap.TryGetValue(key, out var table))
             return table;
 

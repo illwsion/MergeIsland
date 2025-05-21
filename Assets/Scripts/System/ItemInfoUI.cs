@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using static ItemData;
 
 public class ItemInfoUI : MonoBehaviour
 {
@@ -246,12 +247,21 @@ public class ItemInfoUI : MonoBehaviour
         // 3. 대미지
         if (item.attackPower > 0)
         {
+            // ToolType에 따라 아이콘 이름 설정
+            string iconName = item.Data.toolType switch
+            {
+                ToolType.Weapon => "effectIcon_damage_weapon",
+                ToolType.Axe => "effectIcon_damage_axe",
+                ToolType.Pickaxe => "effectIcon_damage_pickaxe",
+                _ => "resourceIcon_default" // fallback
+            };
+
             effects.Add(new EffectData
             {
                 type = EffectType.Damage,
                 blockSize = EffectBlockSize.Small,
                 label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_DAMAGE"),
-                icon1 = AtlasManager.Instance.GetSprite("effectIcon_damage"),
+                icon1 = AtlasManager.Instance.GetSprite(iconName),
                 value = item.attackPower.ToString()
             });
             
