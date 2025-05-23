@@ -30,6 +30,12 @@ public class PlayerLevelManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        Debug.Log("[PlayerLevelManager] UI 초기화 시도");
+        UpdateUI();
+    }
+
     private void LoadEXPTable()
     {
         TextAsset csvFile = Resources.Load<TextAsset>("EXPTable");
@@ -39,15 +45,17 @@ public class PlayerLevelManager : MonoBehaviour
             return;
         }
 
-        string[] lines = csvFile.text.Split('\n');
+        string[] lines = csvFile.text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 
         // 첫 네 줄은 헤더이므로 스킵
-        for (int i = 4; i < lines.Length; i++)
+        for (int i = 3; i < lines.Length; i++)
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
 
             string[] values = line.Split(',');
+
+            if (values.Length < 2) continue;
 
             try
             {
@@ -84,7 +92,7 @@ public class PlayerLevelManager : MonoBehaviour
         }
     }
 
-    public int EXPToNextLevel()
+    public int ExpToNextLevel()
     {
         if (!expTable.ContainsKey(CurrentLevel))
             return int.MaxValue;
@@ -94,7 +102,8 @@ public class PlayerLevelManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        int required = EXPToNextLevel();
+        Debug.Log($"[ExpUIManager] UpdateUI: Lv.{CurrentLevel}, {CurrentEXP}/{ExpToNextLevel()}");
+        int required = ExpToNextLevel();
         expUIManager?.UpdateUI(CurrentLevel, CurrentEXP, required);
     }
 
