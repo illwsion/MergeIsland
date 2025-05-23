@@ -9,7 +9,6 @@ public class ResourceUIManager : MonoBehaviour
 {
     [Header("Bar UI")]
     public ResourceSlotUI energySlot;
-    public ResourceSlotUI expSlot;
     public ResourceSlotUI woodSlot;
     public ResourceSlotUI stoneSlot;
     public ResourceSlotUI ironSlot;
@@ -25,7 +24,6 @@ public class ResourceUIManager : MonoBehaviour
         slotTable = new Dictionary<ResourceType, ResourceSlotUI>
     {
         { ResourceType.Energy, energySlot },
-        { ResourceType.Exp, expSlot },
         { ResourceType.Wood, woodSlot },
         { ResourceType.Stone, stoneSlot },
         { ResourceType.Iron, ironSlot },

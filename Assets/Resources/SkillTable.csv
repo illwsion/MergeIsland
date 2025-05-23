@@ -1,0 +1,9 @@
+,,,,,,,,,skillTable/Key,skillTable/Key,,,stringTable/Key,stringTable/Key,
+키,스킬그룹,카테고리,레벨,최대레벨,소모스킬포인트,소모자원,소모자원수량,선행레벨,선행스킬1,선행스킬2,스킬효과,효과수치,스킬이름키,스킬설명키,이미지
+string,string,enum,int,int,int,enum,int,int,string,string,enum,int,string,string,string
+key,string,Category,level,maxLevel,costSkillPoint,costResourceType,costResourceValue,unlockLevel,prerequisiteSkill1,prerequisiteSkill2,skillEffect,skillEffectValue,skillNameKey,skillDescKey,imageName
+SKILL_WEAPONDAMAGE_0_0,SKILL_WEAPONDAMAGE_0,Combat,1,5,1,null,null,1,null,null,DamageAdd,10,SKILL_NAME_WEAPONDAMAGE_0_0,SKILL_DESC_WEAPONDAMAGE_0_0,skill_weapondamage_0_0
+SKILL_WEAPONDAMAGE_0_1,SKILL_WEAPONDAMAGE_0,Combat,2,5,1,null,null,1,null,null,DamageAdd,20,SKILL_NAME_WEAPONDAMAGE_0_1,SKILL_DESC_WEAPONDAMAGE_0_1,skill_weapondamage_0_1
+SKILL_WEAPONDAMAGE_0_2,SKILL_WEAPONDAMAGE_0,Combat,3,5,1,null,null,1,null,null,DamageAdd,30,SKILL_NAME_WEAPONDAMAGE_0_2,SKILL_DESC_WEAPONDAMAGE_0_2,skill_weapondamage_0_2
+SKILL_WEAPONDAMAGE_0_3,SKILL_WEAPONDAMAGE_0,Combat,4,5,1,null,null,1,null,null,DamageAdd,40,SKILL_NAME_WEAPONDAMAGE_0_3,SKILL_DESC_WEAPONDAMAGE_0_3,skill_weapondamage_0_3
+SKILL_WEAPONDAMAGE_0_4,SKILL_WEAPONDAMAGE_0,Combat,5,5,1,null,null,1,null,null,DamageAdd,50,SKILL_NAME_WEAPONDAMAGE_0_4,SKILL_DESC_WEAPONDAMAGE_0_4,skill_weapondamage_0_4

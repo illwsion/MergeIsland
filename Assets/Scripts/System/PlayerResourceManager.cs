@@ -28,7 +28,7 @@ public class PlayerResourceManager : MonoBehaviour
         // UI 초기화는 여기서! (slotTable이 null일 수 없게 됨)
         foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
         {
-            if (type == ResourceType.None) continue;
+            if (type == ResourceType.None || type == ResourceType.Exp) continue;
             UpdateUI(type);
         }
         Add(ResourceType.Wood, 10);
@@ -93,6 +93,12 @@ public class PlayerResourceManager : MonoBehaviour
 
     public void Add(ResourceType type, int value)
     {
+        if (type == ResourceType.Exp)
+        {
+            PlayerLevelManager.Instance.AddExperience(value);
+            return;
+        }
+
         if (!resourceTable.ContainsKey(type))
             resourceTable[type] = 0;
 
@@ -141,7 +147,7 @@ public class PlayerResourceManager : MonoBehaviour
     {
         foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
         {
-            if (type == ResourceType.None) continue;
+            if (type == ResourceType.None || type == ResourceType.Exp) continue;
 
             if (!resourceTable.ContainsKey(type))
                 resourceTable[type] = 0;
