@@ -1,27 +1,21 @@
 // BoardManager.cs
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using System.Collections;
-using static UnityEditor.PlayerSettings;
 using static ItemData;
 
 public class BoardManager : MonoBehaviour
 {
-    // 좌표 기반으로 보드 연결 (x,y) → MergeBoard
-    private Dictionary<Vector2Int, MergeBoard> boardMap = new Dictionary<Vector2Int, MergeBoard>();
-    private Vector2Int currentBoardPos = Vector2Int.zero;
+    private Dictionary<string, MergeBoard> boardMap = new(); // boardKey → MergeBoard
+    private Dictionary<Vector2Int, string> posToBoardKeyMap = new(); // worldPos → boardKey
+    private Dictionary<string, Vector2Int> boardKeyToPosMap = new(); // boardKey → worldPos
+
+    private string currentBoardKey = null;
+
     public BoardUI boardUI;
     public static BoardManager Instance;
 
     private List<MergeItem> timeDrivenProducers = new List<MergeItem>();
-
-    // 타입별 최대 레벨 정의
-    private Dictionary<string, int> maxLevels = new Dictionary<string, int>
-    {
-        {"tree", 12},
-        {"log", 8}
-    };
 
     void Awake()
     {
@@ -45,7 +39,9 @@ public class BoardManager : MonoBehaviour
         foreach (var boardInfo in BoardDataManager.Instance.GetAllBoardData())
         {
             MergeBoard board = new MergeBoard(boardInfo.width, boardInfo.height);
-            boardMap[boardInfo.worldPos] = board;
+            boardMap[boardInfo.key] = board;
+            boardKeyToPosMap[boardInfo.key] = boardInfo.worldPos;
+            posToBoardKeyMap[boardInfo.worldPos] = boardInfo.key;
 
             foreach (var itemData in BoardInitialItemManager.Instance.GetInitialItemsForBoard(boardInfo.key))
             {
@@ -53,10 +49,9 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        currentBoardPos = new Vector2Int(0, 0);
-        Debug.Log("시작 보드: (0, 0)");
-        MergeBoard currentBoard = boardMap[currentBoardPos];
-        boardUI.DisplayBoard(currentBoard);
+        currentBoardKey = "BOARD_BEACH_0";
+        Debug.Log($"시작 보드: {currentBoardKey}");
+        boardUI.DisplayBoard(boardMap[currentBoardKey]);
     }
 
     void Update()
@@ -65,6 +60,7 @@ public class BoardManager : MonoBehaviour
 
         if (DragManager.Instance.IsDragging)
             return;
+        //임시 이동
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             MoveBoard(Vector2Int.right); // 오른쪽 이동
@@ -85,18 +81,33 @@ public class BoardManager : MonoBehaviour
 
     }
 
+    public void MoveBoardTo(string boardKey)
+    {
+        if (!boardMap.ContainsKey(boardKey))
+        {
+            Debug.LogError($"[BoardManager] 보드 키 '{boardKey}' 를 찾을 수 없습니다.");
+            return;
+        }
+
+        currentBoardKey = boardKey;
+        ItemSelectorManager.Instance.ClearSelection();
+        MergeBoard board = boardMap[boardKey];
+        boardUI.DisplayBoard(board);
+    }
+
     public void MoveBoard(Vector2Int direction)
     {
-        Vector2Int nextPos = currentBoardPos + direction;
-        if (boardMap.ContainsKey(nextPos))
+        if (!boardKeyToPosMap.ContainsKey(currentBoardKey))
         {
-            ItemSelectorManager.Instance.ClearSelection(); //아이템 선택 해제
+            Debug.LogError("[BoardManager] 현재 보드 키에 해당하는 위치 정보를 찾을 수 없습니다.");
+            return;
+        }
+        Vector2Int currentPos = boardKeyToPosMap[currentBoardKey];
+        Vector2Int nextPos = currentPos + direction;
 
-            currentBoardPos = nextPos;
-            Debug.Log("보드 이동: " + currentBoardPos);
-            MergeBoard currentBoard = boardMap[currentBoardPos];
-            boardUI.DisplayBoard(currentBoard);
-            // 여기에 UI 및 오브젝트 업데이트 추가 가능
+        if (posToBoardKeyMap.TryGetValue(nextPos, out string nextBoardKey))
+        {
+            MoveBoardTo(nextBoardKey);
         }
         else
         {
@@ -104,37 +115,102 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void MoveBoardTo(string boardKey)
+    public MergeBoard GetCurrentBoard()
     {
-        BoardData targetData = BoardDataManager.Instance.GetBoardData(boardKey);
-        if (targetData == null)
-        {
-            Debug.LogError($"[BoardManager] MoveBoardTo: 보드 키 '{boardKey}' 를 찾을 수 없습니다.");
-            return;
-        }
-
-        Vector2Int targetPos = targetData.worldPos;
-
-        if (!boardMap.ContainsKey(targetPos))
-        {
-            Debug.LogError($"[BoardManager] MoveBoardTo: 보드 위치 {targetPos} 가 boardMap에 없습니다.");
-            return;
-        }
-
-        currentBoardPos = targetPos;
-
-        ItemSelectorManager.Instance.ClearSelection(); // 선택 해제
-        Debug.Log($"[BoardManager] 보드 이동: {boardKey} at {targetPos}");
-
-        MergeBoard currentBoard = boardMap[currentBoardPos];
-        boardUI.DisplayBoard(currentBoard);
+        return boardMap[currentBoardKey];
     }
 
+    public void SpawnItem(MergeBoard board, string itemKey, Vector2Int position)
+    {
+        if (!board.IsValidCell(position))
+        {
+            Debug.LogError($"[BoardManager] 유효하지 않은 위치에 아이템 생성 시도: {position}");
+            return;
+        }
 
+        ItemData data = ItemDataManager.Instance.GetItemData(itemKey);
+        if (data == null)
+        {
+            Debug.LogError($"[BoardManager] 유효하지 않은 아이템 ID: {itemKey}");
+            return;
+        }
+        MergeItem newItem = new MergeItem(itemKey);
+        newItem.board = board; // 소속 보드 등록
+
+        board.PlaceItem(position.x, position.y, newItem);
+        RegisterProducer(board.GetItem(position.x, position.y));
+    }
+
+    public void RegisterProducer(MergeItem item)
+    {
+        if (item != null && item.IsTimeDrivenProducer())
+        {
+            if (!timeDrivenProducers.Contains(item))
+            {
+                timeDrivenProducers.Add(item);
+                Debug.Log($"[등록됨] {item.name} | hash={item.GetHashCode()}");
+            }
+        }
+    }
+
+    public void UnregisterProducer(MergeItem item)
+    {
+        if (timeDrivenProducers.Contains(item))
+        {
+            timeDrivenProducers.Remove(item);
+        }
+    }
+
+    private void UpdateProductionItems(float deltaTime)
+    {
+        var producers = timeDrivenProducers.ToArray();
+        foreach (var item in producers)
+        {
+            item.UpdateProductionStorage(deltaTime);
+        }
+    }
+
+    public void RemoveItem(MergeItem item)
+    {
+        UnregisterProducer(item);
+        MergeBoard board = item.board;
+        board.grid[item.coord.x, item.coord.y] = null;
+    }
+
+    public bool HasBoard(string boardKey)
+    {
+        return boardMap.ContainsKey(boardKey);
+    }
+
+    public void RefreshBoard()
+    {
+        if (boardMap.ContainsKey(currentBoardKey))
+        {
+            boardUI.DisplayBoard(boardMap[currentBoardKey]);
+        }
+        else
+        {
+            Debug.LogWarning($"[BoardManager] RefreshBoard(): boardMap에 currentBoardKey {currentBoardKey} 없음!");
+        }
+    }
+
+    public Vector2Int? GetBoardPosition(string boardKey)
+    {
+        if (boardKeyToPosMap.TryGetValue(boardKey, out var pos))
+            return pos;
+        return null;
+    }
+
+    public string GetBoardKey(Vector2Int pos)
+    {
+        if (posToBoardKeyMap.TryGetValue(pos, out var key))
+            return key;
+        return null;
+    }
 
     public void HandleDrop(MergeItem draggedItem, Vector2Int fromPos, Vector2Int toPos)
     {
-        MergeBoard board = boardMap[currentBoardPos];
+        MergeBoard board = boardMap[currentBoardKey];
 
         if (!board.IsValidCell(fromPos) || !board.IsValidCell(toPos)) return;
 
@@ -329,26 +405,7 @@ public class BoardManager : MonoBehaviour
         ItemSelectorManager.Instance.ClearSelection();
     }
 
-    public void SpawnItem(MergeBoard board, string itemKey, Vector2Int position)
-    {
-        if (!board.IsValidCell(position))
-        {
-            Debug.LogError($"[BoardManager] 유효하지 않은 위치에 아이템 생성 시도: {position}");
-            return;
-        }
-
-        ItemData data = ItemDataManager.Instance.GetItemData(itemKey);
-        if (data == null)
-        {
-            Debug.LogError($"[BoardManager] 유효하지 않은 아이템 ID: {itemKey}");
-            return;
-        }
-        MergeItem newItem = new MergeItem(itemKey);
-        newItem.board = board; // 소속 보드 등록
-        
-        board.PlaceItem(position.x, position.y, newItem);
-        RegisterProducer(board.GetItem(position.x, position.y));
-    }
+    
 
     IEnumerator SelectAfterFrame(Vector2Int pos)
     {
@@ -360,78 +417,17 @@ public class BoardManager : MonoBehaviour
             ItemSelectorManager.Instance.Select(targetView);
         }
     }
+    
 
-    public void RefreshBoard()
+    private void PlaceInitialItem(string boardKey, int x, int y, string key)
     {
-        if (boardMap.ContainsKey(currentBoardPos))
-        {
-            boardUI.DisplayBoard(boardMap[currentBoardPos]);
-        }
-        else
-        {
-            Debug.LogWarning($"[BoardManager] RefreshBoard(): boardMap에 currentBoardPos {currentBoardPos} 없음!");
-        }
-    }
-
-    public bool HasBoard(Vector2Int pos)
-    {
-        return boardMap.ContainsKey(pos);
-    }
-
-    public void RegisterProducer(MergeItem item)
-    {
-        if (item != null && item.IsTimeDrivenProducer())
-        {
-            if (!timeDrivenProducers.Contains(item))
-            {
-                timeDrivenProducers.Add(item);
-                Debug.Log($"[등록됨] {item.name} | hash={item.GetHashCode()}");
-            }
-            else
-            {
-                Debug.Log($"[이미 등록됨] {item.name} | hash={item.GetHashCode()}");
-            }
-        }
-    }
-
-    public void UnregisterProducer(MergeItem item)
-    {
-        if (timeDrivenProducers.Contains(item))
-        {
-            timeDrivenProducers.Remove(item);
-        }
-    }
-
-    private void UpdateProductionItems(float deltaTime)
-    {
-        var producers = timeDrivenProducers.ToArray();
-        foreach (var item in producers)
-        {
-            item.UpdateProductionStorage(deltaTime);
-        }
-    }
-
-    public void RemoveItem(MergeItem item)
-    {
-        UnregisterProducer(item);
-        MergeBoard board = item.board;
-        board.grid[item.coord.x, item.coord.y] = null;
-    }
-
-    private void PlaceInitialItem(Vector2Int boardPos, int x, int y, string key)
-    {
-        MergeBoard board = boardMap[boardPos];
+        MergeBoard board = boardMap[boardKey];
 
         MergeItem item = new MergeItem(key);
         item.board = board;
         item.coord = new Vector2Int(x, y);
-        boardMap[boardPos].PlaceItem(x, y, item);
+        boardMap[boardKey].PlaceItem(x, y, item);
         RegisterProducer(item);
-    }
-
-    public MergeBoard GetCurrentBoard()
-    {
-        return boardMap[currentBoardPos];
     }
 
     private string GetRandomItemKey(List<DropResult> results)
