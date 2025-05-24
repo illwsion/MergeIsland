@@ -1,0 +1,7 @@
+,,,,,,,,,,stringTable/Key,stringTable/Key
+키,x좌표,y좌표,가로길이,세로길이,테마,,,,,보드 이름,보드 설명
+string,int,int,int,int,enum,bool,bool,bool,bool,string,string
+key,worldX,worldY,width,height,theme,exitTop,exitRight,exitBottom,exitLeft,nameKey,descriptionKey
+BOARD_BEACH_0,0,0,4,4,Beach,TRUE,TRUE,FALSE,FALSE,BOARD_NAME_BEACH_0,BOARD_DESC_BEACH_0
+BOARD_BEACH_1,1,0,5,5,Beach,FALSE,FALSE,FALSE,TRUE,BOARD_NAME_BEACH_1,BOARD_DESC_BEACH_1
+BOARD_BEACH_2,0,1,6,4,Beach,FALSE,FALSE,TRUE,FALSE,BOARD_NAME_BEACH_2,BOARD_DESC_BEACH_2

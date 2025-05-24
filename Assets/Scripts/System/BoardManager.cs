@@ -42,19 +42,16 @@ public class BoardManager : MonoBehaviour
             return;
         }
 
-        // 보드 위치: (0,0), (1,0), (0,1) 식으로 설정
-        boardMap[new Vector2Int(0, 0)] = new MergeBoard(4, 4); // 1스테이지
-        boardMap[new Vector2Int(1, 0)] = new MergeBoard(5, 5); // 오른쪽 보드
-        boardMap[new Vector2Int(0, 1)] = new MergeBoard(6, 4); // 아래 보드
-        PlaceInitialItem(new Vector2Int(0, 0), 2, 1, "ITEM_TREE_0");
-        PlaceInitialItem(new Vector2Int(0, 0), 1, 1, "ITEM_TREE_1");
-        PlaceInitialItem(new Vector2Int(0, 0), 0, 1, "ITEM_TREE_2");
-        PlaceInitialItem(new Vector2Int(0, 0), 3, 3, "ITEM_TREE_3");
-        PlaceInitialItem(new Vector2Int(0, 1), 3, 3, "ITEM_TREE_3");
-        PlaceInitialItem(new Vector2Int(0, 1), 0, 0, "ITEM_COW");
-        PlaceInitialItem(new Vector2Int(0, 1), 0, 1, "ITEM_HAY");
-        PlaceInitialItem(new Vector2Int(0, 1), 0, 2, "ITEM_MILK");
-        PlaceInitialItem(new Vector2Int(0, 1), 0, 3, "ITEM_WORKBENCH");
+        foreach (var boardInfo in BoardDataManager.Instance.GetAllBoardData())
+        {
+            MergeBoard board = new MergeBoard(boardInfo.width, boardInfo.height);
+            boardMap[boardInfo.worldPos] = board;
+
+            foreach (var itemData in BoardInitialItemManager.Instance.GetInitialItemsForBoard(boardInfo.key))
+            {
+                SpawnItem(board, itemData.itemKey, itemData.coord);
+            }
+        }
 
         currentBoardPos = new Vector2Int(0, 0);
         Debug.Log("시작 보드: (0, 0)");
