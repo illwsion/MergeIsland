@@ -1,3 +1,4 @@
+// BoardGateManager.cs
 using UnityEngine;
 using System.Collections.Generic;
 using System;
@@ -6,7 +7,7 @@ public class BoardGateManager : MonoBehaviour
 {
     public static BoardGateManager Instance;
 
-    private Dictionary<(string, string), BoardGate> gateMap = new();
+    private Dictionary<(string, BoardGateData.Direction), BoardGateData> gateDataMap = new();
 
     void Awake()
     {
@@ -22,10 +23,10 @@ public class BoardGateManager : MonoBehaviour
         }
     }
 
-    public BoardGate GetGate(string fromBoard, string direction)
+    public BoardGateData GetGateData(string boardKey, BoardGateData.Direction direction)
     {
-        gateMap.TryGetValue((fromBoard, direction), out var gate);
-        return gate;
+        gateDataMap.TryGetValue((boardKey, direction), out var data);
+        return data;
     }
 
     private void LoadBoardGateData()
@@ -47,8 +48,8 @@ public class BoardGateManager : MonoBehaviour
             string[] values = line.Split(',');
             try
             {
-                var gate = ParseBoardGate(values);
-                gateMap[(gate.fromBoard, gate.direction)] = gate;
+                var data = ParseBoardGateData(values);
+                gateDataMap[(data.boardKey, data.direction)] = data;
             }
             catch (Exception e)
             {
@@ -57,30 +58,27 @@ public class BoardGateManager : MonoBehaviour
         }
     }
 
-    private BoardGate ParseBoardGate(string[] values)
+    private BoardGateData ParseBoardGateData(string[] values)
     {
-        var gate = new BoardGate();
         int index = 0;
+        var data = new BoardGateData
+        {
+            boardKey = ParseStringSafe(values[index++], "boardKey"),
+            direction = ParseEnumSafe(values[index++], BoardGateData.Direction.Top),
+            targetBoardKey = ParseStringSafe(values[index++], "targetBoardKey"),
+            isLocked = ParseBoolSafe(values[index++], "isLocked"),
+            unlockType = ParseEnumSafe(values[index++], BoardGateData.UnlockType.None),
+            unlockParam = ParseStringSafe(values[index++], "unlockParam")
+        };
 
-        gate.fromBoard = ParseStringSafe(values[index++], "fromBoard");
-        gate.direction = ParseStringSafe(values[index++], "direction");
-        gate.toBoard = ParseStringSafe(values[index++], "toBoard");
-        gate.isLocked = ParseBoolSafe(values[index++], "isLocked");
-        gate.unlockType = ParseEnumSafe(values[index++], UnlockType.None);
-        gate.unlockParam = ParseStringSafe(values[index++], "unlockParam");
-
-        return gate;
+        return data;
     }
 
     private string ParseStringSafe(string value, string fieldName)
     {
         if (string.IsNullOrWhiteSpace(value)) return null;
-
         string trimmed = value.Trim();
-        if (trimmed.Equals("null", StringComparison.OrdinalIgnoreCase))
-            return null;
-
-        return trimmed;
+        return trimmed.Equals("null", StringComparison.OrdinalIgnoreCase) ? null : trimmed;
     }
 
     private bool ParseBoolSafe(string value, string fieldName)

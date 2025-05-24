@@ -1,7 +1,7 @@
 boardTable/Key,,boardTable/Key,,,
-출발보드,방향,도착보드,잠금여부,,
-string,string,string,bool,,
-fromBoard,direction,toBoard,isLocked,unLockType,unlockParam
+출발보드키,방향,도착보드키,잠금여부,잠금해제타입,잠금파라미터
+string,enum,string,bool,enum,string
+boardKey,direction,targetBoardKey,isLocked,unlockType,unlockParam
 BOARD_BEACH_0,Right,BOARD_BEACH_1,FALSE,Level,3
 BOARD_BEACH_0,Top,BOARD_BEACH_2,FALSE,Item,ITEM_KEY_BEACH_1
 BOARD_BEACH_1,Left,BOARD_BEACH_0,FALSE,None,null

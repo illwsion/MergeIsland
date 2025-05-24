@@ -104,7 +104,33 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-   
+    public void MoveBoardTo(string boardKey)
+    {
+        BoardData targetData = BoardDataManager.Instance.GetBoardData(boardKey);
+        if (targetData == null)
+        {
+            Debug.LogError($"[BoardManager] MoveBoardTo: 보드 키 '{boardKey}' 를 찾을 수 없습니다.");
+            return;
+        }
+
+        Vector2Int targetPos = targetData.worldPos;
+
+        if (!boardMap.ContainsKey(targetPos))
+        {
+            Debug.LogError($"[BoardManager] MoveBoardTo: 보드 위치 {targetPos} 가 boardMap에 없습니다.");
+            return;
+        }
+
+        currentBoardPos = targetPos;
+
+        ItemSelectorManager.Instance.ClearSelection(); // 선택 해제
+        Debug.Log($"[BoardManager] 보드 이동: {boardKey} at {targetPos}");
+
+        MergeBoard currentBoard = boardMap[currentBoardPos];
+        boardUI.DisplayBoard(currentBoard);
+    }
+
+
 
     public void HandleDrop(MergeItem draggedItem, Vector2Int fromPos, Vector2Int toPos)
     {
