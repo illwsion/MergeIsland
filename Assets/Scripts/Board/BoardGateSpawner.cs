@@ -38,6 +38,7 @@ public class BoardGateSpawner : MonoBehaviour
 
             BoardGate gateComponent = gate.GetComponent<BoardGate>();
             gateComponent.Initialize(gateData);
+            gateComponent.UpdateLockIcon();
         }
     }
 

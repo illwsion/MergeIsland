@@ -74,13 +74,16 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
         UpdateLockIcon();
     }
 
-    private void UpdateLockIcon()
+    public void UpdateLockIcon()
     {
         if (gateData == null) return;
 
-        if (lockIcon != null)
+        if (lockIcon == null)
         {
-            lockIcon.SetActive(gateData.isLocked);
+            Debug.LogWarning("[UpdateLockIcon] lockIcon이 연결되지 않았습니다!");
+            return;
         }
+
+        lockIcon.SetActive(gateData.isLocked);
     }
 }

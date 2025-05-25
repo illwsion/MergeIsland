@@ -118,15 +118,33 @@ public class BoardGateManager : MonoBehaviour
         return defaultValue;
     }
 
+
     public void MarkGateUnlocked(BoardGateData gateData)
     {
-        var key = (gateData.boardKey, gateData.direction);
+        var id = gateData.GetUniqueID();
+        var save = SaveController.Instance.CurrentSave;
 
-        if (!unlockedGates.Contains(key))
+        if (!save.unlockedGates.Contains(id))
         {
-            unlockedGates.Add(key);
-            Debug.Log($"[BoardGateManager] 게이트 상태 저장: {gateData.boardKey} {gateData.direction} → 해제됨");
-            // TODO: 저장 시스템과 연동하면 여기서 Save 호출 가능
+            save.unlockedGates.Add(id);
+            Debug.Log($"[BoardGateManager] 게이트 저장: {id} → 해제됨");
         }
     }
+
+    public void LoadUnlockedGates(GameSaveData save)
+    {
+        foreach (var id in save.unlockedGates)
+        {
+            foreach (var gate in gateDataMap.Values)
+            {
+                Debug.Log($"{gate.boardKey}_{gate.direction}");
+                Debug.Log(id);
+                if ($"{gate.boardKey}_{gate.direction}" == id)
+                {
+                    gate.isLocked = false;
+                }
+            }
+        }
+    }
+
 }

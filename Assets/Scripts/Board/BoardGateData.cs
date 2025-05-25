@@ -23,4 +23,9 @@ public class BoardGateData
         Level,  // 특정 레벨 필요
         Quest   // 퀘스트 완료 필요
     }
+
+    public string GetUniqueID()
+    {
+        return $"{boardKey}_{direction}";
+    }
 }

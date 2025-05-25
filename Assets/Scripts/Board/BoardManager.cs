@@ -38,7 +38,9 @@ public class BoardManager : MonoBehaviour
             return;
         }
         GameSaveData saveData = SaveController.Instance.CurrentSave;
+        BoardGateManager.Instance.LoadUnlockedGates(saveData);
         InitializeBoards(saveData);
+        
 
         float offline = SaveController.Instance.GetOfflineElapsedTime();
         ApplyOfflineProgress(offline);
