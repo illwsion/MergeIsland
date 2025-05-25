@@ -50,8 +50,7 @@ public class BoardManager : MonoBehaviour
         }
 
         currentBoardKey = "BOARD_BEACH_0";
-        Debug.Log($"시작 보드: {currentBoardKey}");
-        boardUI.DisplayBoard(boardMap[currentBoardKey]);
+        DisplayBoardAndSpawnGates(currentBoardKey);
     }
 
     void Update()
@@ -91,8 +90,8 @@ public class BoardManager : MonoBehaviour
 
         currentBoardKey = boardKey;
         ItemSelectorManager.Instance.ClearSelection();
-        MergeBoard board = boardMap[boardKey];
-        boardUI.DisplayBoard(board);
+
+        DisplayBoardAndSpawnGates(currentBoardKey);
     }
 
     public void MoveBoard(Vector2Int direction)
@@ -117,6 +116,10 @@ public class BoardManager : MonoBehaviour
 
     public MergeBoard GetCurrentBoard()
     {
+        if (currentBoardKey == null)
+        {
+            return null;
+        }
         return boardMap[currentBoardKey];
     }
 
@@ -148,7 +151,6 @@ public class BoardManager : MonoBehaviour
             if (!timeDrivenProducers.Contains(item))
             {
                 timeDrivenProducers.Add(item);
-                Debug.Log($"[등록됨] {item.name} | hash={item.GetHashCode()}");
             }
         }
     }
@@ -184,14 +186,29 @@ public class BoardManager : MonoBehaviour
 
     public void RefreshBoard()
     {
-        if (boardMap.ContainsKey(currentBoardKey))
+        if (string.IsNullOrEmpty(currentBoardKey))
         {
-            boardUI.DisplayBoard(boardMap[currentBoardKey]);
+            Debug.LogWarning("[BoardManager] RefreshBoard(): currentBoardKey가 설정되지 않았습니다.");
+            return;
         }
-        else
+
+        DisplayBoardAndSpawnGates(currentBoardKey);
+    }
+
+    private void DisplayBoardAndSpawnGates(string boardKey)
+    {
+        if (!boardMap.ContainsKey(boardKey))
         {
-            Debug.LogWarning($"[BoardManager] RefreshBoard(): boardMap에 currentBoardKey {currentBoardKey} 없음!");
+            Debug.LogError($"[BoardManager] DisplayBoardAndSpawnGates: boardKey '{boardKey}' 없음");
+            return;
         }
+
+        MergeBoard board = boardMap[boardKey];
+        boardUI.DisplayBoard(board);
+
+        float cellSize = boardUI.gridLayout.cellSize.x;
+        Vector3 gridOrigin = boardUI.GetGridCenterWorldPosition();
+        BoardGateSpawner.Instance.SpawnGates(boardKey, gridOrigin, cellSize, board.width, board.height);
     }
 
     public Vector2Int? GetBoardPosition(string boardKey)
@@ -207,7 +224,38 @@ public class BoardManager : MonoBehaviour
             return key;
         return null;
     }
+    //게이트 드롭 관리
+    public void HandleGateDrop(MergeItem item, BoardGate gate, Vector2Int fromPos)
+    {
+        var data = gate.gateData;
+        if (!data.isLocked)
+        {
+            // 아이템 보내기 처리?
+            Debug.Log("[BoardManager] 이미 해제된 게이트입니다.");
+            HandleDrop(item, fromPos, fromPos); //우선은 제자리로
+            return;
+        }
 
+        if (data.unlockType == BoardGateData.UnlockType.Item &&
+            data.unlockParam == item.key)
+        {
+            // 게이트 해제
+            gate.UnlockGate();
+            BoardGateManager.Instance.MarkGateUnlocked(data);
+            // 아이템 제거
+            RemoveItem(item);
+            // 선택 해제 및 보드 업데이트
+            ItemSelectorManager.Instance.ClearSelection();
+            RefreshBoard();
+        }
+        else
+        {
+            Debug.Log("[BoardManager] 이 아이템으로는 게이트를 열 수 없습니다.");
+            HandleDrop(item, fromPos, fromPos);
+        }
+    }
+
+    //아이템 드롭 관리
     public void HandleDrop(MergeItem draggedItem, Vector2Int fromPos, Vector2Int toPos)
     {
         MergeBoard board = boardMap[currentBoardKey];

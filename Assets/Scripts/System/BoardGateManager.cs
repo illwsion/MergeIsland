@@ -8,6 +8,7 @@ public class BoardGateManager : MonoBehaviour
     public static BoardGateManager Instance;
 
     private Dictionary<(string, BoardGateData.Direction), BoardGateData> gateDataMap = new();
+    private HashSet<(string, BoardGateData.Direction)> unlockedGates = new();
 
     void Awake()
     {
@@ -27,6 +28,19 @@ public class BoardGateManager : MonoBehaviour
     {
         gateDataMap.TryGetValue((boardKey, direction), out var data);
         return data;
+    }
+
+    public List<BoardGateData> GetGatesForBoard(string boardKey)
+    {
+        List<BoardGateData> result = new();
+        foreach (var pair in gateDataMap)
+        {
+            if (pair.Key.Item1 == boardKey)
+            {
+                result.Add(pair.Value);
+            }
+        }
+        return result;
     }
 
     private void LoadBoardGateData()
@@ -102,5 +116,17 @@ public class BoardGateManager : MonoBehaviour
 
         Debug.LogError($"[BoardGateManager] enum 파싱 실패: '{value}' → 기본값 {defaultValue} 반환");
         return defaultValue;
+    }
+
+    public void MarkGateUnlocked(BoardGateData gateData)
+    {
+        var key = (gateData.boardKey, gateData.direction);
+
+        if (!unlockedGates.Contains(key))
+        {
+            unlockedGates.Add(key);
+            Debug.Log($"[BoardGateManager] 게이트 상태 저장: {gateData.boardKey} {gateData.direction} → 해제됨");
+            // TODO: 저장 시스템과 연동하면 여기서 Save 호출 가능
+        }
     }
 }

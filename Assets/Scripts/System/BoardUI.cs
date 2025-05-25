@@ -1,5 +1,6 @@
 // BoardUI.cs
 using System.Drawing;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -123,5 +124,14 @@ public class BoardUI : MonoBehaviour
         Transform cell = gridLayout.transform.GetChild(index);
         var view = cell.GetComponentInChildren<ItemView>(true);
         return view;
+    }
+
+    public Vector3 GetGridCenterWorldPosition()
+    {
+        if (BoardGateSpawner.Instance == null)
+        {
+            Debug.LogError("[BoardManager] BoardGateSpawner.Instance가 null입니다. 초기화 순서를 확인하세요.");
+        }
+        return gridLayout.transform.position;
     }
 }

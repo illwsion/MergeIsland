@@ -32,7 +32,6 @@ public class PlayerLevelManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("[PlayerLevelManager] UI 초기화 시도");
         UpdateUI();
     }
 
@@ -69,8 +68,6 @@ public class PlayerLevelManager : MonoBehaviour
                 Debug.LogError($"[PlayerLevelManager] EXP 테이블 파싱 실패 at line {i + 1}: '{line}'\n{e}");
             }
         }
-
-        Debug.Log($"[PlayerLevelManager] 경험치 테이블 로드 완료: {expTable.Count}개 레벨");
     }
 
     public void AddExperience(int amount)
@@ -102,7 +99,6 @@ public class PlayerLevelManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        Debug.Log($"[ExpUIManager] UpdateUI: Lv.{CurrentLevel}, {CurrentEXP}/{ExpToNextLevel()}");
         int required = ExpToNextLevel();
         expUIManager?.UpdateUI(CurrentLevel, CurrentEXP, required);
     }

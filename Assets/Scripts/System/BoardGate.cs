@@ -6,6 +6,13 @@ using UnityEngine.UI;
 public class BoardGate : MonoBehaviour, IPointerClickHandler
 {
     public BoardGateData gateData; // Inspector 혹은 코드에서 할당됨
+    [SerializeField] private GameObject lockIcon;
+
+    public void Initialize(BoardGateData data)
+    {
+        gateData = data;
+        UpdateLockIcon();
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -19,7 +26,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
         {
             if (!IsUnlocked())
             {
-                Debug.Log($"[BoardGate] 게이트가 잠겨 있습니다. 조건: {gateData.unlockType}, 값: {gateData.unlockParam}");
+                //ItemInfoUI에 잠금해제 정보 업데이트?
                 return;
             }
         }
@@ -58,6 +65,22 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
 
             default:
                 return false;
+        }
+    }
+
+    public void UnlockGate()
+    {
+        gateData.isLocked = false;
+        UpdateLockIcon();
+    }
+
+    private void UpdateLockIcon()
+    {
+        if (gateData == null) return;
+
+        if (lockIcon != null)
+        {
+            lockIcon.SetActive(gateData.isLocked);
         }
     }
 }

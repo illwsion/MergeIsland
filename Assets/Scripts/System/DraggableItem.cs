@@ -73,6 +73,13 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         foreach (var result in results)
         {
+            BoardGate gate = result.gameObject.GetComponent<BoardGate>();
+            if (gate != null)
+            {
+                BoardManager.Instance.HandleGateDrop(mergeItem, gate, fromPos);
+                return;
+            }
+
             DropTarget dropTarget = result.gameObject.GetComponent<DropTarget>();
             if (dropTarget != null)
             {

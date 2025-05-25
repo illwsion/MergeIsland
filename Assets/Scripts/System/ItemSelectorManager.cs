@@ -12,6 +12,12 @@ public class ItemSelectorManager : MonoBehaviour
 
     private void Start()
     {
+        if (BoardManager.Instance?.GetCurrentBoard() == null)
+        {
+            Debug.LogWarning("[ItemSelectorManager] BoardManager가 아직 초기화되지 않았습니다.");
+            return;
+        }
+
         ClearSelection();
     }
     void Awake()
