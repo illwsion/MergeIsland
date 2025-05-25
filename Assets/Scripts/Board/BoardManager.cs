@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using static ItemData;
 using UnityEditor.Overlays;
+using UnityEngine.InputSystem;
 
 public class BoardManager : MonoBehaviour
 {
@@ -38,6 +39,9 @@ public class BoardManager : MonoBehaviour
         }
         GameSaveData saveData = SaveController.Instance.CurrentSave;
         InitializeBoards(saveData);
+
+        float offline = SaveController.Instance.GetOfflineElapsedTime();
+        ApplyOfflineProgress(offline);
     }
 
     void Update()
@@ -117,7 +121,11 @@ public class BoardManager : MonoBehaviour
 
     public void MarkBoardVisited(string boardKey)
     {
-        SaveController.Instance.CurrentSave.visitedBoards.Add(boardKey);
+        var visited = SaveController.Instance.CurrentSave.visitedBoards;
+        if (!visited.Contains(boardKey))
+        {
+            visited.Add(boardKey);
+        }
     }
 
     public BoardSaveData GetBoardSaveData(string boardKey)
@@ -230,17 +238,22 @@ public class BoardManager : MonoBehaviour
         newItem.board = board; // 소속 보드 등록
 
         board.PlaceItem(position.x, position.y, newItem);
-        RegisterProducer(board.GetItem(position.x, position.y));
+        RegisterProducer(newItem);
     }
 
     public void RegisterProducer(MergeItem item)
     {
         if (item != null && item.IsTimeDrivenProducer())
         {
+            Debug.Log($"[RegisterProducer] 등록됨: {item.key}");
             if (!timeDrivenProducers.Contains(item))
             {
                 timeDrivenProducers.Add(item);
             }
+        }
+        else
+        {
+            Debug.LogWarning($"[RegisterProducer] 조건 불충족: {item?.key}, IsTimeDrivenProducer: {item?.IsTimeDrivenProducer()}");
         }
     }
 
@@ -257,6 +270,16 @@ public class BoardManager : MonoBehaviour
         var producers = timeDrivenProducers.ToArray();
         foreach (var item in producers)
         {
+            item.UpdateProductionStorage(deltaTime);
+        }
+    }
+
+    public void ApplyOfflineProgress(float deltaTime)
+    {
+        Debug.Log($"[ApplyOfflineProgress] deltaTime = {deltaTime}");
+        foreach (var item in timeDrivenProducers)
+        {
+            Debug.Log($"Update called - deltaTime: {deltaTime}");
             item.UpdateProductionStorage(deltaTime);
         }
     }

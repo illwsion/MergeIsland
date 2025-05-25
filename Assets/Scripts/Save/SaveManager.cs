@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using System;
 
 public static class SaveManager
 {
@@ -9,6 +10,7 @@ public static class SaveManager
 
     public static void Save(GameSaveData data)
     {
+        data.lastSaveTime = DateTime.UtcNow.ToString("o");
         data.boardList = new List<BoardSaveData>(data.boards.Values);
 
         string json = JsonUtility.ToJson(data, true);

@@ -47,4 +47,4 @@ ITEM_AXE_9,axe_9,axe,Tool,10,10,None,FALSE,Axe,None,null,null,None,null,None,nul
 ITEM_COW,cow,cow,Production,null,1,Supply,FALSE,None,Animal,null,DROP_COW,None,null,None,null,null,null,FALSE,null,ITEM_NAME_COW,ITEM_DESC_COW,TRUE,TRUE,40,null,cow_0
 ITEM_HAY,hay,hay,General,null,1,None,FALSE,None,None,null,null,None,null,None,null,null,null,FALSE,null,ITEM_NAME_HAY,ITEM_DESC_HAY,TRUE,TRUE,null,null,hay_0
 ITEM_MILK,milk,milk,General,null,1,None,FALSE,None,None,null,null,None,null,None,null,null,null,FALSE,null,ITEM_NAME_MILK,ITEM_DESC_MILK,TRUE,TRUE,null,null,milk_0
-ITEM_WORKBENCH,workbench,workbench,Production,1,1,Manual,FALSE,None,None,PRODUCE_WORKBENCH,null,Energy,1,None,null,10,60,FALSE,null,ITEM_NAME_WORKBENCH,ITEM_DESC_WORKBENCH,TRUE,TRUE,null,null,cow_0
+ITEM_WORKBENCH,workbench,workbench,Production,1,1,Manual,FALSE,None,None,PRODUCE_WORKBENCH,null,Energy,1,None,null,10,100,FALSE,null,ITEM_NAME_WORKBENCH,ITEM_DESC_WORKBENCH,TRUE,TRUE,null,null,cow_0

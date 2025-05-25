@@ -146,7 +146,12 @@ public class MergeItem
         switch (ProduceType)
         {
             case ItemData.ProduceType.Manual:
-                if (Data.isProductionLimited || currentStorage >= maxStorage) // 한정 생산이거나 최대치 도달 시 회복 중단
+                if (Data.isProductionLimited)
+                {
+                    return;
+                }
+
+                if (currentStorage >= maxStorage)
                 {
                     recoveryTimer = 0f;
                     return;
@@ -161,10 +166,27 @@ public class MergeItem
                 break;
 
             case ItemData.ProduceType.Auto:
-                if (recoveryTimer >= productionInterval)
+                while (recoveryTimer >= productionInterval)
                 {
-                    ProduceAuto();
-                    // recoveryTimer는 성공할 때만 리셋 (빈칸 없으면 대기)
+                    if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
+                    {
+                        isProductionBlocked = true;
+                        break; // 공간 부족 →반복 중단
+                    }
+
+                    isProductionBlocked = false;
+                    BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
+
+                    if (Data.isProductionLimited)
+                    {
+                        ConsumeStorage();
+                        if (currentStorage <= 0)
+                        {
+                            break; // 소진됨 → 더 생산 불가
+                        }
+                    }
+
+                    recoveryTimer -= productionInterval; // 반복 가능하도록 시간 차감
                 }
 
                 break;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class GameSaveData
 {
+    public string lastSaveTime;
     public PlayerSaveData player = new PlayerSaveData();
 
     public List<BoardSaveData> boardList = new();
