@@ -5,13 +5,16 @@ public class SaveTest : MonoBehaviour
 {
     public void SaveAndTest()
     {
-        PlayerData data = SaveManager.LoadPlayer();
-        Debug.Log($"레벨: {data.currentLevel}, 경험치: {data.currentExp}");
+        GameSaveData save = SaveController.Instance.CurrentSave;
+        Debug.Log($"레벨: {save.player.currentLevel}, 경험치: {save.player.currentExp}");
 
-        data.currentLevel++;
-        data.currentExp += 50;
-        data.learnedSkills["skill_damage_boost"] = 2;
+        save.player.currentLevel++;
+        save.player.currentExp += 50;
+        save.player.learnedSkills["skill_damage_boost"] = 2;
 
-        SaveManager.SavePlayer(data);
+        // 현재 보드들도 저장
+        BoardManager.Instance.SaveAllBoards();
+
+        SaveController.Instance.Save();
     }
 }

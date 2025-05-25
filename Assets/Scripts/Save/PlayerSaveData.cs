@@ -1,9 +1,9 @@
-// PlayerData.cs
+// PlayerSaveData.cs
 using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class PlayerData
+public class PlayerSaveData
 {
     public int currentLevel;
     public int currentExp;

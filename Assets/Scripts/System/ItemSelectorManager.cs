@@ -30,7 +30,6 @@ public class ItemSelectorManager : MonoBehaviour
     {
         if (selectedItem != null && itemInfoUI != null)
         {
-            Debug.Log("adsf");
             itemInfoUI.Refresh(selectedItem);
         }
     }

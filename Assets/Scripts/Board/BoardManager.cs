@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using static ItemData;
+using UnityEditor.Overlays;
 
 public class BoardManager : MonoBehaviour
 {
@@ -35,22 +36,8 @@ public class BoardManager : MonoBehaviour
             Debug.LogError("[BoardManager] ItemDataManager 초기화되지 않음!");
             return;
         }
-
-        foreach (var boardInfo in BoardDataManager.Instance.GetAllBoardData())
-        {
-            MergeBoard board = new MergeBoard(boardInfo.width, boardInfo.height);
-            boardMap[boardInfo.key] = board;
-            boardKeyToPosMap[boardInfo.key] = boardInfo.worldPos;
-            posToBoardKeyMap[boardInfo.worldPos] = boardInfo.key;
-
-            foreach (var itemData in BoardInitialItemManager.Instance.GetInitialItemsForBoard(boardInfo.key))
-            {
-                SpawnItem(board, itemData.itemKey, itemData.coord);
-            }
-        }
-
-        currentBoardKey = "BOARD_BEACH_0";
-        DisplayBoardAndSpawnGates(currentBoardKey);
+        GameSaveData saveData = SaveController.Instance.CurrentSave;
+        InitializeBoards(saveData);
     }
 
     void Update()
@@ -78,6 +65,108 @@ public class BoardManager : MonoBehaviour
         }
 
 
+    }
+    //저장 관련
+    public void InitializeBoards(GameSaveData save)
+    {
+        foreach (var boardInfo in BoardDataManager.Instance.GetAllBoardData())
+        {
+            MergeBoard board = new MergeBoard(boardInfo.width, boardInfo.height);
+            boardMap[boardInfo.key] = board;
+            boardKeyToPosMap[boardInfo.key] = boardInfo.worldPos;
+            posToBoardKeyMap[boardInfo.worldPos] = boardInfo.key;
+
+            if (save.boards.TryGetValue(boardInfo.key, out var boardSave))
+            {
+                LoadBoardFromSaveData(board, boardSave);
+            }
+            else
+            {
+                LoadBoardFromInitialData(boardInfo.key, board);
+            }
+        }
+        currentBoardKey = "BOARD_BEACH_0";
+        DisplayBoardAndSpawnGates(currentBoardKey);
+    }
+
+    private void LoadBoardFromInitialData(string boardKey, MergeBoard board)
+    {
+        foreach (var itemData in BoardInitialItemManager.Instance.GetInitialItemsForBoard(boardKey))
+        {
+            SpawnItem(board, itemData.itemKey, itemData.coord);
+        }
+    }
+
+    private void LoadBoardFromSaveData(MergeBoard board, BoardSaveData save)
+    {
+        foreach (var entry in save.items)
+        {
+            Vector2Int pos = new Vector2Int(entry.x, entry.y);
+            MergeItem item = new MergeItem(entry.itemKey);
+            item.board = board;
+            item.coord = pos;
+
+            item.currentStorage = entry.currentStorage;
+            item.recoveryTimer = entry.recoveryTimer;
+            item.currentHP = entry.currentHP;
+
+            board.PlaceItem(pos.x, pos.y, item);
+            RegisterProducer(item);
+        }
+    }
+
+    public void MarkBoardVisited(string boardKey)
+    {
+        SaveController.Instance.CurrentSave.visitedBoards.Add(boardKey);
+    }
+
+    public BoardSaveData GetBoardSaveData(string boardKey)
+    {
+        if (!boardMap.ContainsKey(boardKey))
+        {
+            Debug.LogWarning($"[BoardManager] 저장 대상 보드를 찾을 수 없음: {boardKey}");
+            return null;
+        }
+
+        var board = boardMap[boardKey];
+        var data = new BoardSaveData { boardKey = boardKey };
+
+        for (int x = 0; x < board.width; x++)
+        {
+            for (int y = 0; y < board.height; y++)
+            {
+                var item = board.GetItem(x, y);
+                if (item != null)
+                {
+                    data.items.Add(new SavedItemEntry
+                    {
+                        itemKey = item.key,
+                        x = x,
+                        y = y,
+                        currentStorage = item.currentStorage,
+                        recoveryTimer = item.recoveryTimer,
+                        currentHP = item.currentHP
+                    });
+                }
+            }
+        }
+
+        return data;
+    }
+
+    public void SaveAllBoards()
+    {
+        var save = SaveController.Instance.CurrentSave;
+        Debug.Log(save.visitedBoards);
+        foreach (var boardKey in save.visitedBoards)
+        {
+            Debug.Log($"[SaveAllBoards] 저장 대상 보드: {boardKey}");
+            BoardSaveData boardData = GetBoardSaveData(boardKey);
+            Debug.Log($"[SaveAllBoards] {boardKey} 아이템 수: {boardData.items.Count}");
+            save.boards[boardKey] = boardData;
+        }
+
+        SaveController.Instance.Save();
     }
 
     public void MoveBoardTo(string boardKey)
@@ -202,6 +291,8 @@ public class BoardManager : MonoBehaviour
             Debug.LogError($"[BoardManager] DisplayBoardAndSpawnGates: boardKey '{boardKey}' 없음");
             return;
         }
+        //접근한 적 있는 보드에 추가
+        MarkBoardVisited(boardKey);
 
         MergeBoard board = boardMap[boardKey];
         boardUI.DisplayBoard(board);
