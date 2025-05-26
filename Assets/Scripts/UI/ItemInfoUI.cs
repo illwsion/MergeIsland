@@ -4,6 +4,11 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using static ItemData;
+using static BoardGateData;
+using static UnityEditor.Progress;
+using UnityEngine.Video;
+using System.Data;
+using static Unity.Collections.Unicode;
 
 public class ItemInfoUI : MonoBehaviour
 {
@@ -40,11 +45,30 @@ public class ItemInfoUI : MonoBehaviour
 
     [SerializeField] private EffectGroup effectGroup;
 
+    public static ItemInfoUI Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
     void Start()
     {
         if (unselectedText == null)
             Debug.LogError("[ItemInfoUI] unselectedText가 연결되지 않았습니다.");
-        unselectedText.text = StringTableManager.Instance.GetLocalized("UITEXT_UNSELECTEDTEXT");
+        unselectedText.text = StringTableManager.Instance.GetLocalized("UI_UNSELECTEDTEXT");
     }
 
     public void Show(MergeItem item)
@@ -190,6 +214,58 @@ public class ItemInfoUI : MonoBehaviour
         }
     }
 
+    public void ShowGate(BoardGate gate)
+    {
+        root.SetActive(true);
+        unselectedOverlay.SetActive(false);
+        iconImage.gameObject.SetActive(true);
+
+        // Header
+        iconImage.sprite = AtlasManager.Instance.GetSprite("boardGate_beach"); // iconName이 있다면
+        nameText.text = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_NAME");
+        levelText.text = ""; // 게이트는 레벨 없음
+
+        // Description
+        string desc = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_DESC");
+
+        switch (gate.gateData.unlockType)
+        {
+            case UnlockType.None:
+                desc = "열려있는 게이트입니다.";
+                break;
+
+            case UnlockType.Item:
+                string itemName = StringTableManager.Instance.GetLocalized(ItemDataManager.Instance.GetItemData(gate.gateData.unlockParam).itemNameKey);
+                desc = $"{itemName} 아이템이 필요합니다.";
+                break;
+
+            case UnlockType.Level:
+                desc = $"플레이어 레벨 {gate.gateData.unlockParam} 이상 필요합니다.";
+                break;
+
+            case UnlockType.Quest:
+                desc = $"퀘스트 '{gate.gateData.unlockParam}' 완료 필요.";
+                break;
+
+            case UnlockType.Resource:
+                desc = $"{gate.gateData.unlockParam} 자원이 필요합니다.";
+                break;
+        }
+
+        descText.text = desc;
+
+        // 상태 관련 블록 숨김
+        hpBlock.SetActive(false);
+        manualBlock.SetActive(false);
+        autoBlock.SetActive(false);
+
+        //EffectGroup 
+        effectGroup.Clear();
+        EffectData effect = CreateGateEffectData(gate);
+        effectGroup.AddEffect(effect);
+
+    }
+
     public void Hide()
     {
         root.SetActive(false);
@@ -210,6 +286,53 @@ public class ItemInfoUI : MonoBehaviour
         hpBlock.SetActive(false);
         manualBlock.SetActive(false);
         autoBlock.SetActive(false);
+    }
+
+    private EffectData CreateGateEffectData(BoardGate gate)
+    {
+        var effect = new EffectData();
+
+        switch (gate.gateData.unlockType)
+        {
+            case UnlockType.None:
+                break;
+
+            case UnlockType.Item:
+                effect.type = EffectType.Gate_Supply;
+                effect.blockSize = EffectBlockSize.Large;
+                effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_SUPPLY");
+                effect.icon1 = AtlasManager.Instance.GetSprite(ItemDataManager.Instance.GetItemData(gate.gateData.unlockParam).imageName);
+                effect.icon2 = AtlasManager.Instance.GetSprite("boardGate_lock");
+                effect.value = gate.gateData.unlockParamValue.ToString();
+                break;
+
+            case UnlockType.Level:
+                effect.type = EffectType.Gate_Supply;
+                effect.blockSize = EffectBlockSize.Small;
+                effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_LEVEL");
+                effect.icon1 = AtlasManager.Instance.GetSprite("boardGate_level");
+                effect.value = gate.gateData.unlockParamValue.ToString();
+                break;
+
+            case UnlockType.Quest:
+                effect.type = EffectType.Gate_Quest;
+                effect.blockSize = EffectBlockSize.Small;
+                effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_LEVEL");
+                effect.icon1 = AtlasManager.Instance.GetSprite("boardGate_quest");
+                effect.value = "";
+                //effect.value = gate.gateData.unlockParamValue.ToString(); 퀘스트 조건 어떻게 나타낼지? 퀘스트 시스템 구현 이후
+                break;
+
+            case UnlockType.Resource:
+                effect.type = EffectType.Gate_Resource;
+                effect.blockSize = EffectBlockSize.Small;
+                effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_RESOURCE");
+                effect.icon1 = GetGatherIcon(ResourceTypeUtil.StringToResourceType(gate.gateData.unlockParam));
+                effect.value = gate.gateData.unlockParamValue.ToString();
+                break;
+        }
+
+        return effect;
     }
 
     private List<EffectData> CreateEffectDataList(MergeItem item)

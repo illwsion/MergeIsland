@@ -82,10 +82,24 @@ public class BoardGateManager : MonoBehaviour
             targetBoardKey = ParseStringSafe(values[index++], "targetBoardKey"),
             isLocked = ParseBoolSafe(values[index++], "isLocked"),
             unlockType = ParseEnumSafe(values[index++], BoardGateData.UnlockType.None),
-            unlockParam = ParseStringSafe(values[index++], "unlockParam")
+            unlockParam = ParseStringSafe(values[index++], "unlockParam"),
+            unlockParamValue = ParseIntSafe(values[index++], "unlockParamValue")
         };
 
         return data;
+    }
+
+    private int ParseIntSafe(string value, string fieldName)
+    {
+        value = value.Trim().ToLower();
+        if (string.IsNullOrEmpty(value) || value == "null")
+            return 0;
+
+        if (int.TryParse(value, out int result))
+            return result;
+
+        Debug.LogError($"[ItemDataManager] int 파싱 실패: '{value}' (필드: {fieldName})");
+        return 0;
     }
 
     private string ParseStringSafe(string value, string fieldName)

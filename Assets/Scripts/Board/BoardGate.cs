@@ -26,6 +26,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
         {
             if (!IsUnlocked())
             {
+                ItemInfoUI.Instance.ShowGate(this);
                 //ItemInfoUI에 잠금해제 정보 업데이트?
                 return;
             }
@@ -61,7 +62,10 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
                 return false;
 
             case BoardGateData.UnlockType.Quest:
-                //return QuestManager.Instance.IsQuestCompleted(gateData.unlockParam);
+            //return QuestManager.Instance.IsQuestCompleted(gateData.unlockParam);
+
+            case BoardGateData.UnlockType.Resource:
+            //return QuestManager.Instance.IsQuestCompleted(gateData.unlockParam);
 
             default:
                 return false;

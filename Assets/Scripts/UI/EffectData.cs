@@ -8,7 +8,11 @@ public enum EffectType
     Damage,
     Supply,
     Drop,
-    MaxCap
+    MaxCap,
+    Gate_Level,
+    Gate_Supply,
+    Gate_Quest,
+    Gate_Resource
     // 필요 시 추가
 }
 

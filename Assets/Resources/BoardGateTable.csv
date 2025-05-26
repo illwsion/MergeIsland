@@ -1,8 +1,9 @@
-boardTable/Key,,boardTable/Key,,,
-출발보드키,방향,도착보드키,잠금여부,잠금해제타입,잠금파라미터
-string,enum,string,bool,enum,string
-boardKey,direction,targetBoardKey,isLocked,unlockType,unlockParam
-BOARD_BEACH_0,Right,BOARD_BEACH_1,FALSE,Level,3
-BOARD_BEACH_0,Top,BOARD_BEACH_2,TRUE,Item,ITEM_LOG_1
-BOARD_BEACH_1,Left,BOARD_BEACH_0,FALSE,None,null
-BOARD_BEACH_2,Bottom,BOARD_BEACH_0,FALSE,Quest,QUEST_ID_002
+boardTable/Key,,boardTable/Key,,,,
+출발보드키,방향,도착보드키,잠금여부,잠금해제타입,잠금파라미터,파라미터개수
+string,enum,string,bool,enum,string,int
+boardKey,direction,targetBoardKey,isLocked,unlockType,unlockParam,unlockParamValue
+BOARD_BEACH_0,Right,BOARD_BEACH_1,TRUE,Resource,Wood,100
+BOARD_BEACH_0,Top,BOARD_BEACH_2,TRUE,Item,ITEM_LOG_1,1
+BOARD_BEACH_1,Left,BOARD_BEACH_0,FALSE,None,null,null
+BOARD_BEACH_2,Bottom,BOARD_BEACH_0,FALSE,Quest,QUEST_ID_002,null
+BOARD_BEACH_2,Right,BOARD_BEACH_0,TRUE,Level,null,3
