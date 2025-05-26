@@ -167,7 +167,6 @@ public class BoardManager : MonoBehaviour
     public void SaveAllBoards()
     {
         var save = SaveController.Instance.CurrentSave;
-        Debug.Log(save.visitedBoards);
         foreach (var boardKey in save.visitedBoards)
         {
             Debug.Log($"[SaveAllBoards] 저장 대상 보드: {boardKey}");
@@ -175,8 +174,6 @@ public class BoardManager : MonoBehaviour
             Debug.Log($"[SaveAllBoards] {boardKey} 아이템 수: {boardData.items.Count}");
             save.boards[boardKey] = boardData;
         }
-
-        SaveController.Instance.Save();
     }
 
     public void MoveBoardTo(string boardKey)
@@ -247,7 +244,6 @@ public class BoardManager : MonoBehaviour
     {
         if (item != null && item.IsTimeDrivenProducer())
         {
-            Debug.Log($"[RegisterProducer] 등록됨: {item.key}");
             if (!timeDrivenProducers.Contains(item))
             {
                 timeDrivenProducers.Add(item);
@@ -278,7 +274,6 @@ public class BoardManager : MonoBehaviour
 
     public void ApplyOfflineProgress(float deltaTime)
     {
-        Debug.Log($"[ApplyOfflineProgress] deltaTime = {deltaTime}");
         foreach (var item in timeDrivenProducers)
         {
             Debug.Log($"Update called - deltaTime: {deltaTime}");

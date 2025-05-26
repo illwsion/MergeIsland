@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class SaveController : MonoBehaviour
@@ -18,14 +19,7 @@ public class SaveController : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            CurrentSave = SaveManager.Load();
-
-            // 오프라인 시간
-            if (DateTime.TryParse(CurrentSave.lastSaveTime, null, System.Globalization.DateTimeStyles.RoundtripKind, out var lastTime))
-            {
-                offlineElapsedTime = (float)(DateTime.UtcNow - lastTime).TotalSeconds;
-                Debug.Log($"[SaveController] 오프라인 시간: {offlineElapsedTime}초");
-            }
+            CurrentSave = SaveManager.Load();   
         }
         else
         {
@@ -33,8 +27,21 @@ public class SaveController : MonoBehaviour
         }
     }
 
+    private IEnumerator Start()
+    {
+        yield return null;
+
+        if (DateTime.TryParse(CurrentSave.lastSaveTime, null, System.Globalization.DateTimeStyles.RoundtripKind, out var lastTime))
+        {
+            offlineElapsedTime = (float)(DateTime.UtcNow - lastTime).TotalSeconds;
+            Debug.Log($"[SaveController] 오프라인 시간: {offlineElapsedTime}초");
+        }
+    }
+
     public void Save()
     {
+        PlayerResourceManager.Instance.SaveTo(CurrentSave.player);
+        Debug.Log($"[SaveController] Save 호출됨. Player Energy: {PlayerResourceManager.Instance.GetAmount(ResourceType.Energy)}");
         SaveManager.Save(CurrentSave);
     }
 }

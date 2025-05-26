@@ -34,6 +34,8 @@ public class ResourceUIManager : MonoBehaviour
 
     public void UpdateUI(ResourceType type, int current, int max)
     {
+        //Debug.Log($"[ResourceUI] UpdateUI called → {type}, current: {current}, max: {max}");
+
         if (slotTable == null)
         {
             Debug.LogError("slotTable이 초기화되지 않았습니다.");

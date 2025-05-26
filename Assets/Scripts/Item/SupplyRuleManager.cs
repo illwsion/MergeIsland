@@ -70,7 +70,6 @@ public class SupplyRuleManager : MonoBehaviour
 
     public SupplyRule GetFirstRuleByReceiverItem(string receiverItem)
     {
-        Debug.Log(receiverItem);
         foreach (var rule in rules)
         {
             if (rule.receiverItem == receiverItem)

@@ -137,8 +137,6 @@ public class BoardGateManager : MonoBehaviour
         {
             foreach (var gate in gateDataMap.Values)
             {
-                Debug.Log($"{gate.boardKey}_{gate.direction}");
-                Debug.Log(id);
                 if ($"{gate.boardKey}_{gate.direction}" == id)
                 {
                     gate.isLocked = false;
