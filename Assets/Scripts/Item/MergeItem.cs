@@ -33,10 +33,12 @@ public class MergeItem
     public string dropTableKey => Data?.dropTableKey;
 
     //Resource
-    public ResourceType CostResource => Data?.costResource ?? ResourceType.None;
+    public ResourceType costResource => Data?.costResource ?? ResourceType.None;
     public int costValue => Data?.costValue ?? 0;
-    public ResourceType GatherResource => Data?.gatherResource ?? ResourceType.None;
+    public ResourceType gatherResource => Data?.gatherResource ?? ResourceType.None;
     public int gatherValue => Data?.gatherValue ?? 0;
+    public ResourceType maxCapResource => Data?.maxCapResource ?? ResourceType.None;
+    public int maxCapValue => Data?.maxCapValue ?? 0;
 
     //Selling
     public bool IsSellable => Data?.isSellable ?? false;
@@ -94,6 +96,11 @@ public class MergeItem
         return Data != null &&
                Category == ItemData.Category.Production &&
                (ProduceType == ItemData.ProduceType.Manual || ProduceType == ProduceType.Auto);
+    }
+
+    public bool ProvidesMaxCapBonus()
+    {
+        return maxCapResource != ResourceType.None;
     }
     
     public bool CanProduce()
@@ -293,7 +300,7 @@ public class MergeItem
         Debug.Log($"[MergeItem] {type} +{amount} 획득!");
 
         // 3. 생산자 목록에서 제거
-        BoardManager.Instance.UnregisterProducer(this);
+        BoardManager.Instance.UnregisterItem(this);
 
         // 4. 보드에서 제거
         if (board != null)

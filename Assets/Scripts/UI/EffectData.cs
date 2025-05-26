@@ -7,7 +7,8 @@ public enum EffectType
     Sell,
     Damage,
     Supply,
-    Drop
+    Drop,
+    MaxCap
     // 필요 시 추가
 }
 

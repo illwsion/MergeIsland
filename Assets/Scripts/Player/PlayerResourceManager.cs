@@ -8,8 +8,11 @@ public class PlayerResourceManager : MonoBehaviour
 {
     public static PlayerResourceManager Instance { get; private set; }
 
-    private Dictionary<ResourceType, int> resourceTable = new Dictionary<ResourceType, int>();
-    private Dictionary<ResourceType, int> maxResourceTable = new Dictionary<ResourceType, int>();
+    private Dictionary<ResourceType, int> currentResources = new Dictionary<ResourceType, int>();
+    private Dictionary<ResourceType, int> baseResourceCap = new Dictionary<ResourceType, int>();
+    private Dictionary<ResourceType, int> itemBonusResourceCap = new Dictionary<ResourceType, int>();
+    private List<MergeItem> maxCapItems = new List<MergeItem>();
+
     [SerializeField] private ResourceUIManager resourceUIManager;
 
     [Header("Energy Settings")]
@@ -80,14 +83,14 @@ public class PlayerResourceManager : MonoBehaviour
 
     public bool HasEnough(ResourceType type, int value)
     {
-        return resourceTable.ContainsKey(type) && resourceTable[type] >= value;
+        return currentResources.ContainsKey(type) && currentResources[type] >= value;
     }
 
     public bool TrySpend(ResourceType type, int value)
     {
         if (!HasEnough(type, value)) return false;
 
-        resourceTable[type] -= value;
+        currentResources[type] -= value;
 
         UpdateUI(type);
         return true;
@@ -101,42 +104,44 @@ public class PlayerResourceManager : MonoBehaviour
             return;
         }
 
-        if (!resourceTable.ContainsKey(type))
+        if (!currentResources.ContainsKey(type))
         {
             Debug.Log($"[PlayerResourceManager.Add] Add 호출됐지만 존재하지 않아서 초기화 type : {type} value : {value}");
-            resourceTable[type] = 0;
+            currentResources[type] = 0;
         }
             
 
-        int current = resourceTable[type];
+        int current = currentResources[type];
         int max = GetMax(type);
         int newValue = Mathf.Min(current + value, max);
-        resourceTable[type] = newValue;
+        currentResources[type] = newValue;
         UpdateUI(type);
     }
 
     public int GetAmount(ResourceType type)
     {
-        return resourceTable.ContainsKey(type) ? resourceTable[type] : 0;
+        return currentResources.ContainsKey(type) ? currentResources[type] : 0;
     }
 
     public int GetMax(ResourceType type)
     {
-        return maxResourceTable.ContainsKey(type) ? maxResourceTable[type] : 0;
+        int baseValue = baseResourceCap.ContainsKey(type) ? baseResourceCap[type] : 0;
+        int itemBonus = itemBonusResourceCap.ContainsKey(type) ? itemBonusResourceCap[type] : 0;
+        return baseValue + itemBonus;
     }
 
     public void SetMax(ResourceType type, int value)
     {
-        maxResourceTable[type] = value;
+        baseResourceCap[type] = value;
         UpdateUI(type);
     }
 
     public void AddMax(ResourceType type, int value)
     {
-        if (!maxResourceTable.ContainsKey(type))
-            maxResourceTable[type] = 0;
+        if (!baseResourceCap.ContainsKey(type))
+            baseResourceCap[type] = 0;
 
-        maxResourceTable[type] += value;
+        baseResourceCap[type] += value;
         UpdateUI(type);
     }
 
@@ -147,30 +152,41 @@ public class PlayerResourceManager : MonoBehaviour
         resourceUIManager?.UpdateUI(type, current, max);
     }
 
+    private void UpdateAllResourceUI()
+    {
+        foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
+        {
+            if (type != ResourceType.None && type != ResourceType.Exp)
+            {
+                UpdateUI(type);
+            }
+        }
+    }
+
     private void InitializeResources()
     {
         foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
         {
             if (type == ResourceType.None || type == ResourceType.Exp) continue;
 
-            if (!resourceTable.ContainsKey(type))
-                resourceTable[type] = 0;
+            if (!currentResources.ContainsKey(type))
+                currentResources[type] = 0;
 
-            if (!maxResourceTable.ContainsKey(type))
+            if (!baseResourceCap.ContainsKey(type))
             {
                 // 기본 최대치 설정
                 switch (type)
                 {
                     case ResourceType.Energy:
-                        maxResourceTable[type] = MaxEnergy;
+                        baseResourceCap[type] = MaxEnergy;
                         break;
                     case ResourceType.Wood:
                     case ResourceType.Stone:
                     case ResourceType.Iron:
-                        maxResourceTable[type] = 100;
+                        baseResourceCap[type] = 100;
                         break;
                     default:
-                        maxResourceTable[type] = 999999; // 사실상 무제한
+                        baseResourceCap[type] = 999999; // 사실상 무제한
                         break;
                 }
             }
@@ -197,18 +213,69 @@ public class PlayerResourceManager : MonoBehaviour
         recoveryTimer = totalTime % energyRecoveryInterval;
     }
 
+    private void RecalculateMaxCaps()
+    {
+        Debug.Log("[RecaculateMaxCaps] 호출");
+        itemBonusResourceCap.Clear();
+
+        foreach (var item in maxCapItems)
+        {
+            if (item == null || !item.ProvidesMaxCapBonus()) continue;
+
+            ResourceType type = item.Data.maxCapResource;
+            int bonus = item.Data.maxCapValue;
+
+            if (bonus <= 0) continue;
+
+            if (!itemBonusResourceCap.ContainsKey(type))
+                itemBonusResourceCap[type] = 0;
+
+            itemBonusResourceCap[type] += bonus;
+        }
+        Debug.Log($"wood cap : {itemBonusResourceCap[ResourceType.Wood]}");
+        UpdateAllResourceUI();
+    }
+
+    public void RegisterMaxCapItem(MergeItem item)
+    {
+        if (item != null)
+        {
+            if (!maxCapItems.Contains(item))
+            {
+                maxCapItems.Add(item);
+                RecalculateMaxCaps();
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[maxCapItem] 조건 불충족: {item?.key}, ProvidesMaxCapBonus: {item?.ProvidesMaxCapBonus()}");
+        }
+    }
+
+    public void UnregisterMaxCapItem(MergeItem item)
+    {
+        if (item == null) return;
+
+        if (maxCapItems.Contains(item))
+        {
+            maxCapItems.Remove(item);
+            RecalculateMaxCaps();
+        }
+    }
+
+    //저장
     public void SaveTo(PlayerSaveData save)
     {
         save.recoveryTimerSeconds = recoveryTimer;
         save.resourceAmounts.Clear();
 
-        foreach (var pair in resourceTable)
+        foreach (var pair in currentResources)
         {
             save.resourceAmounts.Add(new ResourceEntry { type = pair.Key.ToString(), amount = pair.Value });
         }
 
         save.resourceMaxValues.Clear();
-        foreach (var pair in maxResourceTable)
+        foreach (var pair in baseResourceCap)
         {
             save.resourceMaxValues.Add(new ResourceEntry { type = pair.Key.ToString(), amount = pair.Value });
         }
@@ -217,19 +284,19 @@ public class PlayerResourceManager : MonoBehaviour
     public void LoadFrom(PlayerSaveData save)
     {
         recoveryTimer = save.recoveryTimerSeconds;
-        resourceTable.Clear();
-        maxResourceTable.Clear();
+        currentResources.Clear();
+        baseResourceCap.Clear();
 
         foreach (var entry in save.resourceAmounts)
         {
             if (Enum.TryParse(entry.type, out ResourceType type))
-                resourceTable[type] = entry.amount;
+                currentResources[type] = entry.amount;
         }
 
         foreach (var entry in save.resourceMaxValues)
         {
             if (Enum.TryParse(entry.type, out ResourceType type))
-                maxResourceTable[type] = entry.amount;
+                baseResourceCap[type] = entry.amount;
         }
 
         InitializeResources();

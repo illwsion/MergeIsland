@@ -79,26 +79,36 @@ public class ItemDataManager : MonoBehaviour
         item.category = ParseEnumSafe(values[index++], ItemData.Category.Production);
         item.level = ParseIntSafe(values[index++], "level");
         item.maxLevel = ParseIntSafe(values[index++], "maxLevel");
+
         item.produceType = ParseEnumSafe(values[index++], ItemData.ProduceType.None);
         item.isProductionLimited = ParseBoolSafe(values[index++], "isProductionLimited");
         item.toolType = ParseEnumSafe(values[index++], ItemData.ToolType.None);
         item.targetMaterial = ParseEnumSafe(values[index++], ItemData.TargetMaterial.None);
         item.produceTableKey = ParseStringSafe(values[index++], "produceTableKey");
         item.dropTableKey = ParseStringSafe(values[index++], "dropTableKey");
+
         item.costResource = ParseEnumSafe(values[index++], ResourceType.None);
         item.costValue = ParseIntSafe(values[index++], "costValue");
         item.gatherResource = ParseEnumSafe(values[index++], ResourceType.None);
         item.gatherValue = ParseIntSafe(values[index++], "gatherValue");
+        item.maxCapResource = ParseEnumSafe(values[index++], ResourceType.None);
+        item.maxCapValue = ParseIntSafe(values[index++], "maxCapValue");
+
         item.productionInterval = ParseFloatSafe(values[index++], "productionInterval");
         item.maxProductionAmount = ParseIntSafe(values[index++], "maxProductionAmount");
+
         item.isSellable = ParseBoolSafe(values[index++], "isSellable");
         item.sellValue = ParseIntSafe(values[index++], "sellValue");
+
         item.itemNameKey = ParseStringSafe(values[index++], "itemNameKey");
         item.itemDescriptionKey = ParseStringSafe(values[index++], "itemDescriptionKey");
+
         item.canMove = ParseBoolSafe(values[index++], "canMove");
         item.canInventoryStore = ParseBoolSafe(values[index++], "canInventoryStore");
+
         item.hp = ParseIntSafe(values[index++], "hp");
         item.attackPower = ParseIntSafe(values[index++], "attackPower");
+
         item.imageName = ParseStringSafe(values[index++], "imageName");
 
         return item;

@@ -93,10 +93,15 @@ ITEM_NAME_MILK,우유,우유,Milk
 ITEM_DESC_MILK,우유,우유이다,This is Milk
 ITEM_NAME_WORKBENCH,작업대 이름,작업대,Workbench
 ITEM_DESC_WORKBENCH,작업대 설명,터치하여 도끼 생산,Touch to produce Axes
+ITEM_NAME_STORAGE_WOOD_0,나무 창고 1레벨 이름,목재 창고 1레벨,Wood Storage level 1
+ITEM_DESC_STORAGE_WOOD_0,나무 창고 1레벨 설명,목재를 저장하는 창고이다,it's wood storage
+ITEM_NAME_STORAGE_WOOD_1,나무 창고 2레벨 이름,목재 창고 2레벨,Wood Storage level 2
+ITEM_DESC_STORAGE_WOOD_1,나무 창고 2레벨 설명,목재를 저장하는 창고이다,it's wood storage
 EFFECTLABEL_GATHER,이펙트라벨_획득,획득,Gather
 EFFECTLABEL_PRODUCE,이펙트라벨_생산,생산,Produce
 EFFECTLABEL_SELL,이펙트라벨_판매,판매,Sell
 EFFECTLABEL_DAMAGE,이펙트라벨_대미지,대미지,Damage
 EFFECTLABEL_SUPPLY,이펙트라벨_교환,공급,Supply
 EFFECTLABEL_DROP,이펙트라벨_드랍,드랍,Drop
+EFFECTLABEL_MAXCAP,이펙트라벨_최대저장량,최대저장,MaxCap
 UITEXT_UNSELECTEDTEXT,아이템을 선택해주세요,아이템을 선택하면 여기에 정보가 표시됩니다,Select an Item to know more about it

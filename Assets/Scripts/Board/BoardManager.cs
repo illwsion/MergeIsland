@@ -117,7 +117,7 @@ public class BoardManager : MonoBehaviour
             item.currentHP = entry.currentHP;
 
             board.PlaceItem(pos.x, pos.y, item);
-            RegisterProducer(item);
+            RegisterItem(item);
         }
     }
 
@@ -237,12 +237,37 @@ public class BoardManager : MonoBehaviour
         newItem.board = board; // 소속 보드 등록
 
         board.PlaceItem(position.x, position.y, newItem);
-        RegisterProducer(newItem);
+        RegisterItem(newItem);
+    }
+    //Register
+    public void RegisterItem(MergeItem item)
+    {
+        if (item.IsTimeDrivenProducer())
+            RegisterProducer(item);
+
+        if (item.ProvidesMaxCapBonus())
+        {
+            PlayerResourceManager.Instance?.RegisterMaxCapItem(item);
+        }
+            
+    }
+
+    public void UnregisterItem(MergeItem item)
+    {
+        if (item == null) return;
+
+        if (timeDrivenProducers.Contains(item))
+        {
+            timeDrivenProducers.Remove(item);
+        }
+
+        PlayerResourceManager.Instance?.UnregisterMaxCapItem(item);
+
     }
 
     public void RegisterProducer(MergeItem item)
     {
-        if (item != null && item.IsTimeDrivenProducer())
+        if (item != null)
         {
             if (!timeDrivenProducers.Contains(item))
             {
@@ -255,13 +280,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void UnregisterProducer(MergeItem item)
-    {
-        if (timeDrivenProducers.Contains(item))
-        {
-            timeDrivenProducers.Remove(item);
-        }
-    }
+    
 
     private void UpdateProductionItems(float deltaTime)
     {
@@ -276,14 +295,13 @@ public class BoardManager : MonoBehaviour
     {
         foreach (var item in timeDrivenProducers)
         {
-            Debug.Log($"Update called - deltaTime: {deltaTime}");
             item.UpdateProductionStorage(deltaTime);
         }
     }
 
     public void RemoveItem(MergeItem item)
     {
-        UnregisterProducer(item);
+        UnregisterItem(item);
         MergeBoard board = item.board;
         board.grid[item.coord.x, item.coord.y] = null;
     }
@@ -467,13 +485,13 @@ public class BoardManager : MonoBehaviour
     {
         string? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.key, targetItem.key);
 
-        UnregisterProducer(draggedItem);
-        UnregisterProducer(targetItem);
+        UnregisterItem(draggedItem);
+        UnregisterItem(targetItem);
 
         MergeItem newItem = new MergeItem(resultId);
         newItem.board = board;
         board.PlaceItem(toPos.x, toPos.y, newItem, true);
-        RegisterProducer(newItem);
+        RegisterItem(newItem);
 
         board.grid[fromPos.x, fromPos.y] = null;
 
@@ -586,7 +604,7 @@ public class BoardManager : MonoBehaviour
         item.board = board;
         item.coord = new Vector2Int(x, y);
         boardMap[boardKey].PlaceItem(x, y, item);
-        RegisterProducer(item);
+        RegisterItem(item);
     }
 
     private string GetRandomItemKey(List<DropResult> results)

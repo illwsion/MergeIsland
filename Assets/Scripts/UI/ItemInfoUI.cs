@@ -219,7 +219,7 @@ public class ItemInfoUI : MonoBehaviour
         // 1. 터치해서 획득
         if (item.ProduceType == ItemData.ProduceType.Gather)
         {
-            var gatherType = item.GatherResource;
+            var gatherType = item.gatherResource;
             var icon = GetGatherIcon(gatherType);
             effects.Add(new EffectData
             {
@@ -336,6 +336,21 @@ public class ItemInfoUI : MonoBehaviour
                 label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_PRODUCE"),
                 icon1 = icon,
                 value = null
+            });
+        }
+
+        // 7. 최대 저장량
+        if (item.maxCapResource != ResourceType.None)
+        {
+            var resourceType = item.maxCapResource;
+            var icon = GetGatherIcon(resourceType);
+            effects.Add(new EffectData
+            {
+                type = EffectType.Produce,
+                blockSize = EffectBlockSize.Small,
+                label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_MAXCAP"),
+                icon1 = icon,
+                value = item.maxCapValue.ToString()
             });
         }
 
