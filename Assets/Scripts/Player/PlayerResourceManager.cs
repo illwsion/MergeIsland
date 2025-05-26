@@ -9,16 +9,15 @@ public class PlayerResourceManager : MonoBehaviour
     public static PlayerResourceManager Instance { get; private set; }
 
     private Dictionary<ResourceType, int> currentResources = new Dictionary<ResourceType, int>();
-    private Dictionary<ResourceType, int> baseResourceCap = new Dictionary<ResourceType, int>();
     private Dictionary<ResourceType, int> itemBonusResourceCap = new Dictionary<ResourceType, int>();
     private List<MergeItem> maxCapItems = new List<MergeItem>();
 
     [SerializeField] private ResourceUIManager resourceUIManager;
 
     [Header("Energy Settings")]
-    public int MaxEnergy = 100;
-    public float energyRecoveryInterval = 120f; // 120초
-    public int energyRecoveryAmount = 1;
+    public int MaxEnergy => GlobalGameConfig.BaseResourceCap.TryGetValue(ResourceType.Energy, out var cap) ? cap : 100;
+    public float energyRecoveryInterval => GlobalGameConfig.EnergyRecoveryInterval;
+    public int energyRecoveryAmount => GlobalGameConfig.EnergyRecoveryAmount;
 
     private float recoveryTimer = 0f;
 
@@ -61,7 +60,7 @@ public class PlayerResourceManager : MonoBehaviour
     private void RecoverEnergyOverTime()
     {
         int current = GetAmount(ResourceType.Energy);
-        if (current >= MaxEnergy)
+        if (current >= GetMax(ResourceType.Energy))
         {
             recoveryTimer = 0f; // 최대치면 타이머 초기화
             return;
@@ -125,24 +124,9 @@ public class PlayerResourceManager : MonoBehaviour
 
     public int GetMax(ResourceType type)
     {
-        int baseValue = baseResourceCap.ContainsKey(type) ? baseResourceCap[type] : 0;
+        int baseValue = GlobalGameConfig.BaseResourceCap.TryGetValue(type, out var cap) ? cap : 999999;
         int itemBonus = itemBonusResourceCap.ContainsKey(type) ? itemBonusResourceCap[type] : 0;
         return baseValue + itemBonus;
-    }
-
-    public void SetMax(ResourceType type, int value)
-    {
-        baseResourceCap[type] = value;
-        UpdateUI(type);
-    }
-
-    public void AddMax(ResourceType type, int value)
-    {
-        if (!baseResourceCap.ContainsKey(type))
-            baseResourceCap[type] = 0;
-
-        baseResourceCap[type] += value;
-        UpdateUI(type);
     }
 
     private void UpdateUI(ResourceType type)
@@ -165,31 +149,12 @@ public class PlayerResourceManager : MonoBehaviour
 
     private void InitializeResources()
     {
-        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
+        foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
         {
             if (type == ResourceType.None || type == ResourceType.Exp) continue;
 
             if (!currentResources.ContainsKey(type))
                 currentResources[type] = 0;
-
-            if (!baseResourceCap.ContainsKey(type))
-            {
-                // 기본 최대치 설정
-                switch (type)
-                {
-                    case ResourceType.Energy:
-                        baseResourceCap[type] = MaxEnergy;
-                        break;
-                    case ResourceType.Wood:
-                    case ResourceType.Stone:
-                    case ResourceType.Iron:
-                        baseResourceCap[type] = 100;
-                        break;
-                    default:
-                        baseResourceCap[type] = 999999; // 사실상 무제한
-                        break;
-                }
-            }
         }  
     }
 
@@ -273,30 +238,17 @@ public class PlayerResourceManager : MonoBehaviour
         {
             save.resourceAmounts.Add(new ResourceEntry { type = pair.Key.ToString(), amount = pair.Value });
         }
-
-        save.resourceMaxValues.Clear();
-        foreach (var pair in baseResourceCap)
-        {
-            save.resourceMaxValues.Add(new ResourceEntry { type = pair.Key.ToString(), amount = pair.Value });
-        }
     }
 
     public void LoadFrom(PlayerSaveData save)
     {
         recoveryTimer = save.recoveryTimerSeconds;
         currentResources.Clear();
-        baseResourceCap.Clear();
 
         foreach (var entry in save.resourceAmounts)
         {
             if (Enum.TryParse(entry.type, out ResourceType type))
                 currentResources[type] = entry.amount;
-        }
-
-        foreach (var entry in save.resourceMaxValues)
-        {
-            if (Enum.TryParse(entry.type, out ResourceType type))
-                baseResourceCap[type] = entry.amount;
         }
 
         InitializeResources();

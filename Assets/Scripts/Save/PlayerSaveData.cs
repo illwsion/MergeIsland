@@ -17,8 +17,8 @@ public class PlayerSaveData
     public int skillPoints;
 
     public float recoveryTimerSeconds;
+
     public List<ResourceEntry> resourceAmounts = new();
-    public List<ResourceEntry> resourceMaxValues = new();
 
     public Dictionary<string, int> learnedSkills = new();
 }
