@@ -251,6 +251,12 @@ public class PlayerResourceManager : MonoBehaviour
                 currentResources[type] = entry.amount;
         }
 
+        // 세이브에 에너지가 없으면 기본치로 설정
+        if (!currentResources.ContainsKey(ResourceType.Energy))
+        {
+            currentResources[ResourceType.Energy] = GetMax(ResourceType.Energy);
+        }
+
         InitializeResources();
 
         foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))

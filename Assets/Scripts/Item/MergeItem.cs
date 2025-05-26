@@ -317,6 +317,7 @@ public class MergeItem
         {
             BoardManager.Instance.RefreshBoard();
         }
+        ItemSelectorManager.Instance.ClearSelection();
     }
 
     private bool TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos)
