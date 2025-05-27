@@ -34,7 +34,7 @@ public class SaveController : MonoBehaviour
         if (DateTime.TryParse(CurrentSave.lastSaveTime, null, System.Globalization.DateTimeStyles.RoundtripKind, out var lastTime))
         {
             offlineElapsedTime = (float)(DateTime.UtcNow - lastTime).TotalSeconds;
-            Debug.Log($"[SaveController] 오프라인 시간: {offlineElapsedTime}초");
+            //Debug.Log($"[SaveController] 오프라인 시간: {offlineElapsedTime}초");
         }
     }
 

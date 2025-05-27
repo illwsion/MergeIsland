@@ -48,26 +48,7 @@ public class StringTableManager : MonoBehaviour
         }
 
         string[] lines = csvFile.text.Split('\n');
-        /*
-        for (int i = 3; i < lines.Length; i++) // 첫 세 줄은 헤더
-        {
-            string line = lines[i].Trim();
-            if (string.IsNullOrEmpty(line)) continue;
 
-            string[] values = line.Split(',');
-            if (int.TryParse(values[0], out int id))
-            {
-                string korean = values[3].Trim();  // "한글" 컬럼
-                string english = values[4].Trim(); // "영어" 컬럼
-
-                stringMap[id] = new LocalizedString
-                {
-                    korean = korean,
-                    english = english
-                };
-            }
-        }
-        */
         for (int i = 3; i < lines.Length; i++) // 첫 3줄은 헤더
         {
             string line = lines[i].Trim();
@@ -101,6 +82,23 @@ public class StringTableManager : MonoBehaviour
                 Language.English => entry.english,
                 _ => entry.korean
             };
+        }
+
+        return $"[문자열 없음: {key}]";
+    }
+
+    public string GetLocalized(string key, params object[] args)
+    {
+        if (stringMap.TryGetValue(key, out var entry))
+        {
+            string raw = currentLanguage switch
+            {
+                Language.Korean => entry.korean,
+                Language.English => entry.english,
+                _ => entry.korean
+            };
+
+            return string.Format(raw, args); // 여기서 자리표시자 대체
         }
 
         return $"[문자열 없음: {key}]";

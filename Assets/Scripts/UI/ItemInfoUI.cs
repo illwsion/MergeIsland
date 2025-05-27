@@ -236,19 +236,19 @@ public class ItemInfoUI : MonoBehaviour
 
             case UnlockType.Item:
                 string itemName = StringTableManager.Instance.GetLocalized(ItemDataManager.Instance.GetItemData(gate.gateData.unlockParam).itemNameKey);
-                desc = $"{itemName} 아이템이 필요합니다.";
+                desc = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_ITEM", itemName);
                 break;
 
             case UnlockType.Level:
-                desc = $"플레이어 레벨 {gate.gateData.unlockParam} 이상 필요합니다.";
+                desc = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_LEVEL", gate.gateData.unlockParamValue);
                 break;
 
             case UnlockType.Quest:
-                desc = $"퀘스트 '{gate.gateData.unlockParam}' 완료 필요.";
+                desc = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_QUEST", gate.gateData.unlockParam);
                 break;
 
             case UnlockType.Resource:
-                desc = $"{gate.gateData.unlockParam} 자원이 필요합니다.";
+                desc = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_RESOURCE", gate.gateData.unlockParam);
                 break;
         }
 
@@ -291,6 +291,7 @@ public class ItemInfoUI : MonoBehaviour
     private EffectData CreateGateEffectData(BoardGate gate)
     {
         var effect = new EffectData();
+        effect.sourceGate = gate;
 
         switch (gate.gateData.unlockType)
         {
@@ -303,7 +304,8 @@ public class ItemInfoUI : MonoBehaviour
                 effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_SUPPLY");
                 effect.icon1 = AtlasManager.Instance.GetSprite(ItemDataManager.Instance.GetItemData(gate.gateData.unlockParam).imageName);
                 effect.icon2 = AtlasManager.Instance.GetSprite("boardGate_lock");
-                effect.value = gate.gateData.unlockParamValue.ToString();
+                effect.value = "";
+                //effect.value = gate.gateData.unlockParamValue.ToString();
                 break;
 
             case UnlockType.Level:

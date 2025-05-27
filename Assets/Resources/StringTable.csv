@@ -111,3 +111,7 @@ EFFECTLABEL_GATE_RESOURCE,이펙트라벨_게이트_자원,소모,Resource
 UI_UNSELECTEDTEXT,아이템을 선택해주세요,아이템을 선택하면 여기에 정보가 표시됩니다,Select an Item to know more about it
 UI_LOCKEDGATE_NAME,잠긴 게이트 UI정보창 이름,잠긴 게이트,Locked Gate
 UI_LOCKEDGATE_DESC,잠긴 게이트 UI정보창 설명,잠긴 게이트입니다. 조건을 충족하여 해제하세요!,It's locked gate. Fullfill condition to unlock it!
+UI_LOCKEDGATE_ITEM,잠긴 게이트 DESC,{0} 아이템을 게이트에 드랍하세요,{0} item is required
+UI_LOCKEDGATE_LEVEL,잠긴 게이트 DESC,플레이어 레벨 {0} 이상 필요합니다,Requires player level {0} or higher
+UI_LOCKEDGATE_QUEST,잠긴 게이트 DESC,{0} 퀘스트를 완료하세요,Complete {0} quest
+UI_LOCKEDGATE_RESOURCE,잠긴 게이트 DESC,{0} 자원이 필요합니다,{0} resource is required

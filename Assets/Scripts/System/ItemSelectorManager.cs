@@ -10,6 +10,8 @@ public class ItemSelectorManager : MonoBehaviour
     public Vector2Int selectedCoord;
     private ItemView selectedItemView;
 
+    public string selectedGate;
+
     private void Start()
     {
         if (BoardManager.Instance?.GetCurrentBoard() == null)
@@ -52,9 +54,9 @@ public class ItemSelectorManager : MonoBehaviour
     
     public void ClearSelection()
     {
-        // 이전 선택 해제
         selectedItem = null;
         selectedItemView = null;
+        selectedGate = null;
 
         if (itemInfoUI != null)
             itemInfoUI.ShowEmpty();
@@ -62,19 +64,45 @@ public class ItemSelectorManager : MonoBehaviour
         if (BoardManager.Instance != null)
             BoardManager.Instance.RefreshBoard();
     }
-    
+
+    public void ClearSelectedItemOnly()
+    {
+        selectedItem = null;
+        selectedItemView = null;
+    }
+
     public void ClearSelectionOnEmptyCell()
     {
-        // 빈 셀 클릭 시 선택 해제
         if (selectedItemView != null)
         {
             ClearSelection();
         }
     }
 
+    public void SelectGate(BoardGate gate)
+    {
+        if (selectedGate == gate.gateData.GetUniqueID()) return;
+
+        ClearSelectedItemOnly(); // 아이템 선택 해제
+        selectedGate = gate.gateData.GetUniqueID();
+        itemInfoUI.ShowGate(gate);
+        BoardManager.Instance.RefreshBoard();
+    }
+
+    public void ClearSelectedGateOnly()
+    {
+        selectedGate = null;
+        BoardManager.Instance.RefreshBoard();
+    }
+
     public bool HasSelection()
     {
         return selectedItem != null;
+    }
+
+    public bool HasGateSelection()
+    {
+        return selectedGate != null;
     }
 
     public MergeItem GetSelectedItem()
@@ -95,5 +123,17 @@ public class ItemSelectorManager : MonoBehaviour
     public void SetSelectedCoord(Vector2Int coord)
     {
         selectedCoord = coord;
+    }
+
+    // 현재 선택된 게이트와 비교
+    public bool IsGateSelected(BoardGate gate)
+    {
+        if (selectedGate == null || gate == null)
+            return false;
+
+        if (selectedGate.Equals(null) || gate.Equals(null))
+            return false;
+
+        return selectedGate == gate.gateData.GetUniqueID();
     }
 }

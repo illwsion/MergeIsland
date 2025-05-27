@@ -166,10 +166,8 @@ public class PlayerResourceManager : MonoBehaviour
         if (current >= max) return;
 
         float totalTime = recoveryTimer + offlineSeconds;
-        Debug.Log($"[ApplyOfflineEnergyRecovery] recoveryTimer : {recoveryTimer} totalTime : {totalTime}");
         int recoverable = Mathf.FloorToInt(totalTime / energyRecoveryInterval);
         int actualRecover = Mathf.Min(recoverable, max - current);
-        Debug.Log($"[ApplyOfflineEnergyRecovery] actualRecover : {actualRecover}");
         if (actualRecover > 0)
         {
             Add(ResourceType.Energy, actualRecover);
@@ -180,7 +178,6 @@ public class PlayerResourceManager : MonoBehaviour
 
     private void RecalculateMaxCaps()
     {
-        Debug.Log("[RecaculateMaxCaps] »£√‚");
         itemBonusResourceCap.Clear();
 
         foreach (var item in maxCapItems)
@@ -197,7 +194,6 @@ public class PlayerResourceManager : MonoBehaviour
 
             itemBonusResourceCap[type] += bonus;
         }
-        Debug.Log($"wood cap : {itemBonusResourceCap[ResourceType.Wood]}");
         UpdateAllResourceUI();
     }
 

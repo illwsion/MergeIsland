@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfoUI: {fileID: 810874445}
   selectedCoord: {x: 0, y: 0}
+  selectedGate: 
 --- !u!4 &4107758
 Transform:
   m_ObjectHideFlags: 0
@@ -1597,9 +1598,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceUIManager: {fileID: 1078699541}
-  MaxEnergy: 100
-  energyRecoveryInterval: 120
-  energyRecoveryAmount: 1
 --- !u!4 &400121140
 Transform:
   m_ObjectHideFlags: 0
@@ -6195,8 +6193,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 1200}
+  m_AnchoredPosition: {x: 0, y: -72.50002}
+  m_SizeDelta: {x: 1000, y: 1055}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768545989
 MonoBehaviour:

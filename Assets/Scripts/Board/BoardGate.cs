@@ -16,32 +16,45 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (gateData == null)
+        if (this == null || gateData == null || this.Equals(null))
         {
-            Debug.LogError("[BoardGate] gateData 가 설정되지 않았습니다.");
+            Debug.LogWarning("[BoardGate.OnPointerClick] 이 게이트는 이미 파괴됨");
             return;
         }
 
         if (gateData.isLocked)
         {
-            if (!IsUnlocked())
+            if (ItemSelectorManager.Instance.IsGateSelected(this))
             {
-                ItemInfoUI.Instance.ShowGate(this);
-                //ItemInfoUI에 잠금해제 정보 업데이트?
-                return;
+                Debug.Log("이미 선택된 게이트");
+                GateUnlockHelper.TryUnlock(new EffectData
+                {
+                    type = GateUnlockHelper.ConvertToEffectType(gateData.unlockType),
+                    sourceGate = this
+                });
             }
-        }
+            else
+            {
+                Debug.Log("새로운 게이트");
+                ItemSelectorManager.Instance.SelectGate(this);
+            }
+            return;
 
-        // 도착 보드 찾기
-        BoardData targetBoard = BoardDataManager.Instance.GetBoardData(gateData.targetBoardKey);
-        if (targetBoard != null)
-        {
-            BoardManager.Instance.MoveBoardTo(targetBoard.key);
         }
         else
         {
-            Debug.LogError($"[BoardGate] 도착 보드 '{gateData.targetBoardKey}' 를 찾을 수 없습니다.");
+            // 도착 보드 찾기
+            BoardData targetBoard = BoardDataManager.Instance.GetBoardData(gateData.targetBoardKey);
+            if (targetBoard != null)
+            {
+                BoardManager.Instance.MoveBoardTo(targetBoard.key);
+            }
+            else
+            {
+                Debug.LogError($"[BoardGate] 도착 보드 '{gateData.targetBoardKey}' 를 찾을 수 없습니다.");
+            }
         }
+        
     }
 
     private bool IsUnlocked()
@@ -50,22 +63,21 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
         {
             case BoardGateData.UnlockType.None:
                 return true;
-                //추후 조건 구현 필요
-            case BoardGateData.UnlockType.Item:
-                //return InventoryManager.Instance.HasItem(gateData.unlockParam);
 
-            case BoardGateData.UnlockType.Level:
-                if (int.TryParse(gateData.unlockParam, out int requiredLevel))
-                {
-                    //return PlayerManager.Instance.Level >= requiredLevel;
-                }
+            case BoardGateData.UnlockType.Item:
+                // 아이템 드래그 전용, 직접 해제 불가 → 잠금 상태로 유지
                 return false;
+                
+            case BoardGateData.UnlockType.Level:
+                return PlayerLevelManager.Instance.CurrentLevel >= gateData.unlockParamValue;
 
             case BoardGateData.UnlockType.Quest:
-            //return QuestManager.Instance.IsQuestCompleted(gateData.unlockParam);
-
+                //return QuestManager.Instance.IsQuestCompleted(gateData.unlockParam);
+                return false;
             case BoardGateData.UnlockType.Resource:
-            //return QuestManager.Instance.IsQuestCompleted(gateData.unlockParam);
+                ResourceType costType = ResourceTypeUtil.StringToResourceType(gateData.unlockParam);
+                int requiredAmount = gateData.unlockParamValue;
+                return PlayerResourceManager.Instance.GetAmount(costType) >= requiredAmount;
 
             default:
                 return false;

@@ -10,7 +10,6 @@ public class EmptyCellCatcher : MonoBehaviour, IPointerClickHandler
         ItemView itemView = GetComponentInChildren<ItemView>();
         if (itemView == null)
         {
-            Debug.Log("[EmptyCellCatcher] ∫Û ºø ≈¨∏Ø °Ê º±≈√ «ÿ¡¶");
             ItemSelectorManager.Instance.ClearSelection();
         }
     }
