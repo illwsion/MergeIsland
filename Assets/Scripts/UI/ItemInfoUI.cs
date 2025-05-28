@@ -498,6 +498,8 @@ public class ItemInfoUI : MonoBehaviour
                 return AtlasManager.Instance.GetSprite("resourceIcon_energy");
             case ResourceType.Gem:
                 return AtlasManager.Instance.GetSprite("resourceIcon_gem");
+            case ResourceType.Exp:
+                return AtlasManager.Instance.GetSprite("exp_0");
             default:
                 return AtlasManager.Instance.GetSprite("resourceIcon_default");
         }

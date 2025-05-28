@@ -67,7 +67,7 @@ public class MergeItem
     public MergeItem(string key)
     {
         this.key = key;
-
+        Debug.Log(Data.name);
         maxHP = Data.hp;  // 여기서 hp 초기화
         currentHP = Data.hp;
 

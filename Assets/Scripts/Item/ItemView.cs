@@ -45,27 +45,22 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
             switch (mergeItem.ProduceType)
             {
                 case ItemData.ProduceType.Manual:
-                    Debug.Log("[ItemView] Manual 아이템 → 생산 실행");
                     mergeItem.ProduceManual();
                     break;
 
                 case ItemData.ProduceType.Gather:
-                    Debug.Log("[ItemView] Gather 아이템 → 자원 수확 실행");
                     mergeItem.ProduceGather();
                     break;
 
                 case ItemData.ProduceType.Dialogue:
-                    Debug.Log("[ItemView] Dialogue 아이템 → NPC 대화 실행");
                     //TriggerNPCDialogue(); // 이후 확장 시 정의
                     break;
 
                 case ItemData.ProduceType.Auto:
-                    Debug.Log("[ItemView] Auto 아이템 → 터치 시 아무 동작 없음");
                     break;
 
                 case ItemData.ProduceType.None:
                 default:
-                    Debug.Log("[ItemView] 정의되지 않은 ProduceType → 무시");
                     break;
             }
 

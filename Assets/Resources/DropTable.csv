@@ -14,4 +14,12 @@ DROP_TREE_8,ITEM_TREE_CHOPPED_8,1000,null,null,null,null,null,null,null,null
 DROP_TREE_9,ITEM_TREE_CHOPPED_9,1000,null,null,null,null,null,null,null,null
 DROP_TREE_10,ITEM_TREE_CHOPPED_10,1000,null,null,null,null,null,null,null,null
 DROP_TREE_11,ITEM_TREE_CHOPPED_11,1000,null,null,null,null,null,null,null,null
+DROP_BOULDER_0,ITEM_BOULDER_MINED_0,1000,null,null,null,null,null,null,null,null
+DROP_BOULDER_1,ITEM_BOULDER_MINED_1,1000,null,null,null,null,null,null,null,null
+DROP_BOULDER_2,ITEM_BOULDER_MINED_2,1000,null,null,null,null,null,null,null,null
+DROP_BOULDER_3,ITEM_BOULDER_MINED_3,1000,null,null,null,null,null,null,null,null
+DROP_BOULDER_4,ITEM_BOULDER_MINED_4,1000,null,null,null,null,null,null,null,null
+DROP_BOULDER_5,ITEM_BOULDER_MINED_5,1000,null,null,null,null,null,null,null,null
+DROP_BOULDER_6,ITEM_BOULDER_MINED_6,1000,null,null,null,null,null,null,null,null
+DROP_BOULDER_7,ITEM_BOULDER_MINED_7,1000,null,null,null,null,null,null,null,null
 DROP_COW,ITEM_MILK,1000,null,null,null,null,null,null,null,null

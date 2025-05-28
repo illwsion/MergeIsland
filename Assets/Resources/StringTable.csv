@@ -25,22 +25,6 @@ ITEM_NAME_TREE_10,나무 11레벨 이름,나무 11단계,Tree Level 11
 ITEM_DESC_TREE_10,나무 11레벨 설명,나무 11단계이다.,It's Tree Level 11
 ITEM_NAME_TREE_11,나무 12레벨 이름,나무 12단계,Tree Level 12
 ITEM_DESC_TREE_11,나무 12레벨 설명,나무 12단계이다.,It's Tree Level 12
-ITEM_NAME_LOG_0,통나무 1레벨 이름,통나무 1단계,Log Level 1
-ITEM_DESC_LOG_0,통나무 1레벨 설명,통나무 1단계이다.,It's Log Level 1
-ITEM_NAME_LOG_1,통나무 2레벨 이름,통나무 2단계,Log Level 2
-ITEM_DESC_LOG_1,통나무 2레벨 설명,통나무 2단계이다.,It's Log Level 2
-ITEM_NAME_LOG_2,통나무 3레벨 이름,통나무 3단계,Log Level 3
-ITEM_DESC_LOG_2,통나무 3레벨 설명,통나무 3단계이다.,It's Log Level 3
-ITEM_NAME_LOG_3,통나무 4레벨 이름,통나무 4단계,Log Level 4
-ITEM_DESC_LOG_3,통나무 4레벨 설명,통나무 4단계이다.,It's Log Level 4
-ITEM_NAME_LOG_4,통나무 5레벨 이름,통나무 5단계,Log Level 5
-ITEM_DESC_LOG_4,통나무 5레벨 설명,통나무 5단계이다.,It's Log Level 5
-ITEM_NAME_LOG_5,통나무 6레벨 이름,통나무 6단계,Log Level 6
-ITEM_DESC_LOG_5,통나무 6레벨 설명,통나무 6단계이다.,It's Log Level 6
-ITEM_NAME_LOG_6,통나무 7레벨 이름,통나무 7단계,Log Level 7
-ITEM_DESC_LOG_6,통나무 7레벨 설명,통나무 7단계이다.,It's Log Level 7
-ITEM_NAME_LOG_7,통나무 8레벨 이름,통나무 8단계,Log Level 8
-ITEM_DESC_LOG_7,통나무 8레벨 설명,통나무 8단계이다.,It's Log Level 8
 ITEM_NAME_TREE_CHOPPED_0,벌목된 나무 1레벨 이름,벌목된 나무 1단계,Chopped Tree Level 1
 ITEM_DESC_TREE_CHOPPED_0,벌목된 나무 1레벨 설명,벌목된 나무 1단계이다.,It's Chopped Tree Level 1
 ITEM_NAME_TREE_CHOPPED_1,벌목된 나무 2레벨 이름,벌목된 나무 2단계,Chopped Tree Level 2
@@ -65,6 +49,70 @@ ITEM_NAME_TREE_CHOPPED_10,벌목된 나무 11레벨 이름,벌목된 나무 11�
 ITEM_DESC_TREE_CHOPPED_10,벌목된 나무 11레벨 설명,벌목된 나무 11단계이다.,It's Chopped Tree Level 11
 ITEM_NAME_TREE_CHOPPED_11,벌목된 나무 12레벨 이름,벌목된 나무 12단계,Chopped Tree Level 12
 ITEM_DESC_TREE_CHOPPED_11,벌목된 나무 12레벨 설명,벌목된 나무 12단계이다.,It's Chopped Tree Level 12
+ITEM_NAME_LOG_0,통나무 1레벨 이름,통나무 1단계,Log Level 1
+ITEM_DESC_LOG_0,통나무 1레벨 설명,통나무 1단계이다.,It's Log Level 1
+ITEM_NAME_LOG_1,통나무 2레벨 이름,통나무 2단계,Log Level 2
+ITEM_DESC_LOG_1,통나무 2레벨 설명,통나무 2단계이다.,It's Log Level 2
+ITEM_NAME_LOG_2,통나무 3레벨 이름,통나무 3단계,Log Level 3
+ITEM_DESC_LOG_2,통나무 3레벨 설명,통나무 3단계이다.,It's Log Level 3
+ITEM_NAME_LOG_3,통나무 4레벨 이름,통나무 4단계,Log Level 4
+ITEM_DESC_LOG_3,통나무 4레벨 설명,통나무 4단계이다.,It's Log Level 4
+ITEM_NAME_LOG_4,통나무 5레벨 이름,통나무 5단계,Log Level 5
+ITEM_DESC_LOG_4,통나무 5레벨 설명,통나무 5단계이다.,It's Log Level 5
+ITEM_NAME_LOG_5,통나무 6레벨 이름,통나무 6단계,Log Level 6
+ITEM_DESC_LOG_5,통나무 6레벨 설명,통나무 6단계이다.,It's Log Level 6
+ITEM_NAME_LOG_6,통나무 7레벨 이름,통나무 7단계,Log Level 7
+ITEM_DESC_LOG_6,통나무 7레벨 설명,통나무 7단계이다.,It's Log Level 7
+ITEM_NAME_LOG_7,통나무 8레벨 이름,통나무 8단계,Log Level 8
+ITEM_DESC_LOG_7,통나무 8레벨 설명,통나무 8단계이다.,It's Log Level 8
+ITEM_NAME_BOULDER_0,바위 1레벨 이름,바위 1단계,Boulder Level 1
+ITEM_DESC_BOULDER_0,바위 1레벨 설명,바위 1단계이다.,It's Boulder Level 1
+ITEM_NAME_BOULDER_1,바위 2레벨 이름,바위 2단계,Boulder Level 2
+ITEM_DESC_BOULDER_1,바위 2레벨 설명,바위 2단계이다.,It's Boulder Level 2
+ITEM_NAME_BOULDER_2,바위 3레벨 이름,바위 3단계,Boulder Level 3
+ITEM_DESC_BOULDER_2,바위 3레벨 설명,바위 3단계이다.,It's Boulder Level 3
+ITEM_NAME_BOULDER_3,바위 4레벨 이름,바위 4단계,Boulder Level 4
+ITEM_DESC_BOULDER_3,바위 4레벨 설명,바위 4단계이다.,It's Boulder Level 4
+ITEM_NAME_BOULDER_4,바위 5레벨 이름,바위 5단계,Boulder Level 5
+ITEM_DESC_BOULDER_4,바위 5레벨 설명,바위 5단계이다.,It's Boulder Level 5
+ITEM_NAME_BOULDER_5,바위 6레벨 이름,바위 6단계,Boulder Level 6
+ITEM_DESC_BOULDER_5,바위 6레벨 설명,바위 6단계이다.,It's Boulder Level 6
+ITEM_NAME_BOULDER_6,바위 7레벨 이름,바위 7단계,Boulder Level 7
+ITEM_DESC_BOULDER_6,바위 7레벨 설명,바위 7단계이다.,It's Boulder Level 7
+ITEM_NAME_BOULDER_7,바위 8레벨 이름,바위 8단계,Boulder Level 8
+ITEM_DESC_BOULDER_7,바위 8레벨 설명,바위 8단계이다.,It's Boulder Level 8
+ITEM_NAME_BOULDER__MINED_0,채굴된 바위 1레벨 이름,채굴된 바위 1단계,Mined boulder Level 1
+ITEM_DESC_BOULDER_MINED_0,채굴된 바위 1레벨 설명,채굴된 바위 1단계이다.,It's Mined boulder Level 1
+ITEM_NAME_BOULDER__MINED_1,채굴된 바위 2레벨 이름,채굴된 바위 2단계,Mined boulder Level 2
+ITEM_DESC_BOULDER_MINED_1,채굴된 바위 2레벨 설명,채굴된 바위 2단계이다.,It's Mined boulder Level 2
+ITEM_NAME_BOULDER__MINED_2,채굴된 바위 3레벨 이름,채굴된 바위 3단계,Mined boulder Level 3
+ITEM_DESC_BOULDER_MINED_2,채굴된 바위 3레벨 설명,채굴된 바위 3단계이다.,It's Mined boulder Level 3
+ITEM_NAME_BOULDER__MINED_3,채굴된 바위 4레벨 이름,채굴된 바위 4단계,Mined boulder Level 4
+ITEM_DESC_BOULDER_MINED_3,채굴된 바위 4레벨 설명,채굴된 바위 4단계이다.,It's Mined boulder Level 4
+ITEM_NAME_BOULDER__MINED_4,채굴된 바위 5레벨 이름,채굴된 바위 5단계,Mined boulder Level 5
+ITEM_DESC_BOULDER_MINED_4,채굴된 바위 5레벨 설명,채굴된 바위 5단계이다.,It's Mined boulder Level 5
+ITEM_NAME_BOULDER__MINED_5,채굴된 바위 6레벨 이름,채굴된 바위 6단계,Mined boulder Level 6
+ITEM_DESC_BOULDER_MINED_5,채굴된 바위 6레벨 설명,채굴된 바위 6단계이다.,It's Mined boulder Level 6
+ITEM_NAME_BOULDER__MINED_6,채굴된 바위 7레벨 이름,채굴된 바위 7단계,Mined boulder Level 7
+ITEM_DESC_BOULDER_MINED_6,채굴된 바위 7레벨 설명,채굴된 바위 7단계이다.,It's Mined boulder Level 7
+ITEM_NAME_BOULDER__MINED_7,채굴된 바위 8레벨 이름,채굴된 바위 8단계,Mined boulder Level 8
+ITEM_DESC_BOULDER_MINED_7,채굴된 바위 8레벨 설명,채굴된 바위 8단계이다.,It's Mined boulder Level 8
+ITEM_NAME_STONE_0,돌 1레벨 이름,돌 1단계,Stone Level 1
+ITEM_DESC_STONE_0,돌 1레벨 설명,돌 1단계이다.,It's Stone Level 1
+ITEM_NAME_STONE_1,돌 2레벨 이름,돌 2단계,Stone Level 2
+ITEM_DESC_STONE_1,돌 2레벨 설명,돌 2단계이다.,It's Stone Level 2
+ITEM_NAME_STONE_2,돌 3레벨 이름,돌 3단계,Stone Level 3
+ITEM_DESC_STONE_2,돌 3레벨 설명,돌 3단계이다.,It's Stone Level 3
+ITEM_NAME_STONE_3,돌 4레벨 이름,돌 4단계,Stone Level 4
+ITEM_DESC_STONE_3,돌 4레벨 설명,돌 4단계이다.,It's Stone Level 4
+ITEM_NAME_STONE_4,돌 5레벨 이름,돌 5단계,Stone Level 5
+ITEM_DESC_STONE_4,돌 5레벨 설명,돌 5단계이다.,It's Stone Level 5
+ITEM_NAME_STONE_5,돌 6레벨 이름,돌 6단계,Stone Level 6
+ITEM_DESC_STONE_5,돌 6레벨 설명,돌 6단계이다.,It's Stone Level 6
+ITEM_NAME_STONE_6,돌 7레벨 이름,돌 7단계,Stone Level 7
+ITEM_DESC_STONE_6,돌 7레벨 설명,돌 7단계이다.,It's Stone Level 7
+ITEM_NAME_STONE_7,돌 8레벨 이름,돌 8단계,Stone Level 8
+ITEM_DESC_STONE_7,돌 8레벨 설명,돌 8단계이다.,It's Stone Level 8
 ITEM_NAME_AXE_0,도끼 1레벨 이름,도끼 1단계,Axe level 1
 ITEM_DESC_AXE_0,도끼 1레벨 설명,도끼 1레벨이다.,It's Axe Level 1
 ITEM_NAME_AXE_1,도끼 2레벨 이름,도끼 2단계,Axe level 2
@@ -85,18 +133,64 @@ ITEM_NAME_AXE_8,도끼 9레벨 이름,도끼 9단계,Axe level 9
 ITEM_DESC_AXE_8,도끼 9레벨 설명,도끼 9레벨이다.,It's Axe Level 9
 ITEM_NAME_AXE_9,도끼 10레벨 이름,도끼 10단계,Axe level 10
 ITEM_DESC_AXE_9,도끼 10레벨 설명,도끼 10레벨이다.,It's Axe Level 10
+ITEM_NAME_PICKAXE_0,곡괭이 1레벨 이름,곡괭이 1단계,Pickaxe level 1
+ITEM_DESC_PICKAXE_0,곡괭이 1레벨 설명,곡괭이 1레벨이다.,It's pickaxe Level 1
+ITEM_NAME_PICKAXE_1,곡괭이 2레벨 이름,곡괭이 2단계,Pickaxe level 2
+ITEM_DESC_PICKAXE_1,곡괭이 2레벨 설명,곡괭이 2레벨이다.,It's pickaxe Level 2
+ITEM_NAME_PICKAXE_2,곡괭이 3레벨 이름,곡괭이 3단계,Pickaxe level 3
+ITEM_DESC_PICKAXE_2,곡괭이 3레벨 설명,곡괭이 3레벨이다.,It's pickaxe Level 3
+ITEM_NAME_PICKAXE_3,곡괭이 4레벨 이름,곡괭이 4단계,Pickaxe level 4
+ITEM_DESC_PICKAXE_3,곡괭이 4레벨 설명,곡괭이 4레벨이다.,It's pickaxe Level 4
+ITEM_NAME_PICKAXE_4,곡괭이 5레벨 이름,곡괭이 5단계,Pickaxe level 5
+ITEM_DESC_PICKAXE_4,곡괭이 5레벨 설명,곡괭이 5레벨이다.,It's pickaxe Level 5
+ITEM_NAME_PICKAXE_5,곡괭이 6레벨 이름,곡괭이 6단계,Pickaxe level 6
+ITEM_DESC_PICKAXE_5,곡괭이 6레벨 설명,곡괭이 6레벨이다.,It's pickaxe Level 6
+ITEM_NAME_PICKAXE_6,곡괭이 7레벨 이름,곡괭이 7단계,Pickaxe level 7
+ITEM_DESC_PICKAXE_6,곡괭이 7레벨 설명,곡괭이 7레벨이다.,It's pickaxe Level 7
+ITEM_NAME_PICKAXE_7,곡괭이 8레벨 이름,곡괭이 8단계,Pickaxe level 8
+ITEM_DESC_PICKAXE_7,곡괭이 8레벨 설명,곡괭이 8레벨이다.,It's pickaxe Level 8
+ITEM_NAME_WEAPON_0,무기 1레벨 이름,무기 1단계,Weapon level 1
+ITEM_DESC_WEAPON_0,무기 1레벨 설명,무기 1레벨이다.,It's weapon Level 1
+ITEM_NAME_WEAPON_1,무기 2레벨 이름,무기 2단계,Weapon level 2
+ITEM_DESC_WEAPON_1,무기 2레벨 설명,무기 2레벨이다.,It's weapon Level 2
+ITEM_NAME_WEAPON_2,무기 3레벨 이름,무기 3단계,Weapon level 3
+ITEM_DESC_WEAPON_2,무기 3레벨 설명,무기 3레벨이다.,It's weapon Level 3
+ITEM_NAME_WEAPON_3,무기 4레벨 이름,무기 4단계,Weapon level 4
+ITEM_DESC_WEAPON_3,무기 4레벨 설명,무기 4레벨이다.,It's weapon Level 4
+ITEM_NAME_WEAPON_4,무기 5레벨 이름,무기 5단계,Weapon level 5
+ITEM_DESC_WEAPON_4,무기 5레벨 설명,무기 5레벨이다.,It's weapon Level 5
+ITEM_NAME_WEAPON_5,무기 6레벨 이름,무기 6단계,Weapon level 6
+ITEM_DESC_WEAPON_5,무기 6레벨 설명,무기 6레벨이다.,It's weapon Level 6
+ITEM_NAME_WEAPON_6,무기 7레벨 이름,무기 7단계,Weapon level 7
+ITEM_DESC_WEAPON_6,무기 7레벨 설명,무기 7레벨이다.,It's weapon Level 7
+ITEM_NAME_WEAPON_7,무기 8레벨 이름,무기 8단계,Weapon level 8
+ITEM_DESC_WEAPON_7,무기 8레벨 설명,무기 8레벨이다.,It's weapon Level 8
 ITEM_NAME_COW,소,소,Cow
 ITEM_DESC_COW,젖소,젖소이다,This is Cow
 ITEM_NAME_HAY,건초,건초,Hay
 ITEM_DESC_HAY,건초,건초이다,This is Hay
 ITEM_NAME_MILK,우유,우유,Milk
 ITEM_DESC_MILK,우유,우유이다,This is Milk
-ITEM_NAME_WORKBENCH,작업대 이름,작업대,Workbench
-ITEM_DESC_WORKBENCH,작업대 설명,터치하여 도끼 생산,Touch to produce Axes
+ITEM_NAME_WORKBENCH_AXE,작업대 이름,도끼 작업대,Workbench
+ITEM_DESC_WORKBENCH_AXE,작업대 설명,터치하여 도끼 생산,Touch to produce axes
+ITEM_NAME_WORKBENCH_PICKAXE,작업대 이름,곡괭이 작업대,Workbench
+ITEM_DESC_WORKBENCH_PICKAXE,작업대 설명,터치하여 곡괭이 생산,Touch to produce pickaxes
+ITEM_NAME_WORKBENCH_WEAPON,작업대 이름,무기 작업대,Workbench
+ITEM_DESC_WORKBENCH_WEAPON,작업대 설명,터치하여 무기 생산,Touch to produce weapons
 ITEM_NAME_STORAGE_WOOD_0,나무 창고 1레벨 이름,목재 창고 1레벨,Wood Storage level 1
 ITEM_DESC_STORAGE_WOOD_0,나무 창고 1레벨 설명,목재를 저장하는 창고이다,it's wood storage
 ITEM_NAME_STORAGE_WOOD_1,나무 창고 2레벨 이름,목재 창고 2레벨,Wood Storage level 2
 ITEM_DESC_STORAGE_WOOD_1,나무 창고 2레벨 설명,목재를 저장하는 창고이다,it's wood storage
+ITEM_NAME_EXP_0,경험치 1레벨 이름,경험치,EXP
+ITEM_DESC_EXP_0,경험치 1레벨 설명,머지하거나 터치해서 경험치 획득,Merge or Touch to Gather EXP
+ITEM_NAME_EXP_1,경험치 2레벨 이름,경험치,EXP
+ITEM_DESC_EXP_1,경험치 2레벨 설명,머지하거나 터치해서 경험치 획득,Merge or Touch to Gather EXP
+ITEM_NAME_EXP_2,경험치 3레벨 이름,경험치,EXP
+ITEM_DESC_EXP_2,경험치 3레벨 설명,머지하거나 터치해서 경험치 획득,Merge or Touch to Gather EXP
+ITEM_NAME_EXP_3,경험치 4레벨 이름,경험치,EXP
+ITEM_DESC_EXP_3,경험치 4레벨 설명,머지하거나 터치해서 경험치 획득,Merge or Touch to Gather EXP
+ITEM_NAME_EXP_4,경험치 5레벨 이름,경험치,EXP
+ITEM_DESC_EXP_4,경험치 5레벨 설명,머지하거나 터치해서 경험치 획득,Merge or Touch to Gather EXP
 EFFECTLABEL_GATHER,이펙트라벨_획득,획득,Gather
 EFFECTLABEL_PRODUCE,이펙트라벨_생산,생산,Produce
 EFFECTLABEL_SELL,이펙트라벨_판매,판매,Sell
@@ -115,3 +209,5 @@ UI_LOCKEDGATE_ITEM,잠긴 게이트 DESC,{0} 아이템을 게이트에 드랍하
 UI_LOCKEDGATE_LEVEL,잠긴 게이트 DESC,플레이어 레벨 {0} 이상 필요합니다,Requires player level {0} or higher
 UI_LOCKEDGATE_QUEST,잠긴 게이트 DESC,{0} 퀘스트를 완료하세요,Complete {0} quest
 UI_LOCKEDGATE_RESOURCE,잠긴 게이트 DESC,{0} 자원이 필요합니다,{0} resource is required
+ITEM_NAME_EXPGENERATOR,경험치생산기 이름,경험치 생산기,asdf
+ITEM_DESC_EXPGENERATOR,경험치생산기 설명,치트 아이템입니다,asdf
