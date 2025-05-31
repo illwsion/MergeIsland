@@ -483,7 +483,7 @@ public class BoardManager : MonoBehaviour
 
     void HandleMerge(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
     {
-        string? resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.key, targetItem.key);
+        string resultId = MergeRuleManager.Instance.GetMergeResult(draggedItem.key, targetItem.key);
 
         UnregisterItem(draggedItem);
         UnregisterItem(targetItem);

@@ -9,6 +9,7 @@ public class PlayerLevelManager : MonoBehaviour
     [SerializeField] private ExpUIManager expUIManager;
 
     private Dictionary<int, int> expTable = new Dictionary<int, int>();
+    private Dictionary<int, int> skillPointTable = new Dictionary<int, int>();
 
     public int CurrentLevel { get; private set; } = 1;
     public int CurrentEXP { get; private set; } = 0;
@@ -60,8 +61,9 @@ public class PlayerLevelManager : MonoBehaviour
             {
                 int level = ParseIntSafe(values[0], "Level");
                 int requiredEXP = ParseIntSafe(values[1], "EXP");
-
+                int gainSkillPoint = ParseIntSafe(values[2], "gainSkillPoint");
                 expTable[level] = requiredEXP;
+                skillPointTable[level] = gainSkillPoint;
             }
             catch (Exception e)
             {
@@ -83,7 +85,7 @@ public class PlayerLevelManager : MonoBehaviour
         {
             CurrentEXP -= expTable[CurrentLevel];
             CurrentLevel++;
-            SkillPoints++;
+            SkillPoints += skillPointTable[CurrentLevel];
             OnLevelUp?.Invoke(CurrentLevel);
             Debug.Log($"[PlayerLevelManager] 레벨업! 현재 레벨: {CurrentLevel}");
         }
@@ -100,7 +102,7 @@ public class PlayerLevelManager : MonoBehaviour
     private void UpdateUI()
     {
         int required = ExpToNextLevel();
-        expUIManager?.UpdateUI(CurrentLevel, CurrentEXP, required);
+        expUIManager?.UpdateUI(CurrentLevel, CurrentEXP, expTable[CurrentLevel]);
     }
 
     // ------------------ Safe Parsers ------------------

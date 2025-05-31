@@ -53,14 +53,14 @@ public class MergeRuleManager : MonoBehaviour
         }
     }
 
-    public string? GetMergeResult(string a, string b)
+    public string GetMergeResult(string a, string b)
     {
         foreach (var rule in rules)
         {
             if (rule.Matches(a, b))
                 return rule.resultItem;
         }
-        return null;
+        return "null";//야매코드긴 하지만...CanMergeWith로 확인하고 왔기 때문에 괜찮음
     }
 
     public bool CanMerge(string a, string b)
