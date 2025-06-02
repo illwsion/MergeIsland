@@ -63,6 +63,11 @@ public class SkillDataManager : MonoBehaviour
         }
     }
 
+    public IEnumerable<SkillData> GetAllSkills()
+    {
+        return skillDataMap.Values;
+    }
+
     private SkillData ParseSkillData(string[] values)
     {
         var skill = new SkillData();

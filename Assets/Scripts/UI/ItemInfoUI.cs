@@ -421,7 +421,7 @@ public class ItemInfoUI : MonoBehaviour
                     icon2 = AtlasManager.Instance.GetSprite(rule.resultType.ToString().ToLower()); // 예: gold → gold 아이콘
                     value = rule.resultValue.ToString();
                 }
-
+                //조건에 따라 label을 "먹이주기" 등으로 바꾸면 될듯. Animal일 때 먹이주기, Crop일 때 작물에 주는 느낌같이
                 effects.Add(new EffectData
                 {
                     type = EffectType.Supply,
