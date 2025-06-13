@@ -36,6 +36,8 @@ public class SaveController : MonoBehaviour
             offlineElapsedTime = (float)(DateTime.UtcNow - lastTime).TotalSeconds;
             //Debug.Log($"[SaveController] 오프라인 시간: {offlineElapsedTime}초");
         }
+
+        PlayerSkillManager.Instance.Initialize(CurrentSave.player);
     }
 
     public void Save()

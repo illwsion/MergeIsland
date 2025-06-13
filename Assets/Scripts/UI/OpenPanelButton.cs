@@ -46,10 +46,10 @@ public class OpenPanelButton : MonoBehaviour
 
     private void HandleSkillTreeSwitch()
     {
-        var skillPanel = FindFirstObjectByType<SkillPanel>();
-        if (skillPanel == null) return;
+        var skillTreeUI = FindFirstObjectByType<SkillTreeUI>();
+        if (skillTreeUI == null) return;
 
-        skillPanel.ChangeTree(skillTreeType.ToString()); // 또는 enum 직접 넘겨도 됨
+        skillTreeUI.ChangeTree(skillTreeType.ToString()); // 또는 enum 직접 넘겨도 됨
     }
 }
 

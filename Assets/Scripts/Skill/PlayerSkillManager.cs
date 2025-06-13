@@ -3,12 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class PlayerSkillManager
+public class PlayerSkillManager : MonoBehaviour
 {
+    public static PlayerSkillManager Instance { get; private set; }
+
     private PlayerSaveData saveData;
     private Dictionary<(SkillData.SkillEffect, string), int> cachedSkillEffects = new();
 
-    public PlayerSkillManager(PlayerSaveData data)
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // 필요하다면 유지
+    }
+
+    public void Initialize(PlayerSaveData data)
     {
         saveData = data;
         RecalculateAllEffects();
