@@ -12,11 +12,6 @@ public class SkillTreeUI : MonoBehaviour
     [SerializeField] private GameObject combatTree;
     [SerializeField] private GameObject utilityTree;
 
-    private void Start()
-    {
-        ChangeTree("Production");
-    }
-
     void OnEnable()
     {
         StartCoroutine(ScrollToBottomNextFrame());
@@ -30,7 +25,7 @@ public class SkillTreeUI : MonoBehaviour
 
         StartCoroutine(ScrollToBottomNextFrame());
 
-        RefreshVisibleTree(); // 아래에서 설명
+        RefreshVisibleTree();
     }
 
     private IEnumerator ScrollToBottomNextFrame()

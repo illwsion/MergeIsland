@@ -4,6 +4,7 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
     [Header("ÆÐ³Îµé")]
+    [SerializeField] private SkillTreeUI skillTreeUI;
     public GameObject skillPanel;
     public GameObject craftPanel;
     public GameObject shopPanel;
@@ -24,9 +25,9 @@ public class MenuManager : MonoBehaviour
 
     public void OpenSkillPanel()
     {
-        Debug.Log("OpenSkillPanel");
         ShowOnly(skillPanel);
         SetBottomTab(skillTabPrefab);
+        skillTreeUI.ChangeTree("Production");
     }
 
     public void OpenCraftPanel()

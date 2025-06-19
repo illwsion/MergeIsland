@@ -211,3 +211,53 @@ UI_LOCKEDGATE_QUEST,잠긴 게이트 DESC,{0} 퀘스트를 완료하세요,Compl
 UI_LOCKEDGATE_RESOURCE,잠긴 게이트 DESC,{0} 자원이 필요합니다,{0} resource is required
 ITEM_NAME_EXPGENERATOR,경험치생산기 이름,경험치 생산기,asdf
 ITEM_DESC_EXPGENERATOR,경험치생산기 설명,치트 아이템입니다,asdf
+SKILL_NAME_GAINRESOURCE_WOOD_0_0,나무 생산량 증가 1,나무 생산량 증가 1,Tree
+SKILL_DESC_GAINRESOURCE_WOOD_0_0,나무 생산량 증가 1,나무 생산량이 증가합니다,Tree
+SKILL_NAME_GAINRESOURCE_WOOD_0_1,나무 생산량 증가 1,나무 생산량 증가 1,Tree
+SKILL_DESC_GAINRESOURCE_WOOD_0_1,나무 생산량 증가 1,나무 생산량이 증가합니다,Tree
+SKILL_NAME_GAINRESOURCE_WOOD_0_2,나무 생산량 증가 1,나무 생산량 증가 1,Tree
+SKILL_DESC_GAINRESOURCE_WOOD_0_2,나무 생산량 증가 1,나무 생산량이 증가합니다,Tree
+SKILL_NAME_GAINRESOURCE_WOOD_0_3,나무 생산량 증가 1,나무 생산량 증가 1,Tree
+SKILL_DESC_GAINRESOURCE_WOOD_0_3,나무 생산량 증가 1,나무 생산량이 증가합니다,Tree
+SKILL_NAME_GAINRESOURCE_WOOD_0_4,나무 생산량 증가 1,나무 생산량 증가 1,Tree
+SKILL_DESC_GAINRESOURCE_WOOD_0_4,나무 생산량 증가 1,나무 생산량이 증가합니다,Tree
+SKILL_NAME_DAMAGEADD_AXE_0_0,도끼 대미지 증가 1,도끼 대미지 증가 1,Axe
+SKILL_DESC_DAMAGEADD_AXE_0_0,도끼 대미지 증가 1,도끼 대미지가 증가합니다,Axe
+SKILL_NAME_DAMAGEADD_AXE_0_1,도끼 대미지 증가 1,도끼 대미지 증가 1,Axe
+SKILL_DESC_DAMAGEADD_AXE_0_1,도끼 대미지 증가 1,도끼 대미지가 증가합니다,Axe
+SKILL_NAME_DAMAGEADD_AXE_0_2,도끼 대미지 증가 1,도끼 대미지 증가 1,Axe
+SKILL_DESC_DAMAGEADD_AXE_0_2,도끼 대미지 증가 1,도끼 대미지가 증가합니다,Axe
+SKILL_NAME_DAMAGEADD_AXE_0_3,도끼 대미지 증가 1,도끼 대미지 증가 1,Axe
+SKILL_DESC_DAMAGEADD_AXE_0_3,도끼 대미지 증가 1,도끼 대미지가 증가합니다,Axe
+SKILL_NAME_DAMAGEADD_AXE_0_4,도끼 대미지 증가 1,도끼 대미지 증가 1,Axe
+SKILL_DESC_DAMAGEADD_AXE_0_4,도끼 대미지 증가 1,도끼 대미지가 증가합니다,Axe
+SKILL_NAME_RESOURCECAP_WOOD_0_0,나무 저장량 증가 1,나무 저장량 증가 1,ResourceCap_Wood
+SKILL_DESC_RESOURCECAP_WOOD_0_0,나무 저장량 증가 1,나무 저장량이 증가합니다,ResourceCap_Wood
+SKILL_NAME_RESOURCECAP_WOOD_0_1,나무 저장량 증가 1,나무 저장량 증가 1,ResourceCap_Wood
+SKILL_DESC_RESOURCECAP_WOOD_0_1,나무 저장량 증가 1,나무 저장량이 증가합니다,ResourceCap_Wood
+SKILL_NAME_RESOURCECAP_WOOD_0_2,나무 저장량 증가 1,나무 저장량 증가 1,ResourceCap_Wood
+SKILL_DESC_RESOURCECAP_WOOD_0_2,나무 저장량 증가 1,나무 저장량이 증가합니다,ResourceCap_Wood
+SKILL_NAME_RESOURCECAP_WOOD_0_3,나무 저장량 증가 1,나무 저장량 증가 1,ResourceCap_Wood
+SKILL_DESC_RESOURCECAP_WOOD_0_3,나무 저장량 증가 1,나무 저장량이 증가합니다,ResourceCap_Wood
+SKILL_NAME_RESOURCECAP_WOOD_0_4,나무 저장량 증가 1,나무 저장량 증가 1,ResourceCap_Wood
+SKILL_DESC_RESOURCECAP_WOOD_0_4,나무 저장량 증가 1,나무 저장량이 증가합니다,ResourceCap_Wood
+SKILL_NAME_DAMAGEADD_WEAPON_0_0,무기 대미지 증가 1,무기 대미지 증가 1,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_0_0,무기 대미지 증가 1,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_0_1,무기 대미지 증가 1,무기 대미지 증가 1,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_0_1,무기 대미지 증가 1,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_0_2,무기 대미지 증가 1,무기 대미지 증가 1,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_0_2,무기 대미지 증가 1,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_0_3,무기 대미지 증가 1,무기 대미지 증가 1,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_0_3,무기 대미지 증가 1,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_0_4,무기 대미지 증가 1,무기 대미지 증가 1,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_0_4,무기 대미지 증가 1,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_1_0,무기 대미지 증가 2,무기 대미지 증가 2,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_1_0,무기 대미지 증가 2,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_1_1,무기 대미지 증가 2,무기 대미지 증가 2,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_1_1,무기 대미지 증가 2,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_1_2,무기 대미지 증가 2,무기 대미지 증가 2,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_1_2,무기 대미지 증가 2,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_1_3,무기 대미지 증가 2,무기 대미지 증가 2,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_1_3,무기 대미지 증가 2,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_NAME_DAMAGEADD_WEAPON_1_4,무기 대미지 증가 2,무기 대미지 증가 2,DamageAdd_Weapon
+SKILL_DESC_DAMAGEADD_WEAPON_1_4,무기 대미지 증가 2,무기 대미지가 증가합니다,DamageAdd_Weapon

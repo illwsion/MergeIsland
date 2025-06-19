@@ -35,6 +35,7 @@ public class SkillData
     {
         DamageAdd,
         ResourceGain,
+        ResourceCap,
         CooldownReduce,
         UnlockFeature
     }
