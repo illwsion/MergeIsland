@@ -30,38 +30,8 @@ public class PlayerSkillManager : MonoBehaviour
 
     public int GetSkillLevel(string skillKey)
     {
-        if (string.IsNullOrEmpty(skillKey))
-            return 0;
-
+        if (string.IsNullOrEmpty(skillKey)) return 0;
         return saveData.learnedSkills.TryGetValue(skillKey, out int level) ? level : 0;
-    }
-
-    public int GetGroupSkillLevel(string groupKey)
-    {
-        return saveData.learnedSkills.Keys
-            .Select(k => SkillDataManager.Instance.GetSkillData(k))
-            .Count(skill => skill != null && skill.group == groupKey);
-    }
-
-    public int GetGroupMaxLevel(string groupKey)
-    {
-        return SkillDataManager.Instance.GetAllSkills()
-            .Count(skill => skill.group == groupKey);
-    }
-
-    public List<int> GetSkillEffectValues(string groupKey)
-    {
-        return SkillDataManager.Instance.GetAllSkills()
-            .Where(skill => skill.group == groupKey)
-            .OrderBy(skill => skill.level)
-            .Select(skill => skill.skillEffectValue)
-            .ToList();
-    }
-
-    public SkillData GetRepresentativeSkill(string groupKey)
-    {
-        return SkillDataManager.Instance.GetAllSkills()
-            .FirstOrDefault(skill => skill.group == groupKey && skill.level == 1);
     }
 
     public bool CanLearnSkill(string skillKey)
@@ -69,14 +39,11 @@ public class PlayerSkillManager : MonoBehaviour
         var skill = SkillDataManager.Instance.GetSkillData(skillKey);
         if (skill == null) return false;
 
-        if (GetSkillLevel(skillKey) >= skill.maxLevel) return false;
+        if (GetSkillLevel(skillKey) > 0) return false; // 이미 배운 경우
         if (saveData.skillPoints < skill.costSkillPoint) return false;
         if (skill.unlockLevel > saveData.currentLevel) return false;
 
-        if (!string.IsNullOrEmpty(skill.prerequisiteSkill1) && GetSkillLevel(skill.prerequisiteSkill1) <= 0)
-            return false;
-        if (!string.IsNullOrEmpty(skill.prerequisiteSkill2) && GetSkillLevel(skill.prerequisiteSkill2) <= 0)
-            return false;
+        // 보드 잠금 등 추가 조건이 필요하면 여기에 삽입
 
         return true;
     }
@@ -90,7 +57,7 @@ public class PlayerSkillManager : MonoBehaviour
         saveData.skillPoints -= skill.costSkillPoint;
 
         RecalculateAllEffects();
-        Debug.Log($"[PlayerSkillManager] 스킬 {skillKey} 습득 완료 (그룹: {skill.group})");
+        Debug.Log($"[PlayerSkillManager] 스킬 {skillKey} 습득 완료");
         return true;
     }
 
@@ -116,5 +83,12 @@ public class PlayerSkillManager : MonoBehaviour
 
             cachedSkillEffects[key] += totalValue;
         }
+    }
+
+    public IEnumerable<SkillData> GetAllLearnedSkills()
+    {
+        return saveData.learnedSkills.Keys
+            .Select(SkillDataManager.Instance.GetSkillData)
+            .Where(skill => skill != null);
     }
 }

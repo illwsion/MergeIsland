@@ -27,7 +27,7 @@ public class MenuManager : MonoBehaviour
     {
         ShowOnly(skillPanel);
         SetBottomTab(skillTabPrefab);
-        skillTreeUI.ChangeTree("Production");
+        skillTreeUI.ChangeTree("Normal");
     }
 
     public void OpenCraftPanel()

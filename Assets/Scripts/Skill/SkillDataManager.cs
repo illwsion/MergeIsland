@@ -74,22 +74,23 @@ public class SkillDataManager : MonoBehaviour
         int index = 0;
 
         skill.key = ParseStringSafe(values[index++], "key");
-        skill.group = ParseStringSafe(values[index++], "group");
-        skill.category = ParseEnumSafe(values[index++], SkillData.SkillCategory.Combat);
-        skill.level = ParseIntSafe(values[index++], "level");
-        skill.maxLevel = ParseIntSafe(values[index++], "maxLevel");
+        skill.category = ParseEnumSafe(values[index++], SkillData.SkillCategory.Normal);
+        skill.tag = ParseEnumSafe(values[index++], SkillData.SkillTag.Production);
+
+        skill.coordX = ParseIntSafe(values[index++], "coordX");
+        skill.coordY = ParseIntSafe(values[index++], "coordY");
 
         skill.costSkillPoint = ParseIntSafe(values[index++], "costSkillPoint");
         skill.costResourceType = ParseEnumSafe(values[index++], ResourceType.None);
         skill.costResourceValue = ParseIntSafe(values[index++], "costResourceValue");
 
         skill.unlockLevel = ParseIntSafe(values[index++], "unlockLevel");
-        skill.prerequisiteSkill1 = ParseStringSafe(values[index++], "prerequisiteSkill1");
-        skill.prerequisiteSkill2 = ParseStringSafe(values[index++], "prerequisiteSkill2");
+        skill.unlockBoardKey = ParseStringSafe(values[index++], "unlockBoardKey");
 
         skill.skillEffect = ParseEnumSafe(values[index++], SkillData.SkillEffect.DamageAdd);
         skill.targetKey = ParseStringSafe(values[index++], "targetKey");
         skill.skillEffectValue = ParseIntSafe(values[index++], "skillEffectValue");
+        skill.isPercent = ParseBoolSafe(values[index++], "isPercent");
 
         skill.skillNameKey = ParseStringSafe(values[index++], "skillNameKey");
         skill.skillDescKey = ParseStringSafe(values[index++], "skillDescKey");
@@ -133,5 +134,23 @@ public class SkillDataManager : MonoBehaviour
             return null;
 
         return trimmed;
+    }
+
+    private bool ParseBoolSafe(string value, string fieldName)
+    {
+        value = value.Trim().ToLower();
+        if (string.IsNullOrEmpty(value) || value == "null") return false;
+
+        if (bool.TryParse(value, out var result))
+            return result;
+
+        // 1/0 또는 yes/no, y/n 지원
+        if (value == "1" || value == "yes" || value == "y")
+            return true;
+        if (value == "0" || value == "no" || value == "n")
+            return false;
+
+        Debug.LogError($"[SkillDataManager] bool 파싱 실패: '{value}' (필드: {fieldName})");
+        return false;
     }
 }

@@ -3,44 +3,41 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SkillTreeUI : MonoBehaviour
 {
     [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private RectTransform content;
+    [SerializeField] private GameObject skillNodePrefab;
+    [SerializeField] private Vector2 nodeSpacing = new Vector2(150, 150);
 
-    [SerializeField] private GameObject productionTree;
-    [SerializeField] private GameObject combatTree;
-    [SerializeField] private GameObject utilityTree;
+    private string currentCategory = "Normal";
 
     void OnEnable()
     {
-        StartCoroutine(ScrollToBottomNextFrame());
+        GenerateSkillBoard(currentCategory);
+        StartCoroutine(ScrollToCenterNextFrame());
     }
 
-    public void ChangeTree(string treeType)
+    public void ChangeTree(string categoryType)
     {
-        productionTree.SetActive(treeType == "Production");
-        combatTree.SetActive(treeType == "Combat");
-        utilityTree.SetActive(treeType == "Utility");
-
-        StartCoroutine(ScrollToBottomNextFrame());
-
+        currentCategory = categoryType;
+        GenerateSkillBoard(categoryType);
+        StartCoroutine(ScrollToCenterNextFrame());
         RefreshVisibleTree();
     }
 
-    private IEnumerator ScrollToBottomNextFrame()
+    private IEnumerator ScrollToCenterNextFrame()
     {
-        yield return null; // 1 프레임 대기
-        Canvas.ForceUpdateCanvases(); // 강제로 Layout 갱신
-        scrollRect.verticalNormalizedPosition = 0f;
+        yield return null; // 다음 프레임까지 대기
+        Canvas.ForceUpdateCanvases();
+        scrollRect.normalizedPosition = new Vector2(0.5f, 0.5f);
     }
 
     private void RefreshVisibleTree()
     {
-        var activeTree = GetComponentsInChildren<SkillTreeUI>(true)
-            .FirstOrDefault(t => t.gameObject.activeSelf);
-
-        activeTree?.RefreshAllNodes();
+        RefreshAllNodes();
     }
 
     public void RefreshAllNodes()
@@ -48,6 +45,28 @@ public class SkillTreeUI : MonoBehaviour
         foreach (var node in GetComponentsInChildren<SkillNodeUI>())
         {
             node.RefreshVisual();
+        }
+    }
+
+    private void GenerateSkillBoard(string categoryType)
+    {
+        foreach (Transform child in content)
+            Destroy(child.gameObject);
+
+        IEnumerable<SkillData> filteredSkills = SkillDataManager.Instance.GetAllSkills()
+            .Where(skill => skill.category.ToString() == categoryType);
+
+        foreach (var skill in filteredSkills)
+        {
+            var node = Instantiate(skillNodePrefab, content);
+            var nodeUI = node.GetComponent<SkillNodeUI>();
+            nodeUI.SetSkillKey(skill.key);
+
+            var rt = node.GetComponent<RectTransform>();
+            rt.anchoredPosition = new Vector2(
+                skill.coordX * nodeSpacing.x,
+                skill.coordY * nodeSpacing.y
+            );
         }
     }
 }

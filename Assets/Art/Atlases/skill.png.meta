@@ -132,7 +132,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: skill_gainresource_wood_0
+      name: SKILL_RESOURCEGAIN_WOOD_0
       rect:
         serializedVersion: 2
         x: 0
@@ -140,7 +140,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -154,7 +154,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill_damageadd_axe_0
+      name: SKILL_DAMAGEADD_WEAPON_0
       rect:
         serializedVersion: 2
         x: 32
@@ -162,7 +162,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -176,7 +176,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill_resourcecap_wood_0
+      name: SKILL_RESOURCECAP_WOOD_0
       rect:
         serializedVersion: 2
         x: 64
@@ -184,7 +184,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -211,9 +211,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      skill_damageadd_axe_0: 961419402
-      skill_gainresource_wood_0: -1429194734
-      skill_resourcecap_wood_0: 1996170422
+      SKILL_DAMAGEADD_WEAPON_0: 961419402
+      SKILL_RESOURCECAP_WOOD_0: 1996170422
+      SKILL_RESOURCEGAIN_WOOD_0: -1429194734
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
