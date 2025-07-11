@@ -22,10 +22,17 @@ public class SkillTreeUI : MonoBehaviour
 
     public void ChangeTree(string categoryType)
     {
-        currentCategory = categoryType;
-        GenerateSkillBoard(categoryType);
-        StartCoroutine(ScrollToCenterNextFrame());
-        RefreshVisibleTree();
+        if (currentCategory != categoryType)
+        {
+            SkillInfoUI.Instance?.Hide();
+
+            currentCategory = categoryType;
+
+            GenerateSkillBoard(categoryType);
+            StartCoroutine(ScrollToCenterNextFrame());
+            RefreshVisibleTree();
+        }
+        
     }
 
     private IEnumerator ScrollToCenterNextFrame()
@@ -51,7 +58,10 @@ public class SkillTreeUI : MonoBehaviour
     private void GenerateSkillBoard(string categoryType)
     {
         foreach (Transform child in content)
-            Destroy(child.gameObject);
+        {
+            if (child.name != "BackgroundOverlay") // 혹은 tag 비교 등
+                Destroy(child.gameObject);
+        }
 
         IEnumerable<SkillData> filteredSkills = SkillDataManager.Instance.GetAllSkills()
             .Where(skill => skill.category.ToString() == categoryType);

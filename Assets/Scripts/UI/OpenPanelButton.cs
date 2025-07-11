@@ -9,7 +9,7 @@ public class OpenPanelButton : MonoBehaviour
     public enum PanelType { Main, Skill, Craft, Shop }
     public PanelType panelType;
 
-    public enum SkillTreeType { Production, Combat, Utility }
+    public enum SkillTreeType { Normal, Ascention }
     public SkillTreeType skillTreeType;
 
     public void OnClick()

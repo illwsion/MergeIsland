@@ -1,0 +1,6 @@
+skillTable/Key,skillTable/Key
+선행스킬,배울 스킬
+string,string
+requiredSkillKey,nextSkillKey
+SKILL_RESOURCEGAIN_WOOD_0,SKILL_RESOURCECAP_WOOD_0
+SKILL_RESOURCEGAIN_WOOD_0,SKILL_DAMAGEADD_WEAPON_0

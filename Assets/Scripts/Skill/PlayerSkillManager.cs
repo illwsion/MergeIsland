@@ -39,11 +39,17 @@ public class PlayerSkillManager : MonoBehaviour
         var skill = SkillDataManager.Instance.GetSkillData(skillKey);
         if (skill == null) return false;
 
-        if (GetSkillLevel(skillKey) > 0) return false; // 이미 배운 경우
+        if (saveData.learnedSkills.ContainsKey(skillKey)) return false; // 이미 배운 경우
         if (saveData.skillPoints < skill.costSkillPoint) return false;
         if (skill.unlockLevel > saveData.currentLevel) return false;
 
-        // 보드 잠금 등 추가 조건이 필요하면 여기에 삽입
+        // 선행 스킬 체크
+        var requiredSkills = SkillRequireManager.Instance.GetRequiredSkills(skillKey);
+        foreach (var req in requiredSkills)
+        {
+            if (!saveData.learnedSkills.ContainsKey(req))
+                return false;
+        }
 
         return true;
     }
