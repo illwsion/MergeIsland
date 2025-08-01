@@ -87,7 +87,7 @@ public class MergeItem
         if (other == null || this.Data == null || other.Data == null)
             return false;
 
-        return MergeRuleManager.Instance.GetMergeResult(this.key, other.key) != null;
+        return MergeRuleManager.Instance.GetMergeResult(this.key, other.key) != "null";
     }
 
     public bool IsTimeDrivenProducer()

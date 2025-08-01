@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4042250114822578979, guid: 1290ed4156b6fc443bb73ac438bf3325, type: 3}
+  m_Sprite: {fileID: 1097041509, guid: c3f931484b8ad5840aa69ead37c2aa7f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4042250114822578979, guid: 1290ed4156b6fc443bb73ac438bf3325, type: 3}
+  m_Sprite: {fileID: 1648224646, guid: acdcad69749e8664ba2e4801af191795, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4042250114822578979, guid: 1290ed4156b6fc443bb73ac438bf3325, type: 3}
+  m_Sprite: {fileID: -1758715172, guid: df6dd834b45d3d94386333de93bd614c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -277,7 +277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da337fb86ceb9e74cb6662f5a8d2283a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   panelType: 3
+  skillTreeType: 0
 --- !u!222 &391598347534793406
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -432,7 +434,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da337fb86ceb9e74cb6662f5a8d2283a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   panelType: 1
+  skillTreeType: 0
 --- !u!114 &4524847565051247194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,7 +655,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da337fb86ceb9e74cb6662f5a8d2283a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   panelType: 2
+  skillTreeType: 0
 --- !u!222 &6764103839494433626
 CanvasRenderer:
   m_ObjectHideFlags: 0

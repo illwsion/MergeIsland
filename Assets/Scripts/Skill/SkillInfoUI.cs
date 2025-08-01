@@ -64,7 +64,7 @@ public class SkillInfoUI : MonoBehaviour
         learnButton.interactable = canLearn;
 
         if (alreadyLearned)
-            learnButton.GetComponentInChildren<TMP_Text>().text = "배움";
+            learnButton.GetComponentInChildren<TMP_Text>().text = "획득 완료";
         else
             learnButton.GetComponentInChildren<TMP_Text>().text = canLearn ? "배우기" : "조건 부족";
     }
