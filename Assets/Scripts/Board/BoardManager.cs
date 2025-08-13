@@ -6,11 +6,12 @@ using static ItemData;
 using UnityEditor.Overlays;
 using UnityEngine.InputSystem;
 
+[DefaultExecutionOrder(-200)]
 public class BoardManager : MonoBehaviour
 {
-    private Dictionary<string, MergeBoard> boardMap = new(); // boardKey ¡æ MergeBoard
-    private Dictionary<Vector2Int, string> posToBoardKeyMap = new(); // worldPos ¡æ boardKey
-    private Dictionary<string, Vector2Int> boardKeyToPosMap = new(); // boardKey ¡æ worldPos
+    private Dictionary<string, MergeBoard> boardMap = new(); // boardKey -> MergeBoard
+    private Dictionary<Vector2Int, string> posToBoardKeyMap = new(); // worldPos -> boardKey
+    private Dictionary<string, Vector2Int> boardKeyToPosMap = new(); // boardKey -> worldPos
 
     private string currentBoardKey = null;
 
@@ -32,9 +33,9 @@ public class BoardManager : MonoBehaviour
     }
     void Start()
     {
-        if (ItemDataManager.Instance == null) // ItemDataManger ½ÇÇà È®ÀÎ
+        if (ItemDataManager.Instance == null) // ItemDataManager ì‹¤í–‰ í™•ì¸
         {
-            Debug.LogError("[BoardManager] ItemDataManager ÃÊ±âÈ­µÇÁö ¾ÊÀ½!");
+            Debug.LogError("[BoardManager] ItemDataManager ì´ˆê¸°í™”ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
             return;
         }
         GameSaveData saveData = SaveController.Instance.CurrentSave;
@@ -52,27 +53,27 @@ public class BoardManager : MonoBehaviour
 
         if (DragManager.Instance.IsDragging)
             return;
-        //ÀÓ½Ã ÀÌµ¿
+        //ï¿½Ó½ï¿½ ï¿½Ìµï¿½
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            MoveBoard(Vector2Int.right); // ¿À¸¥ÂÊ ÀÌµ¿
+            MoveBoard(Vector2Int.right); // ì˜¤ë¥¸ìª½ ì´ë™
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            MoveBoard(Vector2Int.left); // ¿ŞÂÊ ÀÌµ¿
+            MoveBoard(Vector2Int.left); // ì™¼ìª½ ì´ë™
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            MoveBoard(Vector2Int.up); // À§·Î ÀÌµ¿
+            MoveBoard(Vector2Int.up); // ìœ„ë¡œ ì´ë™
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            MoveBoard(Vector2Int.down); // ¾Æ·¡·Î ÀÌµ¿
+            MoveBoard(Vector2Int.down); // ì•„ë˜ë¡œ ì´ë™
         }
 
 
     }
-    //ÀúÀå °ü·Ã
+    // ì €ì¥ ê´€ë ¨
     public void InitializeBoards(GameSaveData save)
     {
         foreach (var boardInfo in BoardDataManager.Instance.GetAllBoardData())
@@ -134,7 +135,7 @@ public class BoardManager : MonoBehaviour
     {
         if (!boardMap.ContainsKey(boardKey))
         {
-            Debug.LogWarning($"[BoardManager] ÀúÀå ´ë»ó º¸µå¸¦ Ã£À» ¼ö ¾øÀ½: {boardKey}");
+            Debug.LogWarning($"[BoardManager] ì €ì¥ ëŒ€ìƒ ë³´ë“œë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ: {boardKey}");
             return null;
         }
 
@@ -169,9 +170,9 @@ public class BoardManager : MonoBehaviour
         var save = SaveController.Instance.CurrentSave;
         foreach (var boardKey in save.visitedBoards)
         {
-            Debug.Log($"[SaveAllBoards] ÀúÀå ´ë»ó º¸µå: {boardKey}");
+            Debug.Log($"[SaveAllBoards] ì €ì¥ ëŒ€ìƒ ë³´ë“œ: {boardKey}");
             BoardSaveData boardData = GetBoardSaveData(boardKey);
-            Debug.Log($"[SaveAllBoards] {boardKey} ¾ÆÀÌÅÛ ¼ö: {boardData.items.Count}");
+            Debug.Log($"[SaveAllBoards] {boardKey} ì•„ì´í…œ ìˆ˜: {boardData.items.Count}");
             save.boards[boardKey] = boardData;
         }
     }
@@ -180,7 +181,7 @@ public class BoardManager : MonoBehaviour
     {
         if (!boardMap.ContainsKey(boardKey))
         {
-            Debug.LogError($"[BoardManager] º¸µå Å° '{boardKey}' ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError($"[BoardManager] ë³´ë“œ í‚¤ '{boardKey}' ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -194,7 +195,7 @@ public class BoardManager : MonoBehaviour
     {
         if (!boardKeyToPosMap.ContainsKey(currentBoardKey))
         {
-            Debug.LogError("[BoardManager] ÇöÀç º¸µå Å°¿¡ ÇØ´çÇÏ´Â À§Ä¡ Á¤º¸¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[BoardManager] í˜„ì¬ ë³´ë“œ í‚¤ì— í•´ë‹¹í•˜ëŠ” ìœ„ì¹˜ ì •ë³´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
         Vector2Int currentPos = boardKeyToPosMap[currentBoardKey];
@@ -206,7 +207,7 @@ public class BoardManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("ÇØ´ç ¹æÇâ¿¡´Â º¸µå°¡ ¾ø½À´Ï´Ù!");
+            Debug.Log("í•´ë‹¹ ë°©í–¥ì—ëŠ” ë³´ë“œê°€ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
 
@@ -223,18 +224,18 @@ public class BoardManager : MonoBehaviour
     {
         if (!board.IsValidCell(position))
         {
-            Debug.LogError($"[BoardManager] À¯È¿ÇÏÁö ¾ÊÀº À§Ä¡¿¡ ¾ÆÀÌÅÛ »ı¼º ½Ãµµ: {position}");
+            Debug.LogError($"[BoardManager] ìœ íš¨í•˜ì§€ ì•Šì€ ìœ„ì¹˜ì— ì•„ì´í…œ ìƒì„± ì‹œë„: {position}");
             return;
         }
 
         ItemData data = ItemDataManager.Instance.GetItemData(itemKey);
         if (data == null)
         {
-            Debug.LogError($"[BoardManager] À¯È¿ÇÏÁö ¾ÊÀº ¾ÆÀÌÅÛ ID: {itemKey}");
+            Debug.LogError($"[BoardManager] ìœ íš¨í•˜ì§€ ì•Šì€ ì•„ì´í…œ ID: {itemKey}");
             return;
         }
         MergeItem newItem = new MergeItem(itemKey);
-        newItem.board = board; // ¼Ò¼Ó º¸µå µî·Ï
+        newItem.board = board; // ì†Œì† ë³´ë“œ ë“±ë¡
 
         board.PlaceItem(position.x, position.y, newItem);
         RegisterItem(newItem);
@@ -276,7 +277,7 @@ public class BoardManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[RegisterProducer] Á¶°Ç ºÒÃæÁ·: {item?.key}, IsTimeDrivenProducer: {item?.IsTimeDrivenProducer()}");
+            Debug.LogWarning($"[RegisterProducer] ì¡°ê±´ ë¶ˆì¶©ì¡±: {item?.key}, IsTimeDrivenProducer: {item?.IsTimeDrivenProducer()}");
         }
     }
 
@@ -315,7 +316,7 @@ public class BoardManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(currentBoardKey))
         {
-            Debug.LogWarning("[BoardManager] RefreshBoard(): currentBoardKey°¡ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning("[BoardManager] RefreshBoard(): currentBoardKeyê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -326,10 +327,10 @@ public class BoardManager : MonoBehaviour
     {
         if (!boardMap.ContainsKey(boardKey))
         {
-            Debug.LogError($"[BoardManager] DisplayBoardAndSpawnGates: boardKey '{boardKey}' ¾øÀ½");
+            Debug.LogError($"[BoardManager] DisplayBoardAndSpawnGates: ë³´ë“œ í‚¤ '{boardKey}' ì—†ìŒ");
             return;
         }
-        //Á¢±ÙÇÑ Àû ÀÖ´Â º¸µå¿¡ Ãß°¡
+        // ë°©ë¬¸í•œ ë³´ë“œ ëª©ë¡ì— ì¶”ê°€
         MarkBoardVisited(boardKey);
 
         MergeBoard board = boardMap[boardKey];
@@ -353,38 +354,38 @@ public class BoardManager : MonoBehaviour
             return key;
         return null;
     }
-    //°ÔÀÌÆ® µå·Ó °ü¸®
+    // ê²Œì´íŠ¸ ë“œë¡­ ê´€ë¦¬
     public void HandleGateDrop(MergeItem item, BoardGate gate, Vector2Int fromPos)
     {
         var data = gate.gateData;
         if (!data.isLocked)
         {
-            // ¾ÆÀÌÅÛ º¸³»±â Ã³¸®?
-            Debug.Log("[BoardManager] ÀÌ¹Ì ÇØÁ¦µÈ °ÔÀÌÆ®ÀÔ´Ï´Ù.");
-            HandleDrop(item, fromPos, fromPos); //¿ì¼±Àº Á¦ÀÚ¸®·Î
+            // ì•„ì´í…œ ë³´ë‚´ê¸° ì²˜ë¦¬?
+            Debug.Log("[BoardManager] ì´ë¯¸ í•´ì œëœ ê²Œì´íŠ¸ì…ë‹ˆë‹¤.");
+            HandleDrop(item, fromPos, fromPos); //ìš°ì„ ì€ ì œìë¦¬ë¡œ
             return;
         }
 
         if (data.unlockType == BoardGateData.UnlockType.Item &&
             data.unlockParam == item.key)
         {
-            // °ÔÀÌÆ® ÇØÁ¦
+            // ê²Œì´íŠ¸ í•´ì œ
             gate.UnlockGate();
             BoardGateManager.Instance.MarkGateUnlocked(data);
-            // ¾ÆÀÌÅÛ Á¦°Å
+            // ì•„ì´í…œ ì œê±°
             RemoveItem(item);
-            // ¼±ÅÃ ÇØÁ¦ ¹× º¸µå ¾÷µ¥ÀÌÆ®
+            // ì„ íƒ í•´ì œ ë° ë³´ë“œ ì—…ë°ì´íŠ¸
             ItemSelectorManager.Instance.ClearSelection();
             RefreshBoard();
         }
         else
         {
-            Debug.Log("[BoardManager] ÀÌ ¾ÆÀÌÅÛÀ¸·Î´Â °ÔÀÌÆ®¸¦ ¿­ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("[BoardManager] ì´ ì•„ì´í…œìœ¼ë¡œëŠ” ê²Œì´íŠ¸ë¥¼ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             HandleDrop(item, fromPos, fromPos);
         }
     }
 
-    //¾ÆÀÌÅÛ µå·Ó °ü¸®
+    //  ì•„ì´í…œ ë“œë¡­ ê´€ë¦¬
     public void HandleDrop(MergeItem draggedItem, Vector2Int fromPos, Vector2Int toPos)
     {
         MergeBoard board = boardMap[currentBoardKey];
@@ -393,14 +394,14 @@ public class BoardManager : MonoBehaviour
 
         MergeItem targetItem = board.GetItem(toPos.x, toPos.y);
 
-        if ((targetItem == null) || (fromPos == toPos)) // ºóÄ­¿¡ µå·¡±× ¶Ç´Â Á¦ÀÚ¸®
+        if ((targetItem == null) || (fromPos == toPos)) // ë¹ˆì¹¸ì— ë“œë˜ê·¸ ë˜ëŠ” ì œìë¦¬
         {
             board.grid[fromPos.x, fromPos.y] = null;
             board.PlaceItem(toPos.x, toPos.y, draggedItem);
 
             ItemSelectorManager.Instance.SetSelectedCoord(toPos);
         }
-        else // ¹«¾ğ°¡ ¾ÆÀÌÅÛÀÌ ÀÖ´Â ÀÚ¸®·Î °¬À» ¶§
+        else // ë¬´ì–¸ê°€ ì•„ì´í…œì´ ìˆëŠ” ìë¦¬ë¡œ ê°”ì„ ë•Œ
         {
             DropActionType actionType = DetermineDropAction(draggedItem, targetItem);
 
@@ -423,7 +424,7 @@ public class BoardManager : MonoBehaviour
                     break;
 
                 default:
-                    Debug.LogWarning("Á¤ÀÇµÇÁö ¾ÊÀº ¾×¼ÇÀÔ´Ï´Ù.");
+                    Debug.LogWarning("ì •ì˜ë˜ì§€ ì•Šì€ ì•¡ì…˜ì…ë‹ˆë‹¤.");
                     HandleSwap(board, draggedItem, targetItem, fromPos, fromPos);
                     break;
             }
@@ -434,7 +435,7 @@ public class BoardManager : MonoBehaviour
 
     private DropActionType DetermineDropAction(MergeItem draggedItem, MergeItem targetItem)
     {
-        //°ø°İ °¡´É ÆÇ´Ü
+        //ê³µê²© ê°€ëŠ¥ íŒë‹¨
         var tool = draggedItem.Data.toolType;
         var target = targetItem.Data.targetMaterial;
 
@@ -443,7 +444,7 @@ public class BoardManager : MonoBehaviour
             (tool == ToolType.Pickaxe && (target == TargetMaterial.Stone || target == TargetMaterial.Iron)) ||
             (tool == ToolType.Weapon && target == TargetMaterial.Monster);
 
-        // °ø°İ (Ã¼·ÂÀÌ ÀÖ´Â À¯´Ö¿¡°Ô ¹«±â µå¶ø)
+        // ê³µê²© (ì²´ë ¥ì´ ìˆëŠ” ìœ ë‹›ì—ê²Œ ë¬´ê¸° ë“œë)
         if (isAttackMatch && draggedItem.Data.attackPower > 0 && targetItem.Data.hp > 0)
             return DropActionType.Attack;
 
@@ -452,22 +453,22 @@ public class BoardManager : MonoBehaviour
             return DropActionType.Supply;
         }
             
-        // ¸ÓÁö (MergeTable¿¡ ÀÖÀ» °æ¿ì)
+        // ë¨¸ì§€ (MergeTableì— ìˆì„ ê²½ìš°)
         if (draggedItem.CanMergeWith(targetItem))
             return DropActionType.Merge;
 
-        // ±âº» Ã³¸® (±³È¯)
+        // ê¸°ë³¸ ì²˜ë¦¬ (êµí™˜)
         return DropActionType.None;
     }
 
     void HandleSwap(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
     {
-        if (!targetItem.Data.canMove) // µå·Ó ´ë»óÀÌ ÀÌµ¿ ºÒ°¡ÀÌ¸é Ãë¼Ò
+        if (!targetItem.Data.canMove) // ë“œë¡­ ëŒ€ìƒì´ ì´ë™ ë¶ˆê°€ì´ë©´ ì·¨ì†Œ
         {
-            Debug.Log("[BoardManager] ÇØ´ç À§Ä¡ÀÇ ¾ÆÀÌÅÛÀº ±³Ã¼ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("[BoardManager] í•´ë‹¹ ìœ„ì¹˜ì˜ ì•„ì´í…œì€ êµì²´í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             board.PlaceItem(fromPos.x, fromPos.y, draggedItem);
 
-            ItemSelectorManager.Instance.SetSelectedCoord(fromPos); // ±âÁ¸ À§Ä¡
+            ItemSelectorManager.Instance.SetSelectedCoord(fromPos); // ê¸°ì¡´ ìœ„ì¹˜
         }
         else
         {
@@ -476,7 +477,7 @@ public class BoardManager : MonoBehaviour
             board.grid[toPos.x, toPos.y] = draggedItem;
             draggedItem.coord = toPos;
 
-            ItemSelectorManager.Instance.SetSelectedCoord(toPos); //»õ·Î¿î À§Ä¡
+            ItemSelectorManager.Instance.SetSelectedCoord(toPos); // ìƒˆë¡œìš´ ìœ„ì¹˜
         }
 
     }
@@ -502,34 +503,59 @@ public class BoardManager : MonoBehaviour
 
     void HandleAttack(MergeBoard board, MergeItem weapon, MergeItem monster, Vector2Int fromPos, Vector2Int toPos)
     {
-        //ÇÇÇØ Ã³¸®
-        monster.TakeDamage(weapon.Data.attackPower);
+        // ëŒ€ë¯¸ì§€ ê³„ì‚°: ìŠ¤í‚¬ íš¨ê³¼ ì ìš© (ê³ ì • â†’ í¼ì„¼íŠ¸ ìˆœì„œ)
+        int baseDamage = weapon.Data.attackPower;
+        int finalDamage = baseDamage;
 
-        // ¸ó½ºÅÍ »ç¸ÁÇÑ °æ¿ì
+        if (PlayerSkillManager.Instance != null)
+        {
+            string toolKey = weapon.Data.toolType.ToString(); // Axe / Pickaxe / Weapon
+
+            int flat = 0;
+            int percent = 0;
+
+            // êµ¬ì²´ì  ë„êµ¬ í‚¤(Axe/Pickaxe/Weapon)ì— ëŒ€í•œ íš¨ê³¼
+            flat += PlayerSkillManager.Instance.GetEffectFlat(SkillData.SkillEffect.DamageAdd, toolKey);
+            percent += PlayerSkillManager.Instance.GetEffectPercent(SkillData.SkillEffect.DamageAdd, toolKey);
+
+            float multiplier = 1f + (percent / 100f);
+            finalDamage = Mathf.FloorToInt((baseDamage + flat) * multiplier);
+            if (finalDamage < 0) finalDamage = 0;
+
+            if (flat != 0 || percent != 0)
+            {
+                Debug.Log($"[Attack] {toolKey} ëŒ€ë¯¸ì§€ ì ìš©: ê¸°ë³¸ {baseDamage} + ê³ ì • {flat} â†’ {(baseDamage + flat)}, í¼ì„¼íŠ¸ +{percent}% â†’ ìµœì¢… {finalDamage}");
+            }
+        }
+
+        // í”¼í•´ ì²˜ë¦¬
+        monster.TakeDamage(finalDamage);
+
+        //  ëª¬ìŠ¤í„° ì‚¬ë§í•œ ê²½ìš°
         if (monster.currentHP <= 0)
         {
-            // ¸ó½ºÅÍ Á¦°Å
+            // ëª¬ìŠ¤í„° ì œê±°
             board.grid[toPos.x, toPos.y] = null;
 
-            // ¾ÆÀÌÅÛ µå¶ø
+            // ì•„ì´í…œ ë“œë
             string dropItemKey = DropTableManager.Instance.GetRandomDropItem(monster);
             if (dropItemKey != null)
             {
                 BoardManager.Instance.SpawnItem(board, dropItemKey, toPos);
             }
 
-            // ÃßÈÄ : ¸ó½ºÅÍ »ç¸Á ¾Ö´Ï¸ŞÀÌ¼Ç µî Ãß°¡
+            // ì¶”í›„ : ëª¬ìŠ¤í„° ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ ë“± ì¶”ê°€
 
-            // ¼±ÅÃ »óÅÂ ÇØÁ¦
+            // ì„ íƒ ìƒíƒœ í•´ì œ
             ItemSelectorManager.Instance.ClearSelection();
         }
         else
         {
-            // ¸ó½ºÅÍ ¼±ÅÃ
+            // ëª¬ìŠ¤í„° ì„ íƒ
             ItemSelectorManager.Instance.SetSelectedCoord(toPos);
         }
 
-        // °ø°İ ¾ÆÀÌÅÛ Á¦°Å
+        // ê³µê²© ì•„ì´í…œ ì œê±°
         RemoveItem(weapon);
         StartCoroutine(SelectAfterFrame(toPos));
 
@@ -537,25 +563,25 @@ public class BoardManager : MonoBehaviour
 
     void HandleSupply(MergeBoard board, MergeItem suppliedItem, MergeItem receiverItem, Vector2Int fromPos, Vector2Int toPos)
     {
-        // °ø±Ş ·ê °¡Á®¿È
+        // ê³µê¸‰ ë£° ê°€ì ¸ì˜´
         var rule = SupplyRuleManager.Instance.GetRule(receiverItem.key, suppliedItem.key);
         if (rule == null)
         {
-            Debug.LogWarning($"[HandleSupply] °ø±Ş ·êÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù: A={receiverItem.key}, B={suppliedItem.key}");
+            Debug.LogWarning($"[HandleSupply] ê³µê¸‰ ë£°ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤: A={receiverItem.key}, B={suppliedItem.key}");
             return;
         }
 
-        // °ø±Ş ¾ÆÀÌÅÛ ¼Ò¸ğ Ã³¸®
+        // ê³µê¸‰ ì•„ì´í…œ ì†Œëª¨ ì²˜ë¦¬
         RemoveItem(suppliedItem);
 
-        //»ı¼º À§Ä¡ °è»ê
+        // ìƒì„± ìœ„ì¹˜ ê³„ì‚°
         Vector2Int? spawnPos = board.FindNearestEmptyCell(toPos);
         if (spawnPos == null)
         {
             spawnPos = fromPos;
         }
 
-        // °á°ú Ã³¸®
+        // ê²°ê³¼ ì²˜ë¦¬
         switch (rule.resultType)
         {
             case SupplyRule.ResultType.Item:
@@ -575,7 +601,7 @@ public class BoardManager : MonoBehaviour
                 break;
 
             default:
-                Debug.LogWarning($"[HandleSupply] ¾Ë ¼ö ¾ø´Â resultType: {rule.resultType}");
+                Debug.LogWarning($"[HandleSupply] ì•Œ ìˆ˜ ì—†ëŠ” resultType: {rule.resultType}");
                 break;
         }
 
@@ -586,7 +612,7 @@ public class BoardManager : MonoBehaviour
 
     IEnumerator SelectAfterFrame(Vector2Int pos)
     {
-        yield return null; // ÇÑ ÇÁ·¹ÀÓ µÚ¿¡ ½ÇÇà (DisplayBoard() ÀÌÈÄ)
+        yield return null; // í•œ í”„ë ˆì„ ë’¤ì— ì‹¤í–‰ (DisplayBoard() ì´í›„)
 
         ItemView targetView = boardUI.GetItemViewAt(pos);
         if (targetView != null)
@@ -615,7 +641,7 @@ public class BoardManager : MonoBehaviour
 
         if (total <= 0)
         {
-            Debug.LogError("[GetRandomItemID] È®·ü ÃÑÇÕÀÌ 0 ÀÌÇÏÀÔ´Ï´Ù.");
+            Debug.LogError("[GetRandomItemID] í™•ë¥  í•©ê³„ê°€ 0 ì´í•˜ì…ë‹ˆë‹¤.");
             return "null";
         }
 

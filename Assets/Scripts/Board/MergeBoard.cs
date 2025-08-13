@@ -26,7 +26,7 @@ public class MergeBoard
             }
             else
             {
-                //Debug.Log("ÀÌ¹Ì ¾ÆÀÌÅÛÀÌ ÀÖÀ½!");
+                //Debug.Log("ì´ë¯¸ ì•„ì´í…œì´ ìˆìŒ!");
             }
         }
     }
@@ -42,14 +42,14 @@ public class MergeBoard
 
     public Vector2Int? FindNearestEmptyCell(Vector2Int origin)
     {
-        int maxDistance = 10; // °Ë»ö ¹üÀ§ Á¦ÇÑ
+        int maxDistance = 10; // ê²€ìƒ‰ ë²”ìœ„ ì œí•œ
         for (int distance = 0; distance <= maxDistance; distance++)
         {
             for (int dx = -distance; dx <= distance; dx++)
             {
                 for (int dy = -distance; dy <= distance; dy++)
                 {
-                    // ¿Ü°û¸¸ °Ë»ç
+                    // ì™¸ê³½ë§Œ ê²€ì‚¬
                     if (Mathf.Abs(dx) != distance && Mathf.Abs(dy) != distance)
                         continue;
 
@@ -63,7 +63,7 @@ public class MergeBoard
             }
         }
 
-        return null; // ºóÄ­ ¾øÀ½
+        return null; // ë¹ˆì¹¸ ì—†ìŒ
     }
 
     public bool IsValidCell(Vector2Int pos)

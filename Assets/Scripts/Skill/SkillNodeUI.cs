@@ -11,7 +11,7 @@ public class SkillNodeUI : MonoBehaviour
 
     public void SetSkillKey(string key)
     {
-        skillKey = key;
+        skillKey = key?.Trim();
         RefreshVisual();
     }
 
@@ -19,21 +19,33 @@ public class SkillNodeUI : MonoBehaviour
     {
         if (string.IsNullOrEmpty(skillKey))
         {
-            Debug.LogWarning("[SkillNodeUI] skillKey°¡ ºñ¾îÀÖ½À´Ï´Ù.");
+            Debug.LogWarning("[SkillNodeUI] skillKeyê°€ ë¹„ì–´ìˆìŠµë‹ˆë‹¤.");
             return;
         }
 
-        int skillLevel = PlayerSkillManager.Instance.GetSkillLevel(skillKey.Trim());
-        background.color = skillLevel > 0 ? Color.green : new Color(0.85f, 0.85f, 0.85f);
+        int skillLevel = PlayerSkillManager.Instance != null
+            ? PlayerSkillManager.Instance.GetSkillLevel(skillKey.Trim())
+            : 0;
+        if (background != null)
+        {
+            background.color = skillLevel > 0 ? Color.green : new Color(0.85f, 0.85f, 0.85f);
+        }
 
         SkillData skillData = SkillDataManager.Instance.GetSkillData(skillKey.Trim());
         if (skillData == null)
         {
-            Debug.LogWarning($"[SkillNodeUI] skillKey '{skillKey}'¿¡ ÇØ´çÇÏ´Â ½ºÅ³À» Ã£Áö ¸øÇß½À´Ï´Ù.");
+            Debug.LogWarning($"[SkillNodeUI] skillKey '{skillKey}'ì— í•´ë‹¹í•˜ëŠ” ìŠ¤í‚¬ì„ ì°¾ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
             return;
         }
 
-        icon.sprite = AtlasManager.Instance.GetSprite(skillData.imageName);
+        if (icon != null && AtlasManager.Instance != null)
+        {
+            var sprite = AtlasManager.Instance.GetSprite(skillData.imageName);
+            if (sprite != null)
+            {
+                icon.sprite = sprite;
+            }
+        }
     }
 
     private void OnEnable()

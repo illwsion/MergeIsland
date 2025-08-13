@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
+[DefaultExecutionOrder(-850)]
 public class SkillDataManager : MonoBehaviour
 {
     public static SkillDataManager Instance;
@@ -30,7 +31,7 @@ public class SkillDataManager : MonoBehaviour
             return data;
         }
 
-        Debug.LogWarning($"[SkillDataManager] Skill ID {key} ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogWarning($"[SkillDataManager] Skill ID {key} ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return null;
     }
 
@@ -39,13 +40,13 @@ public class SkillDataManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("SkillTable"); // Resources/SkillTable.csv
         if (csvFile == null)
         {
-            Debug.LogError("[SkillDataManager] SkillTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[SkillDataManager] SkillTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
 
-        for (int i = 4; i < lines.Length; i++) // Ã¹ 4ÁÙ Çì´õ ½ºÅµ
+        for (int i = 4; i < lines.Length; i++) // ì²« 4ì¤„ í—¤ë” ìŠ¤í‚µ
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
@@ -58,7 +59,7 @@ public class SkillDataManager : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.LogError($"[SkillDataManager] Parse ½ÇÆĞ at line {i + 1}: '{line}'\nException: {e}");
+                Debug.LogError($"[SkillDataManager] Parse ì‹¤íŒ¨ at line {i + 1}: '{line}'\nException: {e}");
             }
         }
     }
@@ -108,7 +109,7 @@ public class SkillDataManager : MonoBehaviour
         if (int.TryParse(value, out int result))
             return result;
 
-        Debug.LogError($"[SkillDataManager] int ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[SkillDataManager] int íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return 0;
     }
 
@@ -121,7 +122,7 @@ public class SkillDataManager : MonoBehaviour
         if (Enum.TryParse<T>(value, true, out var result))
             return result;
 
-        Debug.LogError($"[SkillDataManager] enum ÆÄ½Ì ½ÇÆĞ: '{value}' ¡æ ±âº»°ª {defaultValue} ¹İÈ¯");
+        Debug.LogError($"[SkillDataManager] enum íŒŒì‹± ì‹¤íŒ¨: '{value}' â†’ ê¸°ë³¸ê°’ {defaultValue} ë°˜í™˜");
         return defaultValue;
     }
 
@@ -144,13 +145,13 @@ public class SkillDataManager : MonoBehaviour
         if (bool.TryParse(value, out var result))
             return result;
 
-        // 1/0 ¶Ç´Â yes/no, y/n Áö¿ø
+        // 1/0 ë˜ëŠ” yes/no, y/n ì§€ì›
         if (value == "1" || value == "yes" || value == "y")
             return true;
         if (value == "0" || value == "no" || value == "n")
             return false;
 
-        Debug.LogError($"[SkillDataManager] bool ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[SkillDataManager] bool íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return false;
     }
 }

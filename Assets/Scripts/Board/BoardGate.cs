@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BoardGate : MonoBehaviour, IPointerClickHandler
 {
-    public BoardGateData gateData; // Inspector È¤Àº ÄÚµå¿¡¼­ ÇÒ´çµÊ
+    public BoardGateData gateData; // Inspector í˜¹ì€ ì½”ë“œì—ì„œ í• ë‹¹ë¨
     [SerializeField] private GameObject lockIcon;
 
     public void Initialize(BoardGateData data)
@@ -18,7 +18,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
     {
         if (this == null || gateData == null || this.Equals(null))
         {
-            Debug.LogWarning("[BoardGate.OnPointerClick] ÀÌ °ÔÀÌÆ®´Â ÀÌ¹Ì ÆÄ±«µÊ");
+            Debug.LogWarning("[BoardGate.OnPointerClick] ì´ ê²Œì´íŠ¸ëŠ” ì´ë¯¸ íŒŒê´´ë¨");
             return;
         }
 
@@ -26,7 +26,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
         {
             if (ItemSelectorManager.Instance.IsGateSelected(this))
             {
-                Debug.Log("ÀÌ¹Ì ¼±ÅÃµÈ °ÔÀÌÆ®");
+                Debug.Log("ì´ë¯¸ ì„ íƒëœ ê²Œì´íŠ¸");
                 GateUnlockHelper.TryUnlock(new EffectData
                 {
                     type = GateUnlockHelper.ConvertToEffectType(gateData.unlockType),
@@ -35,7 +35,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
             }
             else
             {
-                Debug.Log("»õ·Î¿î °ÔÀÌÆ®");
+                Debug.Log("ìƒˆë¡œìš´ ê²Œì´íŠ¸");
                 ItemSelectorManager.Instance.SelectGate(this);
             }
             return;
@@ -43,7 +43,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            // µµÂø º¸µå Ã£±â
+            // ë„ì°© ë³´ë“œ ì°¾ê¸°
             BoardData targetBoard = BoardDataManager.Instance.GetBoardData(gateData.targetBoardKey);
             if (targetBoard != null)
             {
@@ -51,7 +51,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
             }
             else
             {
-                Debug.LogError($"[BoardGate] µµÂø º¸µå '{gateData.targetBoardKey}' ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogError($"[BoardGate] ë„ì°© ë³´ë“œ '{gateData.targetBoardKey}' ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             }
         }
         
@@ -65,7 +65,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
                 return true;
 
             case BoardGateData.UnlockType.Item:
-                // ¾ÆÀÌÅÛ µå·¡±× Àü¿ë, Á÷Á¢ ÇØÁ¦ ºÒ°¡ ¡æ Àá±İ »óÅÂ·Î À¯Áö
+                // ì•„ì´í…œ ë“œë˜ê·¸ ì „ìš©, ì§ì ‘ í•´ì œ ë¶ˆê°€ â†’ ì ê¸ˆ ìƒíƒœë¡œ ìœ ì§€
                 return false;
                 
             case BoardGateData.UnlockType.Level:
@@ -96,7 +96,7 @@ public class BoardGate : MonoBehaviour, IPointerClickHandler
 
         if (lockIcon == null)
         {
-            Debug.LogWarning("[UpdateLockIcon] lockIconÀÌ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogWarning("[UpdateLockIcon] lockIconì´ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
             return;
         }
 

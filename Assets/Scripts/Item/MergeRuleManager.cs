@@ -29,13 +29,13 @@ public class MergeRuleManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("MergeTable");
         if (csvFile == null)
         {
-            Debug.LogError("[MergeRuleManager] MergeTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[MergeRuleManager] MergeTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
 
-        for (int i = 4; i < lines.Length; i++) // ³× ÁÙÀº Çì´õ
+        for (int i = 4; i < lines.Length; i++) // ë„¤ ì¤„ì€ í—¤ë”
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
@@ -60,7 +60,7 @@ public class MergeRuleManager : MonoBehaviour
             if (rule.Matches(a, b))
                 return rule.resultItem;
         }
-        return "null";//¾ß¸ÅÄÚµå±ä ÇÏÁö¸¸...CanMergeWith·Î È®ÀÎÇÏ°í ¿Ô±â ¶§¹®¿¡ ±¦ÂúÀ½
+        return "null";//ì•¼ë§¤ì½”ë“œê¸´ í•˜ì§€ë§Œ...CanMergeWithë¡œ í™•ì¸í•˜ê³  ì™”ê¸° ë•Œë¬¸ì— ê´œì°®ìŒ
     }
 
     public bool CanMerge(string a, string b)

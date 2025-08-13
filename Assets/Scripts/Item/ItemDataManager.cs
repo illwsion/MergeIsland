@@ -34,7 +34,7 @@ public class ItemDataManager : MonoBehaviour
         }
            
 
-        Debug.LogWarning($"[ItemDataManager] ID {key} ¾ÆÀÌÅÛ µ¥ÀÌÅÍ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogWarning($"[ItemDataManager] ID {key} ì•„ì´í…œ ë°ì´í„°ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return null;
     }
 
@@ -43,13 +43,13 @@ public class ItemDataManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("ItemTable"); // Resources/ItemTable.csv
         if (csvFile == null)
         {
-            Debug.LogError("[ItemDataManager] ItemTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[ItemDataManager] ItemTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
 
-        // Ã¹ ³× ÁÙÀº Çì´õÀÌ¹Ç·Î ½ºÅµ
+        // ì²« ë„¤ ì¤„ì€ í—¤ë”ì´ë¯€ë¡œ ìŠ¤í‚µ
         for (int i = 4; i < lines.Length; i++)
         {
             string line = lines[i].Trim();
@@ -63,7 +63,7 @@ public class ItemDataManager : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"[ItemDataManager] Parse ½ÇÆĞ at line {i + 1}: '{line}'\nException: {e}");
+                Debug.LogError($"[ItemDataManager] Parse ì‹¤íŒ¨ at line {i + 1}: '{line}'\nException: {e}");
             }
         }
     }
@@ -123,7 +123,7 @@ public class ItemDataManager : MonoBehaviour
         if (int.TryParse(value, out int result))
             return result;
 
-        Debug.LogError($"[ItemDataManager] int ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[ItemDataManager] int íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return 0;
     }
 
@@ -136,7 +136,7 @@ public class ItemDataManager : MonoBehaviour
         if (float.TryParse(value, out float result))
             return result;
 
-        Debug.LogError($"[ItemDataManager] float ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[ItemDataManager] float íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return 0f;
     }
 
@@ -149,7 +149,7 @@ public class ItemDataManager : MonoBehaviour
         if (System.Enum.TryParse<T>(value, true, out var result))
             return result;
 
-        Debug.LogError($"[ItemDataManager] enum ÆÄ½Ì ½ÇÆĞ: '{value}' ¡æ ±âº»°ª {defaultValue} ¹İÈ¯");
+        Debug.LogError($"[ItemDataManager] enum íŒŒì‹± ì‹¤íŒ¨: '{value}' â†’ ê¸°ë³¸ê°’ {defaultValue} ë°˜í™˜");
         return defaultValue;
     }
 
@@ -159,8 +159,8 @@ public class ItemDataManager : MonoBehaviour
         if (value == "true") return true;
         if (value == "false") return false;
 
-        Debug.LogError($"[ItemDataManager] bool ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
-        return false; // ±âº»°ª
+        Debug.LogError($"[ItemDataManager] bool íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
+        return false; // ê¸°ë³¸ê°’
     }
 
     private string ParseStringSafe(string value, string fieldName)

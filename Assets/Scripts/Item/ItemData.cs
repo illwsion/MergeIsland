@@ -6,41 +6,41 @@ public class ItemData
 {
     public string key;
     public string name;
-    public string type; // "tree", "log" µî ±×·ì ¿ëµµ
+    public string type; // "tree", "log" ë“± ê·¸ë£¹ ìš©ë„
     public Category category;
     public int level;
     public int maxLevel;
 
     public ProduceType produceType;
-    public bool isProductionLimited; // »ı»ê°³¼ö°¡ À¯ÇÑÇÑ°¡?
-    public ToolType toolType; //µµ±¸Å¸ÀÔ
-    public TargetMaterial targetMaterial; //ÇÇ°İÅ¸ÀÔ
-    public string produceTableKey; // »ı»êÅ×ÀÌºí
-    public string dropTableKey; // µå¶øÅ×ÀÌºí
+    public bool isProductionLimited; // ìƒì‚°ê°œìˆ˜ê°€ ìœ í•œí•œê°€?
+    public ToolType toolType; //ë„êµ¬íƒ€ì…
+    public TargetMaterial targetMaterial; //í”¼ê²©íƒ€ì…
+    public string produceTableKey; // ìƒì‚°í…Œì´ë¸”
+    public string dropTableKey; // ë“œëí…Œì´ë¸”
 
-    public ResourceType costResource; //¼Ò¸ğ ÀÚ¿ø
-    public int costValue; //¼Ò¸ğ·®
-    public ResourceType gatherResource; //È¹µæ ÀÚ¿ø
-    public int gatherValue; //È¹µæ·®
-    public ResourceType maxCapResource; //ÃÖ´ëÀúÀå·® ÀÚ¿ø
-    public int maxCapValue; //ÃÖ´ëÀúÀå·®º¸³Ê½º ¼öÄ¡
+    public ResourceType costResource; //ì†Œëª¨ ìì›
+    public int costValue; //ì†Œëª¨ëŸ‰
+    public ResourceType gatherResource; //íšë“ ìì›
+    public int gatherValue; //íšë“ëŸ‰
+    public ResourceType maxCapResource; //ìµœëŒ€ì €ì¥ëŸ‰ ìì›
+    public int maxCapValue; //ìµœëŒ€ì €ì¥ëŸ‰ë³´ë„ˆìŠ¤ ìˆ˜ì¹˜
 
-    public float productionInterval; // »ı»êÁÖ±â(ÃÊ)
-    public int maxProductionAmount; // ÃÖ´ëÀúÀå·®
+    public float productionInterval; // ìƒì‚°ì£¼ê¸°(ì´ˆ)
+    public int maxProductionAmount; // ìµœëŒ€ì €ì¥ëŸ‰
 
-    public bool isSellable; // ÆÇ¸Å°¡´É¿©ºÎ
-    public int sellValue; // ÆÇ¸Å°¡°İ
+    public bool isSellable; // íŒë§¤ê°€ëŠ¥ì—¬ë¶€
+    public int sellValue; // íŒë§¤ê°€ê²©
 
-    public string itemNameKey; // ¾ÆÀÌÅÛ ÀÌ¸§
-    public string itemDescriptionKey; // ¾ÆÀÌÅÛ ¼³¸í
+    public string itemNameKey; // ì•„ì´í…œ ì´ë¦„
+    public string itemDescriptionKey; // ì•„ì´í…œ ì„¤ëª…
 
-    public bool canMove; // ÀÌµ¿¿©ºÎ
-    public bool canInventoryStore; // ÀÎº¥Åä¸®º¸°ü¿©ºÎ
+    public bool canMove; // ì´ë™ì—¬ë¶€
+    public bool canInventoryStore; // ì¸ë²¤í† ë¦¬ë³´ê´€ì—¬ë¶€
 
-    public int hp; // ÃÖ´ëÃ¼·Â
-    public int attackPower; // °ø°İ·Â
+    public int hp; // ìµœëŒ€ì²´ë ¥
+    public int attackPower; // ê³µê²©ë ¥
 
-    public string imageName; //ÀÌ¹ÌÁö ÀÌ¸§
+    public string imageName; //ì´ë¯¸ì§€ ì´ë¦„
 
     public enum Category
     {
@@ -49,24 +49,24 @@ public class ItemData
         NPC,
         Tool,
         Weapon,
-        Decoration // ´Ü¼ø Àå½Ä(UI ²Ù¹Ì±â¿ë, Å¬¸¯ ¾øÀ½)
+        Decoration // ë‹¨ìˆœ ì¥ì‹(UI ê¾¸ë¯¸ê¸°ìš©, í´ë¦­ ì—†ìŒ)
     };
 
     public enum ProduceType
     {
         None,
-        Manual, //ÅÍÄ¡ÇØ¼­ ¾ÆÀÌÅÛ »ı»ê
-        Auto, // ÀÚµ¿ »ı»ê
-        Supply, // ¾ÆÀÌÅÛÀ» Á¦°øÇÏ¿© »ı»ê
-        Gather, //ÅÍÄ¡ÇØ¼­ ÀÚ¿ø È¹µæ(°ñµå, º¸¼®, °æÇèÄ¡ µî)
-        Dialogue //NPC ´ëÈ­, »óÈ£ÀÛ¿ë
+        Manual, //í„°ì¹˜í•´ì„œ ì•„ì´í…œ ìƒì‚°
+        Auto, // ìë™ ìƒì‚°
+        Supply, // ì•„ì´í…œì„ ì œê³µí•˜ì—¬ ìƒì‚°
+        Gather, //í„°ì¹˜í•´ì„œ ìì› íšë“(ê³¨ë“œ, ë³´ì„, ê²½í—˜ì¹˜ ë“±)
+        Dialogue //NPC ëŒ€í™”, ìƒí˜¸ì‘ìš©
     };
     public enum ToolType
     {
         None,
-        Axe, //µµ³¢
-        Pickaxe, //°î±ªÀÌ
-        Weapon // ¹«±â
+        Axe, //ë„ë¼
+        Pickaxe, //ê³¡ê´­ì´
+        Weapon // ë¬´ê¸°
     };
     public enum TargetMaterial
     {

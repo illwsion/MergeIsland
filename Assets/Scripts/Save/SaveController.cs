@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1000)]
 public class SaveController : MonoBehaviour
 {
     public static SaveController Instance { get; private set; }
@@ -34,7 +35,7 @@ public class SaveController : MonoBehaviour
         if (DateTime.TryParse(CurrentSave.lastSaveTime, null, System.Globalization.DateTimeStyles.RoundtripKind, out var lastTime))
         {
             offlineElapsedTime = (float)(DateTime.UtcNow - lastTime).TotalSeconds;
-            //Debug.Log($"[SaveController] ¿ÀÇÁ¶óÀÎ ½Ã°£: {offlineElapsedTime}ÃÊ");
+            //Debug.Log($"[SaveController] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½: {offlineElapsedTime}ï¿½ï¿½");
         }
 
         PlayerSkillManager.Instance.Initialize(CurrentSave.player);
@@ -43,7 +44,7 @@ public class SaveController : MonoBehaviour
     public void Save()
     {
         PlayerResourceManager.Instance.SaveTo(CurrentSave.player);
-        Debug.Log($"[SaveController] Save È£ÃâµÊ. Player Energy: {PlayerResourceManager.Instance.GetAmount(ResourceType.Energy)}");
+        Debug.Log($"[SaveController] Save È£ï¿½ï¿½ï¿½. Player Energy: {PlayerResourceManager.Instance.GetAmount(ResourceType.Energy)}");
         SaveManager.Save(CurrentSave);
     }
 }

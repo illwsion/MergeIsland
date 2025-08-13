@@ -1,10 +1,11 @@
 // ItemSelectorManager.cs
 using UnityEngine;
 
+[DefaultExecutionOrder(100)]
 public class ItemSelectorManager : MonoBehaviour
 {
     public static ItemSelectorManager Instance;
-    public ItemInfoUI itemInfoUI; // »ó´Ü UI ÂüÁ¶
+    public ItemInfoUI itemInfoUI; // ìƒë‹¨ UI ì°¸ì¡°
 
     private MergeItem selectedItem;
     public Vector2Int selectedCoord;
@@ -14,13 +15,29 @@ public class ItemSelectorManager : MonoBehaviour
 
     private void Start()
     {
-        if (BoardManager.Instance?.GetCurrentBoard() == null)
+        if (BoardManager.Instance == null)
         {
-            Debug.LogWarning("[ItemSelectorManager] BoardManager°¡ ¾ÆÁ÷ ÃÊ±âÈ­µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning("[ItemSelectorManager] BoardManagerê°€ ì•„ì§ ì´ˆê¸°í™”ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+            return;
+        }
+
+        if (BoardManager.Instance.GetCurrentBoard() == null)
+        {
+            // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ëŒ€ê¸° í›„ ì¬ì‹œë„
+            StartCoroutine(DeferClearSelection());
             return;
         }
 
         ClearSelection();
+    }
+
+    private System.Collections.IEnumerator DeferClearSelection()
+    {
+        yield return null;
+        if (BoardManager.Instance != null)
+        {
+            ClearSelection();
+        }
     }
     void Awake()
     {
@@ -83,7 +100,7 @@ public class ItemSelectorManager : MonoBehaviour
     {
         if (selectedGate == gate.gateData.GetUniqueID()) return;
 
-        ClearSelectedItemOnly(); // ¾ÆÀÌÅÛ ¼±ÅÃ ÇØÁ¦
+        ClearSelectedItemOnly(); // ì•„ì´í…œ ì„ íƒë§Œ í•´ì œ
         selectedGate = gate.gateData.GetUniqueID();
         itemInfoUI.ShowGate(gate);
         BoardManager.Instance.RefreshBoard();
@@ -125,7 +142,7 @@ public class ItemSelectorManager : MonoBehaviour
         selectedCoord = coord;
     }
 
-    // ÇöÀç ¼±ÅÃµÈ °ÔÀÌÆ®¿Í ºñ±³
+    // í˜„ì¬ ì„ íƒëœ ê²Œì´íŠ¸ì™€ ë¹„êµ
     public bool IsGateSelected(BoardGate gate)
     {
         if (selectedGate == null || gate == null)

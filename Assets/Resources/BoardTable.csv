@@ -1,5 +1,5 @@
-,,,,,,,,,,stringTable/Key,stringTable/Key
-Å°,xÁÂÇ¥,yÁÂÇ¥,°¡·Î±æÀÌ,¼¼·Î±æÀÌ,Å×¸¶,,,,,º¸µå ÀÌ¸§,º¸µå ¼³¸í
+ï»¿,,,,,,,,,,stringTable/Key,stringTable/Key
+í‚¤,xì¢Œí‘œ,yì¢Œí‘œ,ê°€ë¡œê¸¸ì´,ì„¸ë¡œê¸¸ì´,í…Œë§ˆ,ì¶œêµ¬_ìƒ,ì¶œêµ¬_ìš°,ì¶œêµ¬_í•˜,ì¶œêµ¬_ì¢Œ,ë³´ë“œ ì´ë¦„,ë³´ë“œ ì„¤ëª…
 string,int,int,int,int,enum,bool,bool,bool,bool,string,string
 key,worldX,worldY,width,height,theme,exitTop,exitRight,exitBottom,exitLeft,nameKey,descriptionKey
 BOARD_BEACH_0,0,0,4,4,Beach,TRUE,TRUE,FALSE,FALSE,BOARD_NAME_BEACH_0,BOARD_DESC_BEACH_0

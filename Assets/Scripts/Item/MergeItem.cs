@@ -67,13 +67,13 @@ public class MergeItem
     public MergeItem(string key)
     {
         this.key = key;
-        maxHP = Data.hp;  // ¿©±â¼­ hp ÃÊ±âÈ­
+        maxHP = Data.hp;  // ì—¬ê¸°ì„œ hp ì´ˆê¸°í™”
         currentHP = Data.hp;
 
         if (IsTimeDrivenProducer())
         {
             maxStorage = Data.maxProductionAmount;
-            currentStorage = maxStorage; // ÃÊ±â¿¡´Â ²Ë Âù »óÅÂ·Î ½ÃÀÛ
+            currentStorage = maxStorage; // ì´ˆê¸°ì—ëŠ” ê½‰ ì°¬ ìƒíƒœë¡œ ì‹œì‘
         }
     }
 
@@ -119,7 +119,7 @@ public class MergeItem
 
     private void HandleLimitedProductionDepletion()
     {
-        Debug.Log($"[LimitedProduction] {name}ÀÇ »ı»ê·® ¼ÒÁø ¡æ Á¦°Å Ã³¸® ½ÃÀÛ");
+        Debug.Log($"[LimitedProduction] {name}ì˜ ìƒì‚°ëŸ‰ ì†Œì§„ â†’ ì œê±° ì²˜ë¦¬ ì‹œì‘");
 
         BoardManager.Instance.RemoveItem(this);
         if (!string.IsNullOrEmpty(Data.dropTableKey))
@@ -131,7 +131,7 @@ public class MergeItem
             }
             else
             {
-                Debug.Log("µå¶øÅ×ÀÌºíÀÌ ºñ¾îÀÖÀ½");
+                Debug.Log("ë“œëí…Œì´ë¸”ì´ ë¹„ì–´ìˆìŒ");
             }
 
         }
@@ -177,7 +177,7 @@ public class MergeItem
                     if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
                     {
                         isProductionBlocked = true;
-                        break; // °ø°£ ºÎÁ· ¡æ¹İº¹ Áß´Ü
+                        break; // ê³µê°„ ë¶€ì¡± â†’ë°˜ë³µ ì¤‘ë‹¨
                     }
 
                     isProductionBlocked = false;
@@ -188,31 +188,31 @@ public class MergeItem
                         ConsumeStorage();
                         if (currentStorage <= 0)
                         {
-                            break; // ¼ÒÁøµÊ ¡æ ´õ »ı»ê ºÒ°¡
+                            break; // ì†Œì§„ë¨ â†’ ë” ìƒì‚° ë¶ˆê°€
                         }
                     }
 
-                    recoveryTimer -= productionInterval; // ¹İº¹ °¡´ÉÇÏµµ·Ï ½Ã°£ Â÷°¨
+                    recoveryTimer -= productionInterval; // ë°˜ë³µ ê°€ëŠ¥í•˜ë„ë¡ ì‹œê°„ ì°¨ê°
                 }
 
                 break;
             default:
-                // ProduceType.Gather, Dialogue µîÀº ÃæÀü ´ë»ó ¾Æ´Ô
+                // ProduceType.Gather, Dialogue ë“±ì€ ì¶©ì „ ëŒ€ìƒ ì•„ë‹˜
                 break;
         }
     }
-    // ÇÃ·¹ÀÌ¾î ÅÍÄ¡·Î »ı»ê
+    // í”Œë ˆì´ì–´ í„°ì¹˜ë¡œ ìƒì‚°
     public void ProduceManual()
     {
         if (!CanProduce())
         {
-            UIToast.Show("ÀúÀå·®ÀÌ ºÎÁ·ÇÕ´Ï´Ù!");
+            UIToast.Show("ì €ì¥ëŸ‰ì´ ë¶€ì¡±í•©ë‹ˆë‹¤!");
             return;
         }
 
         if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
         {
-            // ³»ºÎ¿¡¼­ ºóÄ­ ¾øÀ½/°á°ú ¾øÀ½ ·Î±× Ãâ·Â
+            // ë‚´ë¶€ì—ì„œ ë¹ˆì¹¸ ì—†ìŒ/ê²°ê³¼ ì—†ìŒ ë¡œê·¸ ì¶œë ¥
             return;
         }
 
@@ -223,85 +223,85 @@ public class MergeItem
         {
             if (!PlayerResourceManager.Instance.TrySpend(costType, costValue))
             {
-                UIToast.Show("ÀÚ¿øÀÌ ºÎÁ·ÇÕ´Ï´Ù!");
-                Debug.LogWarning($"[ProduceManual] ÀÚ¿ø ºÎÁ·: {costType} {costValue}");
+                UIToast.Show("ìì›ì´ ë¶€ì¡±í•©ë‹ˆë‹¤!");
+                Debug.LogWarning($"[ProduceManual] ìì› ë¶€ì¡±: {costType} {costValue}");
                 return;
             }
         }
 
         ConsumeStorage();
         BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
-        // »ı»ê ½Ã ÇöÀç º¸´Â º¸µå¿Í °°À¸¸é UI °»½Å
+        // ìƒì‚° ì‹œ í˜„ì¬ ë³´ëŠ” ë³´ë“œì™€ ê°™ìœ¼ë©´ UI ê°±ì‹ 
         if (board == BoardManager.Instance.GetCurrentBoard())
         {
             BoardManager.Instance.RefreshBoard();
         }
 
-        Debug.Log($"[ProduceManual] {name} ¡æ {resultItemKey} »ı»ê ¿Ï·á");
+        Debug.Log($"[ProduceManual] {name} â†’ {resultItemKey} ìƒì‚° ì™„ë£Œ");
     }
 
-    // ÀÚµ¿ »ı»ê
+    // ìë™ ìƒì‚°
     private void ProduceAuto()
     {
         if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
         {
-            // ³»ºÎ¿¡¼­ ºóÄ­ ¾øÀ½/°á°ú ¾øÀ½ ·Î±× Ãâ·Â
+            // ë‚´ë¶€ì—ì„œ ë¹ˆì¹¸ ì—†ìŒ/ê²°ê³¼ ì—†ìŒ ë¡œê·¸ ì¶œë ¥
             isProductionBlocked = true;
             return;
         }
-        //°ø°£ ÀÖÀ½ -> »ı»ê Á¤»ó ÁøÇà
+        //ê³µê°„ ìˆìŒ -> ìƒì‚° ì •ìƒ ì§„í–‰
         isProductionBlocked = false;
 
         BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
-        Debug.Log($"[ProduceAuto] {name} ¡æ {resultItemKey} »ı»ê ¿Ï·á");
+        Debug.Log($"[ProduceAuto] {name} â†’ {resultItemKey} ìƒì‚° ì™„ë£Œ");
 
         if (Data.isProductionLimited)
         {
             ConsumeStorage();
         }
 
-        // »ı»ê ½Ã ÇöÀç º¸´Â º¸µå¿Í °°À¸¸é UI °»½Å
+        // ìƒì‚° ì‹œ í˜„ì¬ ë³´ëŠ” ë³´ë“œì™€ ê°™ìœ¼ë©´ UI ê°±ì‹ 
         if (board == BoardManager.Instance.GetCurrentBoard())
         {
             BoardManager.Instance.RefreshBoard();
         }
 
-        recoveryTimer = 0f; // »ı»ê ¼º°ø ½Ã ¸®¼Â
+        recoveryTimer = 0f; // ìƒì‚° ì„±ê³µ ì‹œ ë¦¬ì…‹
     }
 
     public void ProduceGather()
     {
         var data = this.Data;
 
-        // 1. ¾î¶² ÀÚ¿øÀ» »ı»êÇÏ´ÂÁö
+        // 1. ï¿½î¶² ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½
         var type = data.gatherResource;
         var amount = data.gatherValue;
 
         if (type == ResourceType.None || amount <= 0)
         {
-            Debug.LogWarning("[MergeItem] Gather ½ÇÆĞ: Àß¸øµÈ ÀÚ¿ø Á¤º¸");
+            Debug.LogWarning("[MergeItem] Gather ì‹¤íŒ¨: ì˜ëª»ëœ ìì› ì •ë³´");
             return;
         }
 
-        // 2. Ã¢°í°¡ ²Ë Ã¡´ÂÁö È®ÀÎ
+        // 2. Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         int current = PlayerResourceManager.Instance.GetAmount(type);
         int max = PlayerResourceManager.Instance.GetMax(type);
 
         if (current >= max)
         {
-            UIToast.Show("Ã¢°í°¡ ²Ë Ã¡½À´Ï´Ù!");
-            Debug.LogWarning($"[MergeItem] Gather Â÷´Ü: {type} Ã¢°í°¡ °¡µæ Ã¡½À´Ï´Ù.");
+            UIToast.Show("ì°½ê³ ê°€ ê½‰ ì°¼ìŠµë‹ˆë‹¤!");
+            Debug.LogWarning($"[MergeItem] Gather ì°¨ë‹¨: {type} ì°½ê³ ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤.");
             return;
         }
 
-        // 2. ÀÚ¿ø Ãß°¡
+        // 2. ìì› ì¶”ê°€
         PlayerResourceManager.Instance.Add(type, amount);
-        Debug.Log($"[MergeItem] {type} +{amount} È¹µæ!");
+        Debug.Log($"[MergeItem] {type} +{amount} íšë“!");
 
-        // 3. »ı»êÀÚ ¸ñ·Ï¿¡¼­ Á¦°Å
+        // 3. ìƒì‚°ì ëª©ë¡ì—ì„œ ì œê±°
         BoardManager.Instance.UnregisterItem(this);
 
-        // 4. º¸µå¿¡¼­ Á¦°Å
+        // 4. ë³´ë“œì—ì„œ ì œê±°
         if (board != null)
         {
             Vector2Int pos = coord;
@@ -309,9 +309,9 @@ public class MergeItem
         }
         else
         {
-            Debug.LogWarning("[MergeItem] º¸µå Á¤º¸°¡ ¾ø¾î Á¦°Å ½ÇÆĞ");
+            Debug.LogWarning("[MergeItem] ë³´ë“œ ì •ë³´ê°€ ì—†ì–´ ì œê±° ì‹¤íŒ¨");
         }
-        // »ı»ê ½Ã ÇöÀç º¸´Â º¸µå¿Í °°À¸¸é UI °»½Å
+        // ìƒì‚° ì‹œ í˜„ì¬ ë³´ëŠ” ë³´ë“œì™€ ê°™ìœ¼ë©´ UI ê°±ì‹ 
         if (board == BoardManager.Instance.GetCurrentBoard())
         {
             BoardManager.Instance.RefreshBoard();
@@ -326,43 +326,43 @@ public class MergeItem
 
         if (board == null)
         {
-            Debug.LogError($"[TryPrepareProduction] board°¡ ºñ¾îÀÖÀ½: {name}");
+            Debug.LogError($"[TryPrepareProduction] boardê°€ ë¹„ì–´ìˆìŒ: {name}");
             return false;
         }
 
-        // 1. produceTableKey À¯È¿¼º °Ë»ç
+        // 1. produceTableKey ìœ íš¨ì„± ê²€ì‚¬
         if (string.IsNullOrEmpty(Data.produceTableKey) || Data.produceTableKey == "null")
         {
-            Debug.LogWarning($"[TryPrepareProduction] {name}ÀÇ produceTableKey°¡ ºñ¾î ÀÖÀ½");
+            Debug.LogWarning($"[TryPrepareProduction] {name}ì˜ produceTableKeyê°€ ë¹„ì–´ ìˆìŒ");
             return false;
         }
 
-        // 2. ºó Ä­ Ã£±â
+        // 2. ë¹ˆ ì¹¸ ì°¾ê¸°
         Vector2Int? pos = board.FindNearestEmptyCell(coord);
         if (pos == null)
         {
             if (ProduceType == ItemData.ProduceType.Manual)
             {
-                UIToast.Show("º¸µå¿¡ ºó Ä­ÀÌ ¾ø½À´Ï´Ù!");
+                UIToast.Show("ë³´ë“œì— ë¹ˆ ì¹¸ì´ ì—†ìŠµë‹ˆë‹¤!");
             }
 
-            Debug.LogWarning($"[TryPrepareProduction] {name}: ºó Ä­ ¾øÀ½");
+            Debug.LogWarning($"[TryPrepareProduction] {name}: ë¹ˆ ì¹¸ ì—†ìŒ");
             return false;
         }
 
-        // 3. Å×ÀÌºí Á¶È¸
+        // 3. í…Œì´ë¸” ì¡°íšŒ
         var table = ProduceTableManager.Instance.GetTable(Data.produceTableKey);
         if (table == null || table.results == null || table.results.Count == 0)
         {
-            Debug.LogWarning($"[TryPrepareProduction] {name}: »ı»ê Å×ÀÌºí '{Data.produceTableKey}'ÀÌ ºñ¾î ÀÖÀ½");
+            Debug.LogWarning($"[TryPrepareProduction] {name}: ìƒì‚° í…Œì´ë¸” '{Data.produceTableKey}'ì´ ë¹„ì–´ ìˆìŒ");
             return false;
         }
 
-        // 4. °á°ú ¾ÆÀÌÅÛ ¼±ÅÃ
+        // 4. ê²°ê³¼ ì•„ì´í…œ ì„ íƒ
         string result = GetRandomItemKey(table.results);
         if (string.IsNullOrEmpty(result) || result == "null")
         {
-            Debug.LogError($"[TryPrepareProduction] {name}: ¾ÆÀÌÅÛ ¼±ÅÃ ½ÇÆĞ (Å×ÀÌºí {Data.produceTableKey})");
+            Debug.LogError($"[TryPrepareProduction] {name}: ì•„ì´í…œ ì„ íƒ ì‹¤íŒ¨ (í…Œì´ë¸” {Data.produceTableKey})");
             return false;
         }
 
@@ -379,7 +379,7 @@ public class MergeItem
 
         if (total <= 0)
         {
-            Debug.LogError("[GetRandomItemKey] È®·ü ÃÑÇÕÀÌ 0 ÀÌÇÏÀÔ´Ï´Ù.");
+            Debug.LogError("[GetRandomItemKey] í™•ë¥  ì´í•©ì´ 0 ì´í•˜ì…ë‹ˆë‹¤.");
             return "null";
         }
 

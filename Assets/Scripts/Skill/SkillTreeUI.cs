@@ -1,16 +1,19 @@
 // SkillTreeUI.cs
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
+[DefaultExecutionOrder(0)]
 public class SkillTreeUI : MonoBehaviour
 {
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private RectTransform content;
     [SerializeField] private GameObject skillNodePrefab;
     [SerializeField] private Vector2 nodeSpacing = new Vector2(150, 150);
+    [SerializeField] private TMP_Text skillPointText;
 
     private string currentCategory = "Normal";
 
@@ -18,6 +21,7 @@ public class SkillTreeUI : MonoBehaviour
     {
         GenerateSkillBoard(currentCategory);
         StartCoroutine(ScrollToCenterNextFrame());
+        RefreshSkillPoints();
     }
 
     public void ChangeTree(string categoryType)
@@ -37,7 +41,7 @@ public class SkillTreeUI : MonoBehaviour
 
     private IEnumerator ScrollToCenterNextFrame()
     {
-        yield return null; // ¥Ÿ¿Ω «¡∑π¿”±Ó¡ˆ ¥Î±‚
+        yield return null; // Îã§Ïùå ÌîÑÎ†àÏûÑÍπåÏßÄ ÎåÄÍ∏∞
         Canvas.ForceUpdateCanvases();
         scrollRect.normalizedPosition = new Vector2(0.5f, 0.5f);
     }
@@ -53,13 +57,27 @@ public class SkillTreeUI : MonoBehaviour
         {
             node.RefreshVisual();
         }
+        RefreshSkillPoints();
+        // If info panel is open for some key, re-show to refresh texts when context changed
+        if (SkillInfoUI.Instance != null && gameObject.activeInHierarchy)
+        {
+            var field = typeof(SkillInfoUI).GetField("currentSkillKey", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field != null)
+            {
+                var key = field.GetValue(SkillInfoUI.Instance) as string;
+                if (!string.IsNullOrEmpty(key))
+                {
+                    SkillInfoUI.Instance.Show(key);
+                }
+            }
+        }
     }
 
     private void GenerateSkillBoard(string categoryType)
     {
         foreach (Transform child in content)
         {
-            if (child.name != "BackgroundOverlay") // »§¿∫ tag ∫Ò±≥ µÓ
+            if (child.name != "BackgroundOverlay") // ÌòπÏùÄ tag ÎπÑÍµê Îì±
                 Destroy(child.gameObject);
         }
 
@@ -78,6 +96,25 @@ public class SkillTreeUI : MonoBehaviour
                 skill.coordY * nodeSpacing.y
             );
         }
+    }
+
+    private void RefreshSkillPoints()
+    {
+        if (skillPointText == null) return;
+
+        int currentPoints = 0;
+        if (SaveController.Instance != null && SaveController.Instance.CurrentSave != null)
+        {
+            currentPoints = SaveController.Instance.CurrentSave.player.skillPoints;
+        }
+
+        skillPointText.text = $"Ïä§ÌÇ¨ Ìè¨Ïù∏Ìä∏: {currentPoints}";
+    }
+
+    // Ïä§ÌÇ¨ Ìè¨Ïù∏Ìä∏ Î≥ÄÍ≤Ω Ïãú Ìò∏Ï∂úÌï† Ïàò ÏûàÎäî public Î©îÏÑúÎìú
+    public void OnSkillPointsChanged()
+    {
+        RefreshSkillPoints();
     }
 }
 

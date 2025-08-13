@@ -1,5 +1,5 @@
-boardTable/Key,,boardTable/Key,,,,
-Ãâ¹ßº¸µåÅ°,¹æÇâ,µµÂøº¸µåÅ°,Àá±İ¿©ºÎ,Àá±İÇØÁ¦Å¸ÀÔ,Àá±İÆÄ¶ó¹ÌÅÍ,ÆÄ¶ó¹ÌÅÍ°³¼ö
+ï»¿boardTable/Key,,boardTable/Key,,,,
+ì¶œë°œë³´ë“œí‚¤,ë°©í–¥,ë„ì°©ë³´ë“œí‚¤,ì ê¸ˆì—¬ë¶€,ì ê¸ˆí•´ì œíƒ€ì…,ì ê¸ˆíŒŒë¼ë¯¸í„°,íŒŒë¼ë¯¸í„°ê°œìˆ˜
 string,enum,string,bool,enum,string,int
 boardKey,direction,targetBoardKey,isLocked,unlockType,unlockParam,unlockParamValue
 BOARD_BEACH_0,Right,BOARD_BEACH_1,TRUE,Resource,Wood,100

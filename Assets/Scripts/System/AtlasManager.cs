@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using System.Collections.Generic;
 
+[DefaultExecutionOrder(-950)]
 public class AtlasManager : MonoBehaviour
 {
     public static AtlasManager Instance;
@@ -13,11 +14,11 @@ public class AtlasManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // ¾À ÀÌµ¿¿¡µµ À¯Áö
+            DontDestroyOnLoad(gameObject); // ì”¬ ì´ë™ì—ë„ ìœ ì§€
         }
         else
         {
-            Destroy(gameObject); // Áßº¹ ¹æÁö
+            Destroy(gameObject); // ì¤‘ë³µ ë°©ì§€
         }
     }
 
@@ -25,7 +26,7 @@ public class AtlasManager : MonoBehaviour
     {
         if (atlases == null || atlases.Count == 0)
         {
-            Debug.LogError("[AtlasManager] atlases ¸®½ºÆ®°¡ ºñ¾îÀÖÀ½!");
+            Debug.LogError("[AtlasManager] atlases ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ìˆìŒ!");
             return null;
         }
         foreach (var atlas in atlases)

@@ -9,9 +9,9 @@ using UnityEngine.WSA;
 
 public class ItemView : MonoBehaviour, IPointerClickHandler
 {
-    //»ı»ê½Ã°£ÀÌ µ¹¾Æ°¡°í ÀÖÀ» ¶§´Â ½Ã°è ¾ÆÀÌÄÜ Ãß°¡
-    public Image iconImage;       // ¼¿¿¡ Ç¥½ÃÇÒ ¾ÆÀÌÅÛ ÀÌ¹ÌÁö
-    private int currentLevel;     // ÇöÀç ¾ÆÀÌÅÛ ·¹º§ ÀúÀå
+    //ìƒì‚°ì‹œê°„ì´ ëŒì•„ê°€ê³  ìˆì„ ë•ŒëŠ” ì‹œê³„ ì•„ì´ì½˜ ì¶”ê°€
+    public Image iconImage;       // ì…€ì— í‘œì‹œí•  ì•„ì´í…œ ì´ë¯¸ì§€
+    private int currentLevel;     // í˜„ì¬ ì•„ì´í…œ ë ˆë²¨ ì €ì¥
     public MergeItem mergeItem;
     public Vector2Int coord;
 
@@ -19,7 +19,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
     {
         if (item.Data == null)
         {
-            Debug.LogWarning($"[ItemView] ¾ÆÀÌÅÛ µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù. id: {item.key}");
+            Debug.LogWarning($"[ItemView] ì•„ì´í…œ ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤. id: {item.key}");
             return;
         }
         mergeItem = item;
@@ -39,7 +39,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
 
         var selector = ItemSelectorManager.Instance;
 
-        // °°Àº ¾ÆÀÌÅÛÀ» ¶Ç ÅÍÄ¡ÇßÀ» °æ¿ì
+        // ê°™ì€ ì•„ì´í…œì„ ë˜ í„°ì¹˜í–ˆì„ ê²½ìš°
         if (selector.GetSelectedItem() == mergeItem)
         {
             switch (mergeItem.ProduceType)
@@ -53,7 +53,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
                     break;
 
                 case ItemData.ProduceType.Dialogue:
-                    //TriggerNPCDialogue(); // ÀÌÈÄ È®Àå ½Ã Á¤ÀÇ
+                    //TriggerNPCDialogue(); // ì´í›„ í™•ì¥ ì‹œ ì •ì˜
                     break;
 
                 case ItemData.ProduceType.Auto:
@@ -67,7 +67,7 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        // »õ·Î¿î ¾ÆÀÌÅÛ ¼±ÅÃ
+        // ìƒˆë¡œìš´ ì•„ì´í…œ ì„ íƒ
         selector.Select(this);
     }
 

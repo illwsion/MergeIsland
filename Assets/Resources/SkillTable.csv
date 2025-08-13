@@ -1,7 +1,8 @@
-,,,,,,,,,boardTable/ID,,,,,stringTable/Key,stringTable/Key,
-Å°,Ä«Å×°í¸®,ÅÂ±×,xÁÂÇ¥,yÁÂÇ¥,¼Ò¸ğ½ºÅ³Æ÷ÀÎÆ®,¼Ò¸ğÀÚ¿ø,¼Ò¸ğÀÚ¿ø¼ö·®,ÇØ±İ·¹º§,ÇØ±İº¸µå,½ºÅ³È¿°ú,È¿°ú´ë»ó,È¿°ú¼öÄ¡,ÆÛ¼¾Æ®¿©ºÎ,½ºÅ³ÀÌ¸§Å°,½ºÅ³¼³¸íÅ°,ÀÌ¹ÌÁö
+ï»¿,,,,,,,,,boardTable/Key,,,,,stringTable/Key,stringTable/Key,
+í‚¤,ì¹´í…Œê³ ë¦¬,íƒœê·¸,xì¢Œí‘œ,yì¢Œí‘œ,ì†Œëª¨ìŠ¤í‚¬í¬ì¸íŠ¸,ì†Œëª¨ìì›,ì†Œëª¨ìì›ìˆ˜ëŸ‰,í•´ê¸ˆë ˆë²¨,í•´ê¸ˆë³´ë“œ,ìŠ¤í‚¬íš¨ê³¼,íš¨ê³¼ëŒ€ìƒ,íš¨ê³¼ìˆ˜ì¹˜,í¼ì„¼íŠ¸ì—¬ë¶€,ìŠ¤í‚¬ì´ë¦„í‚¤,ìŠ¤í‚¬ì„¤ëª…í‚¤,ì´ë¯¸ì§€
 string,enum,enum,int,int,int,enum,int,int,string,enum,string,int,bool,string,string,string
 key,category,tag,coordX,coordY,costSkillPoint,costResourceType,costResourceValue,unlockLevel,unlockBoardKey,skillEffect,targetKey,skillEffectValue,isPercent,skillNameKey,skillDescKey,imageName
-SKILL_RESOURCEGAIN_WOOD_0,Normal,Production,0,0,1,null,null,1,null,ResourceGain,Wood,10,TRUE,SKILL_RESOURCEGAIN_WOOD_0_NAME,SKILL_RESOURCEGAIN_WOOD_0_DESC,SKILL_RESOURCEGAIN_WOOD_0
-SKILL_RESOURCECAP_WOOD_0,Normal,Production,0,1,1,null,null,1,null,ResourceCap,Wood,10,TRUE,SKILL_RESOURCECAP_WOOD_0_NAME,SKILL_RESOURCECAP_WOOD_0_DESC,SKILL_RESOURCECAP_WOOD_0
-SKILL_DAMAGEADD_WEAPON_0,Normal,Combat,1,0,1,null,null,1,null,DamageAdd,Weapon,10,TRUE,SKILL_DAMAGEADD_WEAPON_0_NAME,SKILL_DAMAGEADD_WEAPON_0_DESC,SKILL_DAMAGEADD_WEAPON_0
+SKILL_RESOURCEGAIN_WOOD_0,Normal,Production,0,0,0,null,null,1,null,ResourceGain,Wood,10,TRUE,SKILL_RESOURCEGAIN_WOOD_0_NAME,SKILL_RESOURCEGAIN_WOOD_0_DESC,SKILL_RESOURCEGAIN_WOOD_0
+SKILL_RESOURCECAP_WOOD_0,Normal,Production,0,1,0,null,null,1,BOARD_BEACH_1,ResourceCap,Wood,10,TRUE,SKILL_RESOURCECAP_WOOD_0_NAME,SKILL_RESOURCECAP_WOOD_0_DESC,SKILL_RESOURCECAP_WOOD_0
+SKILL_DAMAGEADD_WEAPON_0,Normal,Combat,1,0,0,null,null,null,null,DamageAdd,Weapon,10,TRUE,SKILL_DAMAGEADD_WEAPON_0_NAME,SKILL_DAMAGEADD_WEAPON_0_DESC,SKILL_DAMAGEADD_WEAPON_0
+SKILL_DAMAGEADD_AXE_0,Normal,Production,1,1,0,null,null,null,null,DamageAdd,Axe,10,TRUE,SKILL_DAMAGEADD_AXE_0_NAME,SKILL_DAMAGEADD_AXE_0_DESC,SKILL_DAMAGEADD_WEAPON_0

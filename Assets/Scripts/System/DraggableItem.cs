@@ -12,9 +12,9 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private Transform originalParent;
     private Vector2 originalPosition;
-    private Vector2Int fromPos; // µå·¡±× ½ÃÀÛ À§Ä¡
+    private Vector2Int fromPos; // ë“œë˜ê·¸ ì‹œì‘ ìœ„ì¹˜
 
-    public MergeItem mergeItem; // ¿¬°áµÈ ¾ÆÀÌÅÛ Á¤º¸
+    public MergeItem mergeItem; // ì—°ê²°ëœ ì•„ì´í…œ ì •ë³´
 
     void Awake()
     {
@@ -44,7 +44,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.SetParent(canvas.transform);
         canvasGroup.blocksRaycasts = false;
 
-        // µå·¡±× ½ÃÀÛ ½Ã, ¾ÆÁ÷ ¼±ÅÃµÇÁö ¾Ê¾Ò´Ù¸é ÀÚµ¿ ¼±ÅÃ
+        // ë“œë˜ê·¸ ì‹œì‘ ì‹œ, ì•„ì§ ì„ íƒë˜ì§€ ì•Šì•˜ë‹¤ë©´ ìë™ ì„ íƒ
         if (!ItemSelectorManager.Instance.HasSelection() ||
             ItemSelectorManager.Instance.GetSelectedItem() != mergeItem)
         {
@@ -89,7 +89,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
         }
 
-        // µå·¡±× ½ÇÆĞ -> Á¦ÀÚ¸® Ã³¸®·Î ¼±ÅÃ
+        // ë“œë˜ê·¸ ì‹¤íŒ¨ -> ì œìë¦¬ ì²˜ë¦¬ë¡œ ì„ íƒ
         BoardManager.Instance.HandleDrop(mergeItem, fromPos, fromPos);
     }
 }

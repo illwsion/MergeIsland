@@ -1,12 +1,12 @@
 public class BoardGateData
 {
-    public string boardKey; // Ãâ¹ß º¸µå
-    public Direction direction; // ¹æÇâ
-    public string targetBoardKey; // µµÂø º¸µå
+    public string boardKey; // ì¶œë°œ ë³´ë“œ
+    public Direction direction; // ë°©í–¥
+    public string targetBoardKey; // ë„ì°© ë³´ë“œ
 
-    public bool isLocked; // Àá±İ ¿©ºÎ
-    public UnlockType unlockType; // Àá±İ ÇØÁ¦ Á¶°Ç Å¸ÀÔ
-    public string unlockParam; // Àá±İ ÇØÁ¦ Á¶°Ç ÆÄ¶ó¹ÌÅÍ
+    public bool isLocked; // ì ê¸ˆ ì—¬ë¶€
+    public UnlockType unlockType; // ì ê¸ˆ í•´ì œ ì¡°ê±´ íƒ€ì…
+    public string unlockParam; // ì ê¸ˆ í•´ì œ ì¡°ê±´ íŒŒë¼ë¯¸í„°
     public int unlockParamValue;
 
     public enum Direction
@@ -19,11 +19,11 @@ public class BoardGateData
 
     public enum UnlockType
     {
-        None,   // Àá±İ ¾Æ´Ô
-        Item,   // Æ¯Á¤ ¾ÆÀÌÅÛ ÇÊ¿ä
-        Level,  // Æ¯Á¤ ·¹º§ ÇÊ¿ä
-        Quest, // Äù½ºÆ® ¿Ï·á ÇÊ¿ä
-        Resource // ÀÚ¿ø ÇÊ¿ä
+        None,   // ì ê¸ˆ ì•„ë‹˜
+        Item,   // íŠ¹ì • ì•„ì´í…œ í•„ìš”
+        Level,  // íŠ¹ì • ë ˆë²¨ í•„ìš”
+        Quest, // í€˜ìŠ¤íŠ¸ ì™„ë£Œ í•„ìš”
+        Resource // ìì› í•„ìš”
     }
 
     public string GetUniqueID()

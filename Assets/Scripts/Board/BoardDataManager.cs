@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[DefaultExecutionOrder(-850)]
 public class BoardDataManager : MonoBehaviour
 {
     public static BoardDataManager Instance;
@@ -29,7 +30,7 @@ public class BoardDataManager : MonoBehaviour
             return data;
         }
 
-        Debug.LogWarning($"[BoardDataManager] º¸µå {key} ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogWarning($"[BoardDataManager] ë³´ë“œ {key} ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return null;
     }
 
@@ -43,13 +44,13 @@ public class BoardDataManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("BoardTable"); // Resources/BoardTable.csv
         if (csvFile == null)
         {
-            Debug.LogError("[BoardDataManager] BoardTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[BoardDataManager] BoardTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
 
-        for (int i = 4; i < lines.Length; i++) // ¾Õ 4ÁÙ Çì´õ ½ºÅµ
+        for (int i = 4; i < lines.Length; i++) // ì²« 4ì¤„ í—¤ë” ìŠ¤í‚µ
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
@@ -62,7 +63,7 @@ public class BoardDataManager : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"[BoardDataManager] Parse ½ÇÆĞ at line {i + 1}: '{line}'\nException: {e}");
+                Debug.LogError($"[BoardDataManager] Parse ì‹¤íŒ¨ at line {i + 1}: '{line}'\nException: {e}");
             }
         }
     }
@@ -98,7 +99,7 @@ public class BoardDataManager : MonoBehaviour
         if (int.TryParse(value, out int result))
             return result;
 
-        Debug.LogError($"[BoardDataManager] int ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[BoardDataManager] int íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return 0;
     }
 
@@ -111,7 +112,7 @@ public class BoardDataManager : MonoBehaviour
         if (System.Enum.TryParse<T>(value, true, out var result))
             return result;
 
-        Debug.LogError($"[BoardDataManager] enum ÆÄ½Ì ½ÇÆĞ: '{value}' ¡æ ±âº»°ª {defaultValue} ¹İÈ¯");
+        Debug.LogError($"[BoardDataManager] enum íŒŒì‹± ì‹¤íŒ¨: '{value}' â†’ ê¸°ë³¸ê°’ {defaultValue} ë°˜í™˜");
         return defaultValue;
     }
 
@@ -121,7 +122,7 @@ public class BoardDataManager : MonoBehaviour
         if (value == "true") return true;
         if (value == "false") return false;
 
-        Debug.LogError($"[BoardDataManager] bool ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[BoardDataManager] bool íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return false;
     }
 

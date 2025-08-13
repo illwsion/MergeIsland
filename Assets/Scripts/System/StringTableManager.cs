@@ -6,7 +6,7 @@ public class StringTableManager : MonoBehaviour
 {
     public static StringTableManager Instance;
 
-    // ¾ğ¾î ¼³Á¤¿ë enum
+    // ì–¸ì–´ ì„¤ì •ìš© enum
     public enum Language
     {
         Korean,
@@ -15,7 +15,7 @@ public class StringTableManager : MonoBehaviour
 
     public Language currentLanguage = Language.Korean;
 
-    // id ¡æ (korean, english) ÀúÀå
+    // id â†’ (korean, english) ì €ì¥
     private Dictionary<string, LocalizedString> stringMap = new Dictionary<string, LocalizedString>();
 
     public class LocalizedString
@@ -43,13 +43,13 @@ public class StringTableManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("StringTable");
         if (csvFile == null)
         {
-            Debug.LogError("[StringTableManager] StringTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[StringTableManager] StringTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
 
-        for (int i = 3; i < lines.Length; i++) // Ã¹ 3ÁÙÀº Çì´õ
+        for (int i = 3; i < lines.Length; i++) // ì²« 3ì¤„ì€ í—¤ë”
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
@@ -84,7 +84,7 @@ public class StringTableManager : MonoBehaviour
             };
         }
 
-        return $"[¹®ÀÚ¿­ ¾øÀ½: {key}]";
+        return $"[ë¬¸ìì—´ ì—†ìŒ: {key}]";
     }
 
     public string GetLocalized(string key, params object[] args)
@@ -98,10 +98,10 @@ public class StringTableManager : MonoBehaviour
                 _ => entry.korean
             };
 
-            return string.Format(raw, args); // ¿©±â¼­ ÀÚ¸®Ç¥½ÃÀÚ ´ëÃ¼
+            return string.Format(raw, args); // ì—¬ê¸°ì„œ ìë¦¬í‘œì‹œì ëŒ€ì²´
         }
 
-        return $"[¹®ÀÚ¿­ ¾øÀ½: {key}]";
+        return $"[ë¬¸ìì—´ ì—†ìŒ: {key}]";
     }
 
     public void SetLanguage(Language lang)

@@ -25,14 +25,14 @@ public class ProduceTableManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(key))
         {
-            Debug.LogWarning("[ProduceTableManager] key°¡ null ¶Ç´Â ºñ¾î ÀÖÀ½");
+            Debug.LogWarning("[ProduceTableManager] keyê°€ null ë˜ëŠ” ë¹„ì–´ ìˆìŒ");
             return null;
         }
 
         if (tableMap.TryGetValue(key, out var table))
             return table;
 
-        Debug.LogWarning($"[ProduceTableManager] ID {key} Å×ÀÌºíÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogWarning($"[ProduceTableManager] ID {key} í…Œì´ë¸”ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return null;
     }
 
@@ -41,13 +41,13 @@ public class ProduceTableManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("ProduceTable");
         if (csvFile == null)
         {
-            Debug.LogError("[ProduceTableManager] ProduceTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[ProduceTableManager] ProduceTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
 
-        for (int i = 4; i < lines.Length; i++) // Ã¹ ³× ÁÙÀº Çì´õÀÌ¹Ç·Î ½ºÅµ
+        for (int i = 4; i < lines.Length; i++) // ì²« ë„¤ ì¤„ì€ í—¤ë”ì´ë¯€ë¡œ ìŠ¤í‚µ
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
@@ -85,7 +85,7 @@ public class ProduceTableManager : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"[ProduceTableManager] ÆÄ½Ì ½ÇÆĞ at line {i + 1}: '{line}'\nException: {e}");
+                Debug.LogError($"[ProduceTableManager] íŒŒì‹± ì‹¤íŒ¨ at line {i + 1}: '{line}'\nException: {e}");
             }
         }
     }
@@ -99,7 +99,7 @@ public class ProduceTableManager : MonoBehaviour
         if (int.TryParse(value, out int result))
             return result;
 
-        Debug.LogError($"[ProduceTableManager] int ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[ProduceTableManager] int íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return 0;
     }
 }

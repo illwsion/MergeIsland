@@ -1,5 +1,5 @@
-,,,,,,,,,,produceTable/Key,dropTable/Key,,,,,,,,,,,stringTable/Key,stringTable/Key,,,,,
-Å°,ÀÌ¸§,Å¸ÀÔ,Ä«Å×°í¸®,·¹º§,ÃÖ´ë·¹º§,»ı»êÅ¸ÀÔ,»ı»êÁ¦ÇÑ,µµ±¸Å¸ÀÔ,ÀçÁú,»ı»êÅ×ÀÌºí,µå¶øÅ×ÀÌºí,¼Ò¸ğÀçÈ­,¼Ò¸ğÀçÈ­¼ö·®,È¹µæÀçÈ­,È¹µæÀçÈ­¼ö·®,ÃÖ´ëÀúÀåÀçÈ­,ÃÖ´ëÀúÀå·®Áõ°¡,ÀÚµ¿»ı»êÁÖ±â(ÃÊ),»ı»êÃÖ´ëÀúÀå·®,ÆÇ¸Å°¡´É¿©ºÎ,ÆÇ¸Å°¡°İ,¾ÆÀÌÅÛ ÀÌ¸§,¾ÆÀÌÅÛ ¼³¸í,ÀÌµ¿°¡´É¿©ºÎ,ÀÎº¥Åä¸®¼ö³³°¡´É¿©ºÎ,ÃÖ´ëÃ¼·Â,°ø°İ·Â,ÀÌ¹ÌÁö
+ï»¿,,,,,,,,,,produceTable/Key,dropTable/Key,,,,,,,,,,,stringTable/Key,stringTable/Key,,,,,
+í‚¤,ì´ë¦„,íƒ€ì…,ì¹´í…Œê³ ë¦¬,ë ˆë²¨,ìµœëŒ€ë ˆë²¨,ìƒì‚°íƒ€ì…,ìƒì‚°ì œí•œ,ë„êµ¬íƒ€ì…,ì¬ì§ˆ,ìƒì‚°í…Œì´ë¸”,ë“œëí…Œì´ë¸”,ì†Œëª¨ì¬í™”,ì†Œëª¨ì¬í™”ìˆ˜ëŸ‰,íšë“ì¬í™”,íšë“ì¬í™”ìˆ˜ëŸ‰,ìµœëŒ€ì €ì¥ì¬í™”,ìµœëŒ€ì €ì¥ëŸ‰ì¦ê°€,ìë™ìƒì‚°ì£¼ê¸°(ì´ˆ),ìƒì‚°ìµœëŒ€ì €ì¥ëŸ‰,íŒë§¤ê°€ëŠ¥ì—¬ë¶€,íŒë§¤ê°€ê²©,ì•„ì´í…œ ì´ë¦„,ì•„ì´í…œ ì„¤ëª…,ì´ë™ê°€ëŠ¥ì—¬ë¶€,ì¸ë²¤í† ë¦¬ìˆ˜ë‚©ê°€ëŠ¥ì—¬ë¶€,ìµœëŒ€ì²´ë ¥,ê³µê²©ë ¥,ì´ë¯¸ì§€
 string,string,string,enum,int,int,enum,bool,enum,enum,string,string,enum,int,enum,int,enum,int,float,int,bool,int,string,string,bool,bool,int,int,string
 key,name,type,category,level,maxLevel,produceType,isProductionLimited,toolType,targetMaterial,produceTableKey,dropTableKey,costResource,costValue,gatherResource,gatherValue,maxCapResource,maxCapValue,productionInterval,maxProductionAmount,isSellable,sellValue,itemNameKey,descriptionKey,canMove,canInventoryStore,hp,attackPower,imageName
 ITEM_TREE_0,tree_0,tree,Production,1,12,None,FALSE,None,Wood,null,DROP_TREE_0,None,null,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_0,ITEM_DESC_TREE_0,TRUE,TRUE,100,null,tree_0

@@ -67,7 +67,7 @@ public class ItemInfoUI : MonoBehaviour
     void Start()
     {
         if (unselectedText == null)
-            Debug.LogError("[ItemInfoUI] unselectedText°¡ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[ItemInfoUI] unselectedTextê°€ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         unselectedText.text = StringTableManager.Instance.GetLocalized("UI_UNSELECTEDTEXT");
     }
 
@@ -92,11 +92,11 @@ public class ItemInfoUI : MonoBehaviour
         // Description
         descText.text = StringTableManager.Instance.GetLocalized(item.Data.itemDescriptionKey);
         
-        // HP Block (Á¶°ÇºÎ Ç¥½Ã)
+        // HP Block (ì¡°ê±´ë¶€ í‘œì‹œ)
         if (item.maxHP > 0)
         {
             hpBlock.SetActive(true);
-            //Fill ±æÀÌ °è»ê
+            //Fill ê¸¸ì´ ê³„ì‚°
             float hpPercent = Mathf.Clamp01((float)item.currentHP / (float)item.maxHP);
             float barWidth = hpFillBar.parent.GetComponent<RectTransform>().rect.width;
             hpFillBar.sizeDelta = new Vector2(hpPercent * barWidth, hpFillBar.sizeDelta.y);
@@ -124,8 +124,8 @@ public class ItemInfoUI : MonoBehaviour
             }
             else
             {
-                Debug.Log("ºñÇ¥½Ã");
-                manualTimerText.text = ""; // ½Ã°£ ºñÇ¥½Ã
+                Debug.Log("ë¹„í‘œì‹œ");
+                manualTimerText.text = ""; // ì‹œê°„ ë¹„í‘œì‹œ
             }
             float barWidth = manualTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
             manualTimerFillBar.sizeDelta = new Vector2(percent * barWidth, manualTimerFillBar.sizeDelta.y);
@@ -141,7 +141,7 @@ public class ItemInfoUI : MonoBehaviour
 
             autoStorageText.text = item.Data.isProductionLimited 
                 ? $"{item.currentStorage} / {item.maxStorage}" 
-                : ""; // ºñÇ¥½Ã
+                : ""; // ë¹„í‘œì‹œ
 
 
             autoTimerText.text = (item.isProductionBlocked)
@@ -191,7 +191,7 @@ public class ItemInfoUI : MonoBehaviour
             }
             else
             {
-                manualTimerText.text = ""; // ½Ã°£ ºñÇ¥½Ã
+                manualTimerText.text = ""; // ì‹œê°„ ë¹„í‘œì‹œ
             }
             float barWidth = manualTimerFillBar.parent.GetComponent<RectTransform>().rect.width;
             manualTimerFillBar.sizeDelta = new Vector2(percent * barWidth, manualTimerFillBar.sizeDelta.y);
@@ -203,7 +203,7 @@ public class ItemInfoUI : MonoBehaviour
 
             autoStorageText.text = item.Data.isProductionLimited 
                 ? $"{item.currentStorage} / {item.maxStorage}" 
-                : ""; // ºñÇ¥½Ã
+                : ""; // ë¹„í‘œì‹œ
 
             autoTimerText.text = (item.isProductionBlocked)
                 ? "Blocked"
@@ -221,9 +221,9 @@ public class ItemInfoUI : MonoBehaviour
         iconImage.gameObject.SetActive(true);
 
         // Header
-        iconImage.sprite = AtlasManager.Instance.GetSprite("boardGate_beach"); // iconNameÀÌ ÀÖ´Ù¸é
+        iconImage.sprite = AtlasManager.Instance.GetSprite("boardGate_beach"); // iconNameï¿½ï¿½ ï¿½Ö´Ù¸ï¿½
         nameText.text = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_NAME");
-        levelText.text = ""; // °ÔÀÌÆ®´Â ·¹º§ ¾øÀ½
+        levelText.text = ""; // ê²Œì´íŠ¸ëŠ” ë ˆë²¨ ì—†ìŒ
 
         // Description
         string desc = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_DESC");
@@ -231,7 +231,7 @@ public class ItemInfoUI : MonoBehaviour
         switch (gate.gateData.unlockType)
         {
             case UnlockType.None:
-                desc = "¿­·ÁÀÖ´Â °ÔÀÌÆ®ÀÔ´Ï´Ù.";
+                desc = "ì—´ë ¤ìˆëŠ” ê²Œì´íŠ¸ì…ë‹ˆë‹¤.";
                 break;
 
             case UnlockType.Item:
@@ -254,7 +254,7 @@ public class ItemInfoUI : MonoBehaviour
 
         descText.text = desc;
 
-        // »óÅÂ °ü·Ã ºí·Ï ¼û±è
+        // ìƒíƒœ ê´€ë ¨ ë¸”ë¡ ìˆ¨ê¹€
         hpBlock.SetActive(false);
         manualBlock.SetActive(false);
         autoBlock.SetActive(false);
@@ -277,9 +277,9 @@ public class ItemInfoUI : MonoBehaviour
         unselectedOverlay.SetActive(true);
 
         iconImage.sprite = null;
-        nameText.text = "¾ÆÀÌÅÛ ¾øÀ½";
+        nameText.text = "ì•„ì´í…œ ì—†ìŒ";
         levelText.text = "";
-        descText.text = "¾ÆÀÌÅÛÀ» ¼±ÅÃÇÏ¸é Á¤º¸°¡ Ç¥½ÃµË´Ï´Ù";
+        descText.text = "ì•„ì´í…œì„ ì„ íƒí•˜ë©´ ì •ë³´ê°€ í‘œì‹œë©ë‹ˆë‹¤";
 
         effectGroup.Clear();
         iconImage.gameObject.SetActive(false);
@@ -322,7 +322,7 @@ public class ItemInfoUI : MonoBehaviour
                 effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_LEVEL");
                 effect.icon1 = AtlasManager.Instance.GetSprite("boardGate_quest");
                 effect.value = "";
-                //effect.value = gate.gateData.unlockParamValue.ToString(); Äù½ºÆ® Á¶°Ç ¾î¶»°Ô ³ªÅ¸³¾Áö? Äù½ºÆ® ½Ã½ºÅÛ ±¸Çö ÀÌÈÄ
+                //effect.value = gate.gateData.unlockParamValue.ToString(); í€˜ìŠ¤íŠ¸ ì¡°ê±´ ì–´ë–»ê²Œ ë‚˜íƒ€ë‚¼ì§€? í€˜ìŠ¤íŠ¸ ì‹œìŠ¤í…œ êµ¬í˜„ ì´í›„
                 break;
 
             case UnlockType.Resource:
@@ -340,23 +340,33 @@ public class ItemInfoUI : MonoBehaviour
     private List<EffectData> CreateEffectDataList(MergeItem item)
     {
         var effects = new List<EffectData>();
-
-        // 1. ÅÍÄ¡ÇØ¼­ È¹µæ
+        
+        // 1. í„°ì¹˜í•´ì„œ íšë“
         if (item.ProduceType == ItemData.ProduceType.Gather)
         {
             var gatherType = item.gatherResource;
             var icon = GetGatherIcon(gatherType);
+            int baseValue = item.gatherValue;
+            int shownValue = baseValue;
+            if (PlayerSkillManager.Instance != null)
+            {
+                int flat = PlayerSkillManager.Instance.GetEffectFlat(SkillData.SkillEffect.ResourceGain, gatherType.ToString());
+                int percent = PlayerSkillManager.Instance.GetEffectPercent(SkillData.SkillEffect.ResourceGain, gatherType.ToString());
+                int basePlusFlat = baseValue + flat;
+                float mul = 1f + (percent / 100f);
+                shownValue = Mathf.FloorToInt(basePlusFlat * mul);
+            }
             effects.Add(new EffectData
             {
                 type = EffectType.Gather,
                 blockSize = EffectBlockSize.Small,
                 label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATHER"),
                 icon1 = icon,
-                value = $"+{item.gatherValue}"
+                value = $"+{shownValue}"
             });
         }
-
-        // 2. ÆÇ¸Å
+        
+        // 2. íŒë§¤
         if (item.sellValue > 0)
         {
             effects.Add(new EffectData
@@ -368,11 +378,11 @@ public class ItemInfoUI : MonoBehaviour
                 value = $"+{item.sellValue}"
             });
         }
-
-        // 3. ´ë¹ÌÁö
+        
+        // 3. ëŒ€ë¯¸ì§€
         if (item.attackPower > 0)
         {
-            // ToolType¿¡ µû¶ó ¾ÆÀÌÄÜ ÀÌ¸§ ¼³Á¤
+            // ToolTypeì— ë”°ë¼ ì•„ì´ì½˜ ì´ë¦„ ì„¤ì •
             string iconName = item.Data.toolType switch
             {
                 ToolType.Weapon => "effectIcon_damage_weapon",
@@ -380,36 +390,48 @@ public class ItemInfoUI : MonoBehaviour
                 ToolType.Pickaxe => "effectIcon_damage_pickaxe",
                 _ => "resourceIcon_default" // fallback
             };
-
+            
+            int baseDamage = item.attackPower ?? 0;
+            int shownDamage = baseDamage;
+            if (PlayerSkillManager.Instance != null)
+            {
+                string toolKey = item.Data.toolType.ToString(); // Axe / Pickaxe / Weapon
+                int flat = PlayerSkillManager.Instance.GetEffectFlat(SkillData.SkillEffect.DamageAdd, toolKey);
+                int percent = PlayerSkillManager.Instance.GetEffectPercent(SkillData.SkillEffect.DamageAdd, toolKey);
+                int basePlusFlat = baseDamage + flat;
+                float mul = 1f + (percent / 100f);
+                shownDamage = Mathf.FloorToInt(basePlusFlat * mul);
+            }
+            
             effects.Add(new EffectData
             {
                 type = EffectType.Damage,
                 blockSize = EffectBlockSize.Small,
                 label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_DAMAGE"),
                 icon1 = AtlasManager.Instance.GetSprite(iconName),
-                value = item.attackPower.ToString()
+                value = shownDamage.ToString()
             });
             
         }
-
-        // 4. °ø±Ş
+        
+        // 4. ê³µê¸‰
         if (SupplyRuleManager.Instance.GetFirstRuleByReceiverItem(item.key) != null)
         {
-            // receiverItem·Î ½ÃÀÛÇÏ´Â rule Áß Ã¹ ¹øÂ°¸¦ °¡Á®¿È
+            // receiverItemë¡œ ì‹œì‘í•˜ëŠ” rule ì¤‘ ì²« ë²ˆì§¸ë¥¼ ê°€ì ¸ì˜´
             var rule = SupplyRuleManager.Instance.GetFirstRuleByReceiverItem(item.key);
             if (rule == null)
             {
-                Debug.Log($"[CreateEffectDataList] SupplyRuleÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½: itemID={item.key}");
+                Debug.Log($"[CreateEffectDataList] SupplyRuleì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ: itemID={item.key}");
             }
             if (rule != null)
             {
                 var suppliedItemData = ItemDataManager.Instance.GetItemData(rule.suppliedItem);
                 Sprite icon1 = AtlasManager.Instance.GetSprite(suppliedItemData?.imageName);
-
-                // icon2 = »ı»ê °á°ú
+                
+                // icon2 = ìƒì‚° ê²°ê³¼
                 Sprite icon2;
                 string value = null;
-
+                
                 if (rule.resultType == SupplyRule.ResultType.Item)
                 {
                     var resultData = ItemDataManager.Instance.GetItemData(rule.resultItem);
@@ -417,11 +439,11 @@ public class ItemInfoUI : MonoBehaviour
                 }
                 else
                 {
-                    //³ªÁß¿¡ ¾ÆÀÌÄÜ ¹Ù²ã¾ß ÇÔ (ÀÚ¿øµµ »ı»êÇÏ°Ô µÈ´Ù¸é)
-                    icon2 = AtlasManager.Instance.GetSprite(rule.resultType.ToString().ToLower()); // ¿¹: gold ¡æ gold ¾ÆÀÌÄÜ
+                    //ë‚˜ì¤‘ì— ì•„ì´ì½˜ ë°”ê¿”ì•¼ í•¨ (ìì›ë„ ìƒì‚°í•˜ê²Œ ëœë‹¤ë©´)
+                    icon2 = AtlasManager.Instance.GetSprite(rule.resultType.ToString().ToLower()); // ì˜ˆ: gold â†’ gold ì•„ì´ì½˜
                     value = rule.resultValue.ToString();
                 }
-                //Á¶°Ç¿¡ µû¶ó labelÀ» "¸ÔÀÌÁÖ±â" µîÀ¸·Î ¹Ù²Ù¸é µÉµí. AnimalÀÏ ¶§ ¸ÔÀÌÁÖ±â, CropÀÏ ¶§ ÀÛ¹°¿¡ ÁÖ´Â ´À³¦°°ÀÌ
+                //ì¡°ê±´ì— ë”°ë¼ labelì„ "ë¨¹ì´ì£¼ê¸°" ë“±ìœ¼ë¡œ ë°”ê¾¸ë©´ ë ë“¯. Animalì¼ ë•Œ ë¨¹ì´ì£¼ê¸°, Cropì¼ ë•Œ ì‘ë¬¼ì— ì£¼ëŠ” ëŠë‚Œê°™ì´
                 effects.Add(new EffectData
                 {
                     type = EffectType.Supply,
@@ -433,12 +455,12 @@ public class ItemInfoUI : MonoBehaviour
                 });
             }
         }
-
-        // 5. µå¶ø
+        
+        // 5. ë“œë
         if (!string.IsNullOrEmpty(item.dropTableKey))
         {
             Sprite icon = GetMainDropIcon(item.dropTableKey);
-            //³ªÁß¿¡ Â÷·Ê´ë·Î ¹Ù²î°í ¾Æ·¡¿¡ È®·ü ³ª¿Íµµ ÁÁÀ» °Í °°À½
+            //ë‚˜ì¤‘ì— ì°¨ë¡€ëŒ€ë¡œ ë°”ë€Œê³  ì•„ë˜ì— í™•ë¥  ë‚˜ì™€ë„ ì¢‹ì„ ê²ƒ ê°™ìŒ
             effects.Add(new EffectData
             {
                 type = EffectType.Drop,
@@ -448,12 +470,12 @@ public class ItemInfoUI : MonoBehaviour
                 value = null
             });
         }
-
-        // 6. »ı»ê
+        
+        // 6. ìƒì‚°
         if (!string.IsNullOrEmpty(item.produceTableKey))
         {
             Sprite icon = GetMainProduceIcon(item.produceTableKey);
-            //³ªÁß¿¡ Â÷·Ê´ë·Î ¹Ù²î°í ¾Æ·¡¿¡ È®·ü ³ª¿Íµµ ÁÁÀ» °Í °°À½
+            //ë‚˜ì¤‘ì— ì°¨ë¡€ëŒ€ë¡œ ë°”ë€Œê³  ì•„ë˜ì— í™•ë¥  ë‚˜ì™€ë„ ì¢‹ì„ ê²ƒ ê°™ìŒ  
             effects.Add(new EffectData
             {
                 type = EffectType.Produce,
@@ -463,8 +485,8 @@ public class ItemInfoUI : MonoBehaviour
                 value = null
             });
         }
-
-        // 7. ÃÖ´ë ÀúÀå·®
+        
+        // 7. ìµœëŒ€ ì €ì¥ëŸ‰
         if (item.maxCapResource != ResourceType.None)
         {
             var resourceType = item.maxCapResource;
@@ -478,7 +500,7 @@ public class ItemInfoUI : MonoBehaviour
                 value = item.maxCapValue.ToString()
             });
         }
-
+        
         return effects;
     }
 
@@ -512,7 +534,7 @@ public class ItemInfoUI : MonoBehaviour
         if (table == null || table.results == null || table.results.Count == 0)
             return AtlasManager.Instance.GetSprite("effectIcon_unknown");
 
-        // È®·üÀÌ °¡Àå ³ôÀº °á°ú ¼±ÅÃ
+        // í™•ë¥ ì´ ê°€ì¥ ë†’ì€ ê²°ê³¼ ì„ íƒ
         ProduceResult best = table.results[0];
 
         foreach (var r in table.results)
@@ -525,7 +547,7 @@ public class ItemInfoUI : MonoBehaviour
         if (bestItemData == null)
             return AtlasManager.Instance.GetSprite("effectIcon_unknown");
 
-        return AtlasManager.Instance.GetSprite(bestItemData.imageName); // nameÀº ½ºÇÁ¶óÀÌÆ® Å°
+        return AtlasManager.Instance.GetSprite(bestItemData.imageName); // nameì€ ìŠ¤í”„ë¼ì´íŠ¸ í‚¤
     }
 
     public Sprite GetMainDropIcon(string tableKey)
@@ -535,7 +557,7 @@ public class ItemInfoUI : MonoBehaviour
         if (table == null || table.results == null || table.results.Count == 0)
             return AtlasManager.Instance.GetSprite("effectIcon_unknown");
 
-        // È®·üÀÌ °¡Àå ³ôÀº °á°ú ¼±ÅÃ
+        // í™•ë¥ ì´ ê°€ì¥ ë†’ì€ ê²°ê³¼ ì„ íƒ
         DropResult best = table.results[0];
 
         foreach (var r in table.results)
@@ -548,6 +570,6 @@ public class ItemInfoUI : MonoBehaviour
         if (bestItemData == null)
             return AtlasManager.Instance.GetSprite("effectIcon_unknown");
 
-        return AtlasManager.Instance.GetSprite(bestItemData.imageName); // nameÀº ½ºÇÁ¶óÀÌÆ® Å°
+        return AtlasManager.Instance.GetSprite(bestItemData.imageName); // nameì€ ìŠ¤í”„ë¼ì´íŠ¸ í‚¤
     }
 }

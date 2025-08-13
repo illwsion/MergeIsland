@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
+[DefaultExecutionOrder(-800)]
 public class SkillRequireManager : MonoBehaviour
 {
     public static SkillRequireManager Instance;
@@ -24,18 +25,28 @@ public class SkillRequireManager : MonoBehaviour
         }
     }
 
+    public static SkillRequireManager Ensure()
+    {
+        if (Instance == null)
+        {
+            var go = new GameObject("SkillRequireManager(Auto)");
+            go.AddComponent<SkillRequireManager>();
+        }
+        return Instance;
+    }
+
     private void LoadRequireData()
     {
         TextAsset csvFile = Resources.Load<TextAsset>("SkillRequireTable"); // Resources/SkillRequireTable.csv
         if (csvFile == null)
         {
-            Debug.LogError("[SkillRequireManager] SkillRequireTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[SkillRequireManager] SkillRequireTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
 
-        for (int i = 4; i < lines.Length; i++) // Ã¹ 4ÁÙ Çì´õ ½ºÅµ
+        for (int i = 4; i < lines.Length; i++) // ì²« 4ì¤„ í—¤ë” ìŠ¤í‚µ
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
@@ -48,7 +59,7 @@ public class SkillRequireManager : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.LogError($"[SkillRequireManager] Parse ½ÇÆĞ at line {i + 1}: '{line}'\nException: {e}");
+                Debug.LogError($"[SkillRequireManager] Parse ì‹¤íŒ¨ at line {i + 1}: '{line}'\nException: {e}");
             }
         }
     }

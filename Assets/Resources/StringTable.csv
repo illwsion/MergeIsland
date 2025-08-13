@@ -209,6 +209,10 @@ UI_LOCKEDGATE_ITEM,잠긴 게이트 DESC,{0} 아이템을 게이트에 드랍하
 UI_LOCKEDGATE_LEVEL,잠긴 게이트 DESC,플레이어 레벨 {0} 이상 필요합니다,Requires player level {0} or higher
 UI_LOCKEDGATE_QUEST,잠긴 게이트 DESC,{0} 퀘스트를 완료하세요,Complete {0} quest
 UI_LOCKEDGATE_RESOURCE,잠긴 게이트 DESC,{0} 자원이 필요합니다,{0} resource is required
+UI_SKILL_BUTTON_CONDITION,스킬 배우는 조건 부족,습득조건 부족,lack of condition
+UI_SKILL_BUTTON_SKILLPOINT,스킬포인트 부족,스킬포인트 부족,lack of skillpoint
+UI_SKILL_BUTTON_LEARN,스킬 배우기,배우기,Learn
+UI_SKILL_BUTTON_LEARNED,이미 배운 스킬,습득 완료,Acquired
 ITEM_NAME_EXPGENERATOR,경험치생산기 이름,경험치 생산기,asdf
 ITEM_DESC_EXPGENERATOR,경험치생산기 설명,치트 아이템입니다,asdf
 SKILL_RESOURCEGAIN_WOOD_0_NAME,나무 생산량 증가 1,나무 생산량 증가 1,Tree
@@ -217,3 +221,11 @@ SKILL_RESOURCECAP_WOOD_0_NAME,나무 저장량 증가 1,나무 저장량 증가 
 SKILL_RESOURCECAP_WOOD_0_DESC,나무 저장량 증가 1,나무 저장량이 증가합니다,ResourceCap_Wood
 SKILL_DAMAGEADD_WEAPON_0_NAME,무기 대미지 증가 1,무기 대미지 증가 1,DamageAdd_Weapon
 SKILL_DAMAGEADD_WEAPON_0_DESC,무기 대미지 증가 1,무기 대미지가 증가합니다,DamageAdd_Weapon
+SKILL_DAMAGEADD_AXE_0_NAME,도끼 대미지 증가 1,도끼 대미지 증가 1,DamageAdd_Axe
+SKILL_DAMAGEADD_AXE_0_DESC,도끼 대미지 증가 1,도끼 대미지가 증가합니다,DamageAdd_Axe
+BOARD_NAME_BEACH_0,보드 이름,해변 1,beach 1
+BOARD_DESC_BEACH_0,보드 설명,첫번째 해변,it's beach 1
+BOARD_NAME_BEACH_1,보드 이름,해변 2,beach 2
+BOARD_DESC_BEACH_1,보드 설명,두번째 해변,it's beach 2
+BOARD_NAME_BEACH_2,보드 이름,해변 3,beach 3
+BOARD_DESC_BEACH_2,보드 설명,세번째 해변,it's beach 3

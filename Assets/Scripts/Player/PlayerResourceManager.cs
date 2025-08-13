@@ -21,7 +21,7 @@ public class PlayerResourceManager : MonoBehaviour
 
     private float recoveryTimer = 0f;
 
-    // ¿ÜºÎ¿¡¼­ ³²Àº ½Ã°£ Á¶È¸¿ë ÇÁ·ÎÆÛÆ¼
+    // ì™¸ë¶€ì—ì„œ ë‚¨ì€ ì‹œê°„ í™•ì¸ìš© í”„ë¡œí¼í‹°
     public float RecoveryRemainingTime => energyRecoveryInterval - recoveryTimer;
 
     private void Awake()
@@ -62,7 +62,7 @@ public class PlayerResourceManager : MonoBehaviour
         int current = GetAmount(ResourceType.Energy);
         if (current >= GetMax(ResourceType.Energy))
         {
-            recoveryTimer = 0f; // ÃÖ´ëÄ¡¸é Å¸ÀÌ¸Ó ÃÊ±âÈ­
+            recoveryTimer = 0f; // ìµœëŒ€ì¹˜ë©´ íƒ€ì´ë¨¸ ì´ˆê¸°í™”
             return;
         }
 
@@ -105,15 +105,34 @@ public class PlayerResourceManager : MonoBehaviour
 
         if (!currentResources.ContainsKey(type))
         {
-            Debug.Log($"[PlayerResourceManager.Add] Add È£ÃâµÆÁö¸¸ Á¸ÀçÇÏÁö ¾Ê¾Æ¼­ ÃÊ±âÈ­ type : {type} value : {value}");
+            Debug.Log($"[PlayerResourceManager.Add] Add í˜¸ì¶œëì§€ë§Œ ì¡´ì¬í•˜ì§€ ì•Šì•„ì„œ ì´ˆê¸°í™” type : {type} value : {value}");
             currentResources[type] = 0;
         }
             
-
+        // ìŠ¤í‚¬ íš¨ê³¼ ì ìš© (ìì› íšë“ëŸ‰)
+        int flatFromSkill = 0;
+        int percentFromSkill = 0;
+        if (PlayerSkillManager.Instance != null)
+        {
+            flatFromSkill = PlayerSkillManager.Instance.GetEffectFlat(SkillData.SkillEffect.ResourceGain, type.ToString());
+            percentFromSkill = PlayerSkillManager.Instance.GetEffectPercent(SkillData.SkillEffect.ResourceGain, type.ToString());
+        }
+        
+        // ê³ ì • ë³´ë„ˆìŠ¤ë¥¼ ë¨¼ì € ë”í•˜ê³ , í¼ì„¼íŠ¸ëŠ” í•©ì‚°í•˜ì—¬ ê³± ì ìš©
+        int basePlusFlat = value + flatFromSkill;
+        float multiplier = 1f + (percentFromSkill / 100f);
+        int totalValue = Mathf.FloorToInt(basePlusFlat * multiplier);
+        
         int current = currentResources[type];
         int max = GetMax(type);
-        int newValue = Mathf.Min(current + value, max);
+        int newValue = Mathf.Min(current + totalValue, max);
         currentResources[type] = newValue;
+        
+        if (flatFromSkill > 0 || percentFromSkill > 0)
+        {
+            Debug.Log($"[PlayerResourceManager] {type} íšë“: ê¸°ë³¸ {value} + ê³ ì •(+{flatFromSkill}) = {basePlusFlat}, í¼ì„¼íŠ¸(+{percentFromSkill}%) â†’ ìµœì¢… {totalValue}");
+        }
+        
         UpdateUI(type);
     }
 
@@ -126,10 +145,30 @@ public class PlayerResourceManager : MonoBehaviour
     {
         int baseValue = GlobalGameConfig.BaseResourceCap.TryGetValue(type, out var cap) ? cap : 999999;
         int itemBonus = itemBonusResourceCap.ContainsKey(type) ? itemBonusResourceCap[type] : 0;
-        return baseValue + itemBonus;
+        
+        int flatFromSkill = 0;
+        int percentFromSkill = 0;
+        if (PlayerSkillManager.Instance != null)
+        {
+            flatFromSkill = PlayerSkillManager.Instance.GetEffectFlat(SkillData.SkillEffect.ResourceCap, type.ToString());
+            percentFromSkill = PlayerSkillManager.Instance.GetEffectPercent(SkillData.SkillEffect.ResourceCap, type.ToString());
+        }
+        
+        // ê³ ì • ë³´ë„ˆìŠ¤ë¥¼ ë¨¼ì € ë”í•˜ê³ , í¼ì„¼íŠ¸ëŠ” baseì—ë§Œ ì ìš© (ì•„ì´í…œ ë³´ë„ˆìŠ¤ì—ëŠ” ë¯¸ì ìš©)
+        int basePlusFlat = baseValue + flatFromSkill;
+        float multiplier = 1f + (percentFromSkill / 100f);
+        int maxWithPercent = Mathf.FloorToInt(basePlusFlat * multiplier);
+        int finalMax = maxWithPercent + itemBonus;
+        
+        if (flatFromSkill != 0 || percentFromSkill != 0)
+        {
+            Debug.Log($"[GetMax] {type} ìµœëŒ€ì¹˜ ê³„ì‚°: base {baseValue} + flat {flatFromSkill} = {basePlusFlat}, percent +{percentFromSkill}% â†’ {maxWithPercent}, itemBonus +{itemBonus} â†’ ìµœì¢… {finalMax}");
+        }
+        
+        return finalMax;
     }
 
-    private void UpdateUI(ResourceType type)
+    public void UpdateUI(ResourceType type)
     {
         int current = GetAmount(type);
         int max = GetMax(type);
@@ -209,7 +248,7 @@ public class PlayerResourceManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[maxCapItem] Á¶°Ç ºÒÃæÁ·: {item?.key}, ProvidesMaxCapBonus: {item?.ProvidesMaxCapBonus()}");
+            Debug.LogWarning($"[maxCapItem] ì¡°ê±´ ë¶ˆì¶©ì¡±: {item?.key}, ProvidesMaxCapBonus: {item?.ProvidesMaxCapBonus()}");
         }
     }
 
@@ -224,7 +263,7 @@ public class PlayerResourceManager : MonoBehaviour
         }
     }
 
-    //ÀúÀå
+    // ì €ì¥
     public void SaveTo(PlayerSaveData save)
     {
         save.recoveryTimerSeconds = recoveryTimer;
@@ -247,7 +286,7 @@ public class PlayerResourceManager : MonoBehaviour
                 currentResources[type] = entry.amount;
         }
 
-        // ¼¼ÀÌºê¿¡ ¿¡³ÊÁö°¡ ¾øÀ¸¸é ±âº»Ä¡·Î ¼³Á¤
+        // ì„¸ì´ë¸Œì— ì—ë„ˆì§€ê°€ ì—†ìœ¼ë©´ ê¸°ë³¸ì¹˜ë¡œ ì„¤ì •
         if (!currentResources.ContainsKey(ResourceType.Energy))
         {
             currentResources[ResourceType.Energy] = GetMax(ResourceType.Energy);

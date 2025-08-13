@@ -20,8 +20,8 @@ public class BoardData
     public enum BoardTheme
     {
         None,
-        Beach, //ÇØº¯
-        Plain, //Æò¿ø
-        Forest // ½£
+        Beach, //í•´ë³€
+        Plain, //í‰ì›
+        Forest // ìˆ²
     };
 }

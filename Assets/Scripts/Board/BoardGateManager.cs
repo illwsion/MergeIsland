@@ -48,7 +48,7 @@ public class BoardGateManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("BoardGateTable");
         if (csvFile == null)
         {
-            Debug.LogError("[BoardGateManager] BoardGateTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[BoardGateManager] BoardGateTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -67,7 +67,7 @@ public class BoardGateManager : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.LogError($"[BoardGateManager] Parse ½ÇÆĞ at line {i + 1}: '{line}'\nException: {e}");
+                Debug.LogError($"[BoardGateManager] Parse ì‹¤íŒ¨ at line {i + 1}: '{line}'\nException: {e}");
             }
         }
     }
@@ -98,7 +98,7 @@ public class BoardGateManager : MonoBehaviour
         if (int.TryParse(value, out int result))
             return result;
 
-        Debug.LogError($"[ItemDataManager] int ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[ItemDataManager] int íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return 0;
     }
 
@@ -115,7 +115,7 @@ public class BoardGateManager : MonoBehaviour
         if (value == "true") return true;
         if (value == "false") return false;
 
-        Debug.LogError($"[BoardGateManager] bool ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[BoardGateManager] bool íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return false;
     }
 
@@ -128,7 +128,7 @@ public class BoardGateManager : MonoBehaviour
         if (Enum.TryParse<T>(value, true, out var result))
             return result;
 
-        Debug.LogError($"[BoardGateManager] enum ÆÄ½Ì ½ÇÆĞ: '{value}' ¡æ ±âº»°ª {defaultValue} ¹İÈ¯");
+        Debug.LogError($"[BoardGateManager] enum íŒŒì‹± ì‹¤íŒ¨: '{value}' â†’ ê¸°ë³¸ê°’ {defaultValue} ë°˜í™˜");
         return defaultValue;
     }
 
@@ -141,7 +141,7 @@ public class BoardGateManager : MonoBehaviour
         if (!save.unlockedGates.Contains(id))
         {
             save.unlockedGates.Add(id);
-            Debug.Log($"[BoardGateManager] °ÔÀÌÆ® ÀúÀå: {id} ¡æ ÇØÁ¦µÊ");
+            Debug.Log($"[BoardGateManager] ê²Œì´íŠ¸ ì €ì¥: {id} â†’ í•´ì œë¨");
         }
     }
 

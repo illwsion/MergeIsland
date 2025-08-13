@@ -21,8 +21,8 @@ public static class GateUnlockHelper
                 {
                     if (!PlayerResourceManager.Instance.TrySpend(costType, costValue))
                     {
-                        UIToast.Show("ÀÚ¿øÀÌ ºÎÁ·ÇÕ´Ï´Ù!");
-                        Debug.LogWarning($"[ProduceManual] ÀÚ¿ø ºÎÁ·: {costType} {costValue}");
+                        UIToast.Show("ìì›ì´ ë¶€ì¡±í•©ë‹ˆë‹¤!");
+                        Debug.LogWarning($"[ProduceManual] ìì› ë¶€ì¡±: {costType} {costValue}");
                     }
                     else
                     {
@@ -39,11 +39,11 @@ public static class GateUnlockHelper
                 }
                 else
                 {
-                    UIToast.Show("·¹º§ÀÌ ºÎÁ·ÇÕ´Ï´Ù!");
+                    UIToast.Show("ë ˆë²¨ì´ ë¶€ì¡±í•©ë‹ˆë‹¤!");
                 }
                 break;
-            case EffectType.Gate_Quest: // Äù½ºÆ® ½Ã½ºÅÛ ±¸Çö ÀÌÈÄ ±¸Çö ¿¹Á¤
-            case EffectType.Gate_Supply: // ¾ÆÀÌÅÛ µå·¡±× ÇØÁ¦ Àü¿ëÀÌ¹Ç·Î Å¬¸¯ ÇØÁ¦ ºÒ°¡
+            case EffectType.Gate_Quest: // í€˜ìŠ¤íŠ¸ ì‹œìŠ¤í…œ êµ¬í˜„ ì´í›„ êµ¬í˜„ ì˜ˆì •
+            case EffectType.Gate_Supply: // ì•„ì´í…œ ë“œë˜ê·¸ í•´ì œ ì „ìš©ì´ë¯€ë¡œ í´ë¦­ í•´ì œ ë¶ˆê°€
                 break;
 
             default:
