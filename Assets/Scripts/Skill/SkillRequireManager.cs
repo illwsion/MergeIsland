@@ -90,6 +90,11 @@ public class SkillRequireManager : MonoBehaviour
             .Select(r => r.requiredSkillKey)
             .ToList();
     }
+    
+    public List<SkillRequireData> GetAllRequireData()
+    {
+        return new List<SkillRequireData>(requireList);
+    }
 
     private string ParseStringSafe(string value, string fieldName)
     {

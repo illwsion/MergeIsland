@@ -14,11 +14,18 @@ public class SkillTreeUI : MonoBehaviour
     [SerializeField] private GameObject skillNodePrefab;
     [SerializeField] private Vector2 nodeSpacing = new Vector2(150, 150);
     [SerializeField] private TMP_Text skillPointText;
+    [SerializeField] private SkillLinkUI skillLinkUI;
 
     private string currentCategory = "Normal";
 
     void OnEnable()
     {
+        // SkillLinkUI에 content 설정
+        if (skillLinkUI != null && content != null)
+        {
+            skillLinkUI.SetContent(content);
+        }
+        
         GenerateSkillBoard(currentCategory);
         StartCoroutine(ScrollToCenterNextFrame());
         RefreshSkillPoints();
@@ -58,6 +65,13 @@ public class SkillTreeUI : MonoBehaviour
             node.RefreshVisual();
         }
         RefreshSkillPoints();
+        
+        // 화살표 새로고침
+        if (skillLinkUI != null)
+        {
+            skillLinkUI.RefreshArrows(currentCategory);
+        }
+        
         // If info panel is open for some key, re-show to refresh texts when context changed
         if (SkillInfoUI.Instance != null && gameObject.activeInHierarchy)
         {
@@ -96,6 +110,13 @@ public class SkillTreeUI : MonoBehaviour
                 skill.coordY * nodeSpacing.y
             );
         }
+        
+        // 스킬 노드 생성 후 화살표 생성
+        if (skillLinkUI != null)
+        {
+            // 한 프레임 대기 후 화살표 생성 (모든 노드가 완전히 배치된 후)
+            StartCoroutine(GenerateLinksAfterFrame(categoryType));
+        }
     }
 
     private void RefreshSkillPoints()
@@ -115,6 +136,15 @@ public class SkillTreeUI : MonoBehaviour
     public void OnSkillPointsChanged()
     {
         RefreshSkillPoints();
+    }
+    
+    private IEnumerator GenerateLinksAfterFrame(string categoryType)
+    {
+        yield return null; // 다음 프레임까지 대기
+        if (skillLinkUI != null)
+        {
+            skillLinkUI.GenerateSkillLinks(categoryType);
+        }
     }
 }
 

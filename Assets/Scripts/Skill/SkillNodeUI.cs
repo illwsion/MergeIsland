@@ -14,6 +14,21 @@ public class SkillNodeUI : MonoBehaviour
         skillKey = key?.Trim();
         RefreshVisual();
     }
+    
+    public string GetSkillKey()
+    {
+        return skillKey;
+    }
+    
+    public Vector2 GetNodeSize()
+    {
+        var rt = GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            return rt.sizeDelta;
+        }
+        return Vector2.one * 100f; // 기본값
+    }
 
     public void RefreshVisual()
     {

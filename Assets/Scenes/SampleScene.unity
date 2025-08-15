@@ -4753,6 +4753,7 @@ GameObject:
   - component: {fileID: 944012206}
   - component: {fileID: 944012208}
   - component: {fileID: 944012209}
+  - component: {fileID: 944012210}
   m_Layer: 5
   m_Name: SkillPanel
   m_TagString: Untagged
@@ -4807,6 +4808,26 @@ MonoBehaviour:
   skillNodePrefab: {fileID: 6568049594825748523, guid: 21fa219e7cdd4424ba3fd7fae6c7769f, type: 3}
   nodeSpacing: {x: 150, y: 150}
   skillPointText: {fileID: 712885845}
+  skillLinkUI: {fileID: 944012210}
+--- !u!114 &944012210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944012205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be00ba1b9b7fd5041b4b9f5ba353bcb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowPrefab: {fileID: 1385217537252963430, guid: e92e8df60be6c104a81333bffdd384fc, type: 3}
+  arrowColor: {r: 1, g: 1, b: 1, a: 1}
+  arrowThicknessRatio: 0.15
+  arrowHeadSizeRatio: 0.15
+  minArrowThickness: 2
+  maxArrowThickness: 40
+  sortingOrder: -1
 --- !u!1 &964768989
 GameObject:
   m_ObjectHideFlags: 0
