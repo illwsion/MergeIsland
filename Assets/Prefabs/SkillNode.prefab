@@ -136,8 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ff25aec690b4245b35e664f75f112c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background: {fileID: 0}
+  background: {fileID: 2978103749687232224}
   icon: {fileID: 3466616021105805353}
+  grayscaleMaterial: {fileID: 2100000, guid: aceac3740bb8bb948915607e8a2ca2d1, type: 2}
 --- !u!114 &1897260951250717764
 MonoBehaviour:
   m_ObjectHideFlags: 0

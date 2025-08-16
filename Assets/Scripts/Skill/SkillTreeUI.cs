@@ -17,6 +17,11 @@ public class SkillTreeUI : MonoBehaviour
     [SerializeField] private SkillLinkUI skillLinkUI;
 
     private string currentCategory = "Normal";
+    
+    public string GetCurrentCategory()
+    {
+        return currentCategory;
+    }
 
     void OnEnable()
     {

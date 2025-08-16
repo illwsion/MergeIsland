@@ -7,11 +7,15 @@ public class SkillLinkUI : MonoBehaviour
 {
     [Header("화살표 설정")]
     [SerializeField] private GameObject arrowPrefab;
-    [SerializeField] private Color arrowColor = Color.white;
     [SerializeField] private float arrowThicknessRatio = 0.1f; // 노드 크기의 10%
     [SerializeField] private float arrowHeadSizeRatio = 0.3f; // 노드 크기의 30%
     [SerializeField] private float minArrowThickness = 2f; // 최소 두께
     [SerializeField] private float maxArrowThickness = 8f; // 최대 두께
+    
+    [Header("화살표 색깔")]
+    [SerializeField] private Color arrowColorLocked = new Color(0.3f, 0.3f, 0.3f); // 짙은 회색: 선행 스킬도 못 배움
+    [SerializeField] private Color arrowColorUnlocked = new Color(0.7f, 0.7f, 0.7f); // 얕은 회색: 선행 스킬은 배움
+    [SerializeField] private Color arrowColorLearned = new Color(0.2f, 0.8f, 0.2f); // 초록색: 후속 스킬까지 배움
     
     [Header("레이어 설정")]
     [SerializeField] private int sortingOrder = 1; // 노드 앞에 그리기
@@ -28,9 +32,6 @@ public class SkillLinkUI : MonoBehaviour
             Debug.LogError("[SkillLinkUI] Canvas를 찾을 수 없습니다.");
             return;
         }
-        
-        // content는 외부에서 SetContent로 설정받음
-        Debug.Log("[SkillLinkUI] Awake 완료 - content는 SetContent로 설정받아야 합니다.");
     }
     
     public void SetContent(RectTransform contentTransform)
@@ -38,7 +39,7 @@ public class SkillLinkUI : MonoBehaviour
         content = contentTransform;
         if (content != null)
         {
-            Debug.Log($"[SkillLinkUI] Content가 설정되었습니다: {content.name}");
+            //Debug.Log($"[SkillLinkUI] Content가 설정되었습니다: {content.name}");
         }
         else
         {
@@ -67,10 +68,7 @@ public class SkillLinkUI : MonoBehaviour
             Debug.LogError("[SkillLinkUI] arrowPrefab이 설정되지 않았습니다!");
             return;
         }
-        
-        Debug.Log($"[SkillLinkUI] {categoryType} 카테고리의 스킬 링크를 생성합니다. Content: {content.name}");
-        Debug.Log($"[SkillLinkUI] arrowPrefab: {arrowPrefab.name}, 활성화 상태: {arrowPrefab.activeInHierarchy}");
-        
+       
         // 현재 카테고리의 모든 스킬 노드 찾기
         var skillNodes = content.GetComponentsInChildren<SkillNodeUI>();
         var nodePositions = new Dictionary<string, Vector2>();
@@ -108,8 +106,6 @@ public class SkillLinkUI : MonoBehaviour
                 }
             }
         }
-        
-        Debug.Log($"[SkillLinkUI] 총 {arrowCount}개의 화살표를 생성했습니다. activeArrows.Count: {activeArrows.Count}");
     }
     
     private bool IsSkillInCategory(string skillKey, string categoryType)
@@ -118,6 +114,27 @@ public class SkillLinkUI : MonoBehaviour
         
         var skill = SkillDataManager.Instance.GetSkillData(skillKey);
         return skill != null && skill.category.ToString() == categoryType;
+    }
+    
+    private Color GetArrowColor(string requiredSkillKey, string nextSkillKey)
+    {
+        if (PlayerSkillManager.Instance == null) return arrowColorLocked;
+        
+        bool requiredSkillLearned = PlayerSkillManager.Instance.IsSkillLearned(requiredSkillKey);
+        bool nextSkillLearned = PlayerSkillManager.Instance.IsSkillLearned(nextSkillKey);
+        
+        if (!requiredSkillLearned)
+        {
+            return arrowColorLocked; // 짙은 회색: 선행 스킬도 못 배움
+        }
+        else if (!nextSkillLearned)
+        {
+            return arrowColorUnlocked; // 얕은 회색: 선행 스킬은 배움
+        }
+        else
+        {
+            return arrowColorLearned; // 초록색: 후속 스킬까지 배움
+        }
     }
     
     private void CreateArrow(Vector2 fromPos, Vector2 toPos, string fromSkill, string toSkill, Vector2 fromNodeSize, Vector2 toNodeSize)
@@ -135,9 +152,6 @@ public class SkillLinkUI : MonoBehaviour
         // 노드 크기에 따른 화살표 두께 자동 계산
         float avgNodeSize = (fromNodeSize.magnitude + toNodeSize.magnitude) * 0.5f;
         float calculatedThickness = Mathf.Clamp(avgNodeSize * arrowThicknessRatio, minArrowThickness, maxArrowThickness);
-        
-        // 디버그: 계산된 값 확인
-        Debug.Log($"[SkillLinkUI] 계산된 값: 두께={calculatedThickness:F1}");
         
         // Node 바깥 테두리로 위치 조정 (대각선 각도 대응)
         Vector2 fromNodeRadius = fromNodeSize * 0.5f;
@@ -159,13 +173,7 @@ public class SkillLinkUI : MonoBehaviour
         // 전체 거리 계산
         float totalDistance = Vector2.Distance(arrowStart, arrowEnd);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        
-        // 디버그: Node 경계 계산 확인
-        Debug.Log($"[SkillLinkUI] Node 경계 계산: fromPos={fromPos}, toPos={toPos}");
-        Debug.Log($"[SkillLinkUI] Node 반지름: fromRadius={fromNodeRadius}, toRadius={toNodeRadius}");
-        Debug.Log($"[SkillLinkUI] 화살표 시작/끝: start={arrowStart}, end={arrowEnd}");
-        Debug.Log($"[SkillLinkUI] 방향: {direction}, 전체거리: {totalDistance:F1}");
-        
+
         // 화살표 설정 (Body와 Head가 하나의 이미지)
         arrowRect.anchoredPosition = arrowStart;
         arrowRect.sizeDelta = new Vector2(totalDistance, calculatedThickness);
@@ -173,10 +181,11 @@ public class SkillLinkUI : MonoBehaviour
         
 
         
-        // 화살표 색상 설정
+        // 화살표 색상 설정 (스킬 상태에 따라)
         var arrowImage = arrow.GetComponent<Image>();
         if (arrowImage != null)
         {
+            Color arrowColor = GetArrowColor(fromSkill, toSkill);
             arrowImage.color = arrowColor;
         }
         
@@ -199,13 +208,6 @@ public class SkillLinkUI : MonoBehaviour
         }
         
         activeArrows.Add(arrow);
-        
-        // 디버그 정보
-        Debug.Log($"[SkillLinkUI] 화살표 생성: {fromSkill} -> {toSkill} (전체거리: {totalDistance:F1}, 각도: {angle:F1}°)");
-        Debug.Log($"[SkillLinkUI] 노드 크기: {fromNodeSize} -> {toNodeSize}, 평균: {avgNodeSize:F1}");
-        Debug.Log($"[SkillLinkUI] 계산된 크기: 두께={calculatedThickness:F1}");
-        Debug.Log($"[SkillLinkUI] 화살표 위치: {arrowRect.anchoredPosition}, 크기: {arrowRect.sizeDelta}, 회전: {arrowRect.rotation.eulerAngles.z:F1}°");
-        Debug.Log($"[SkillLinkUI] 화살표 부모: {arrow.transform.parent.name}, 활성화 상태: {arrow.activeInHierarchy}");
     }
     
     public void ClearAllArrows()

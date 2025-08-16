@@ -80,9 +80,7 @@ public class SkillInfoUI : MonoBehaviour
         bool meetsLevel = true;
         if (skill.unlockLevel > 0)
         {
-            int currentLevel = PlayerLevelManager.Instance != null
-                ? PlayerLevelManager.Instance.CurrentLevel
-                : (SaveController.Instance?.CurrentSave?.player.currentLevel ?? 0);
+            int currentLevel = PlayerSkillManager.Instance?.GetCurrentLevel() ?? 1;
             meetsLevel = currentLevel >= skill.unlockLevel;
         }
 
@@ -221,15 +219,7 @@ public class SkillInfoUI : MonoBehaviour
         // 1) 요구 레벨
         if (skill.unlockLevel > 0)
         {
-            int currentLevel = 0;
-            if (PlayerLevelManager.Instance != null)
-            {
-                currentLevel = PlayerLevelManager.Instance.CurrentLevel;
-            }
-            else if (SaveController.Instance != null && SaveController.Instance.CurrentSave != null && SaveController.Instance.CurrentSave.player != null)
-            {
-                currentLevel = SaveController.Instance.CurrentSave.player.currentLevel;
-            }
+            int currentLevel = PlayerSkillManager.Instance?.GetCurrentLevel() ?? 1;
             bool ok = currentLevel >= skill.unlockLevel;
             AppendLine(sb, "요구 레벨", skill.unlockLevel.ToString(), ok);
         }

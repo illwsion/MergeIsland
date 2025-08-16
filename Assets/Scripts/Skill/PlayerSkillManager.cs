@@ -43,6 +43,14 @@ public class PlayerSkillManager : MonoBehaviour
                 learnedSkills = new System.Collections.Generic.Dictionary<string, int>()
             };
         }
+        
+        // 레벨이 0 이하인 경우 1로 보정
+        if (data.currentLevel <= 0)
+        {
+            Debug.LogWarning($"[PlayerSkillManager] 레벨이 {data.currentLevel}에서 1로 보정됨");
+            data.currentLevel = 1;
+        }
+        
         saveData = data;
         RecalculateAllEffects();
     }
@@ -53,27 +61,81 @@ public class PlayerSkillManager : MonoBehaviour
         if (saveData == null || saveData.learnedSkills == null) return 0;
         return saveData.learnedSkills.TryGetValue(skillKey, out int level) ? level : 0;
     }
+    
+    public bool IsSkillLearned(string skillKey)
+    {
+        return GetSkillLevel(skillKey) > 0;
+    }
+    
+    public int GetCurrentLevel()
+    {
+        // SaveController를 우선적으로 사용
+        if (SaveController.Instance?.CurrentSave?.player != null)
+        {
+            int level = SaveController.Instance.CurrentSave.player.currentLevel;
+            // 레벨이 0 이하인 경우 1로 보정
+            if (level <= 0)
+            {
+                level = 1;
+                SaveController.Instance.CurrentSave.player.currentLevel = level;
+                Debug.LogWarning($"[PlayerSkillManager] SaveController에서 레벨이 {level}로 보정됨");
+            }
+            return level;
+        }
+        
+        // 폴백: saveData 사용
+        return saveData?.currentLevel ?? 1;
+    }
 
     public bool CanLearnSkill(string skillKey)
     {
-        if (saveData == null) return false;
+        if (saveData == null) 
+        {
+            Debug.LogWarning($"[PlayerSkillManager] CanLearnSkill({skillKey}) 실패: saveData가 null");
+            return false;
+        }
+        
         var skill = SkillDataManager.Instance?.GetSkillData(skillKey);
-        if (skill == null) return false;
+        if (skill == null) 
+        {
+            Debug.LogWarning($"[PlayerSkillManager] CanLearnSkill({skillKey}) 실패: SkillData를 찾을 수 없음");
+            return false;
+        }
 
-        if (saveData.learnedSkills != null && saveData.learnedSkills.ContainsKey(skillKey)) return false; // 이미 배운 경우
-        if (saveData.skillPoints < skill.costSkillPoint) return false;
-        if (skill.unlockLevel > saveData.currentLevel) return false;
+        if (saveData.learnedSkills != null && saveData.learnedSkills.ContainsKey(skillKey)) 
+        {
+            Debug.LogWarning($"[PlayerSkillManager] CanLearnSkill({skillKey}) 실패: 이미 배운 스킬");
+            return false;
+        }
+        
+        if (saveData.skillPoints < skill.costSkillPoint) 
+        {
+            Debug.LogWarning($"[PlayerSkillManager] CanLearnSkill({skillKey}) 실패: 스킬포인트 부족 (필요: {skill.costSkillPoint}, 보유: {saveData.skillPoints})");
+            return false;
+        }
+        
+        if (skill.unlockLevel > saveData.currentLevel) 
+        {
+            Debug.LogWarning($"[PlayerSkillManager] CanLearnSkill({skillKey}) 실패: 레벨 부족 (필요: {skill.unlockLevel}, 현재: {saveData.currentLevel})");
+            return false;
+        }
 
         // 선행 스킬 체크
         var requiredSkills = SkillRequireManager.Instance != null
             ? SkillRequireManager.Instance.GetRequiredSkills(skillKey)
             : null;
-        if (requiredSkills != null)
+            
+        if (requiredSkills != null && requiredSkills.Count > 0)
         {
             foreach (var req in requiredSkills)
             {
-                if (saveData.learnedSkills == null || !saveData.learnedSkills.ContainsKey(req))
+                bool hasRequiredSkill = saveData.learnedSkills != null && saveData.learnedSkills.ContainsKey(req);
+                
+                if (!hasRequiredSkill)
+                {
+                    Debug.LogWarning($"[PlayerSkillManager] CanLearnSkill({skillKey}) 실패: 선행 스킬 {req} 미습득");
                     return false;
+                }
             }
         }
 
@@ -82,10 +144,35 @@ public class PlayerSkillManager : MonoBehaviour
 
     public bool LearnSkill(string skillKey)
     {
-        if (!CanLearnSkill(skillKey)) return false;
+        // CanLearnSkill 체크
+        bool canLearn = CanLearnSkill(skillKey);
+        
+        if (!canLearn) 
+        {
+            return false;
+        }
 
-        saveData.learnedSkills[skillKey] = 1;
         var skill = SkillDataManager.Instance.GetSkillData(skillKey);
+        
+        // SaveController를 통해 스킬 학습 상태 업데이트
+        if (SaveController.Instance?.CurrentSave?.player != null)
+        {
+            var playerSave = SaveController.Instance.CurrentSave.player;
+            
+            // 스킬 학습 상태 추가
+            if (playerSave.learnedSkills == null)
+                playerSave.learnedSkills = new System.Collections.Generic.Dictionary<string, int>();
+            
+            playerSave.learnedSkills[skillKey] = 1;
+            
+            // PlayerSkillManager의 saveData도 동기화
+            saveData.learnedSkills[skillKey] = 1;
+        }
+        else
+        {
+            Debug.LogWarning($"[PlayerSkillManager] SaveController를 통한 접근 실패, 직접 saveData 수정");
+            saveData.learnedSkills[skillKey] = 1;
+        }
         
         // PlayerLevelManager를 통해 스킬 포인트 차감 (자동으로 세이브 동기화)
         if (PlayerLevelManager.Instance != null)
@@ -94,15 +181,41 @@ public class PlayerSkillManager : MonoBehaviour
         }
         else
         {
-            // 폴백: 직접 차감
-            saveData.skillPoints -= skill.costSkillPoint;
+            // 폴백: SaveController를 통한 직접 차감
+            if (SaveController.Instance?.CurrentSave?.player != null)
+            {
+                SaveController.Instance.CurrentSave.player.skillPoints -= skill.costSkillPoint;
+            }
+            else
+            {
+                // 최후의 폴백: 직접 차감
+                saveData.skillPoints -= skill.costSkillPoint;
+            }
         }
 
         RecalculateAllEffects();
         
         // 스킬트리 UI 갱신
         var skillTree = FindFirstObjectByType<SkillTreeUI>();
-        skillTree?.OnSkillPointsChanged();
+        if (skillTree != null)
+        {
+            skillTree.OnSkillPointsChanged();
+        }
+        else
+        {
+            Debug.LogWarning($"[PlayerSkillManager] SkillTreeUI를 찾을 수 없음");
+        }
+        
+        // 화살표 UI 갱신
+        var skillLinkUI = FindFirstObjectByType<SkillLinkUI>();
+        if (skillLinkUI != null && skillTree != null)
+        {
+            skillLinkUI.RefreshArrows(skillTree.GetCurrentCategory());
+        }
+        else
+        {
+            Debug.LogWarning($"[PlayerSkillManager] SkillLinkUI 또는 SkillTreeUI를 찾을 수 없음");
+        }
         
         // 아이템 정보 UI 갱신 (선택된 아이템이 있다면 즉시 재표시하여 효과 리스트 재구성)
         var selector = ItemSelectorManager.Instance;
@@ -112,7 +225,6 @@ public class PlayerSkillManager : MonoBehaviour
             selector.itemInfoUI?.Show(selectedItem);
         }
         
-        Debug.Log($"[PlayerSkillManager] 스킬 {skillKey} 습득 완료");
         return true;
     }
 
