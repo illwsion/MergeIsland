@@ -10,12 +10,12 @@ public class EffectGroup : MonoBehaviour
 
     public void Clear()
     {
-        // ÀÚ½Ä TransformµéÀ» ¸®½ºÆ®·Î ¸ÕÀú º¹»ç
+        // ìì‹ Transformë“¤ì„ ë¦¬ìŠ¤íŠ¸ë¡œ ë¨¼ì € ë³µì‚¬
         var children = new List<Transform>();
         foreach (Transform child in blockParent)
             children.Add(child);
 
-        // º¹»çµÈ ¸®½ºÆ® ±âÁØÀ¸·Î Destroy
+        // ë³µì‚¬ëœ ë¦¬ìŠ¤íŠ¸ ê¸°ì¤€ìœ¼ë¡œ Destroy
         foreach (var child in children)
             Destroy(child.gameObject);
     }

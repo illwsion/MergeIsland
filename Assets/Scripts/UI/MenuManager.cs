@@ -3,24 +3,24 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    [Header("ÆĞ³Îµé")]
+    [Header("íŒ¨ë„ë“¤")]
     [SerializeField] private SkillTreeUI skillTreeUI;
     public GameObject skillPanel;
     public GameObject craftPanel;
     public GameObject shopPanel;
 
-    [Header("ÇÏ´Ü ¹öÆ° ÇÁ¸®ÆÕµé")]
+    [Header("í•˜ë‹¨ ë²„íŠ¼ í”„ë¦¬íŒ¹ë“¤")]
     public GameObject mainTabPrefab;
     public GameObject skillTabPrefab;
     //public GameObject craftTabPrefab;
     //public GameObject shopTabPrefab;
 
-    [Header("ÇÏ´Ü ¹öÆ° ÄÁÅ×ÀÌ³Ê")]
+    [Header("í•˜ë‹¨ ë²„íŠ¼ ì»¨í…Œì´ë„ˆ")]
     public Transform bottomTabContainer;
 
     private void Start()
     {
-        OpenMainPanel(); // ½ÃÀÛ ½Ã ±âº» ¿­±â
+        OpenMainPanel(); // ì‹œì‘ ì‹œ ê¸°ë³¸ ì—´ê¸°
     }
 
     public void OpenSkillPanel()
@@ -46,7 +46,7 @@ public class MenuManager : MonoBehaviour
 
     public void OpenMainPanel()
     {
-        ShowOnly(null); // ¸ğµç ÆĞ³Î ºñÈ°¼ºÈ­
+        ShowOnly(null); // ëª¨ë“  íŒ¨ë„ ë¹„í™œì„±í™”
         SetBottomTab(mainTabPrefab);
     }
 
@@ -62,13 +62,13 @@ public class MenuManager : MonoBehaviour
 
     private void SetBottomTab(GameObject tabPrefab)
     {
-        // ±âÁ¸ ¹öÆ° Á¦°Å
+        // ê¸°ì¡´ ë²„íŠ¼ ì œê±°
         foreach (Transform child in bottomTabContainer)
         {
             Destroy(child.gameObject);
         }
 
-        // »õ ¹öÆ° Ãß°¡
+        // ìƒˆ ë²„íŠ¼ ì¶”ê°€
         Instantiate(tabPrefab, bottomTabContainer);
     }
 }

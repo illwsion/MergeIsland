@@ -11,6 +11,6 @@ public class GameSaveData
     public List<string> visitedBoards = new();
     public List<string> unlockedGates = new();
 
-    // ÀúÀå ÈÄ ³»ºÎ¿¡¼­ Á¶¸³¿ë
+    // ì €ì¥ëœ ë³´ë“œ ë°ì´í„°
     [NonSerialized] public Dictionary<string, BoardSaveData> boards = new();
 }

@@ -34,17 +34,17 @@ public class ResourceUIManager : MonoBehaviour
 
     public void UpdateUI(ResourceType type, int current, int max)
     {
-        //Debug.Log($"[ResourceUI] UpdateUI called ¡æ {type}, current: {current}, max: {max}");
+        //Debug.Log($"[ResourceUI] UpdateUI called â†’ {type}, current: {current}, max: {max}");
 
         if (slotTable == null)
         {
-            Debug.LogError("slotTableÀÌ ÃÊ±âÈ­µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("slotTableì´ ì´ˆê¸°í™”ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return;
         }
 
         if (!slotTable.TryGetValue(type, out var slot) || slot == null)
         {
-            Debug.LogError($"½½·ÔÀÌ Á¸ÀçÇÏÁö ¾Ê°Å³ª nullÀÔ´Ï´Ù: {type}");
+            Debug.LogError($"ìŠ¬ë¡¯ì´ ì¡´ì¬í•˜ì§€ ì•Šê±°ë‚˜ nullì…ë‹ˆë‹¤: {type}");
             return;
         }
 

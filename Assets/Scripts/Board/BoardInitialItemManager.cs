@@ -31,12 +31,12 @@ public class BoardInitialItemManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("BoardInitialItemTable");
         if (csvFile == null)
         {
-            Debug.LogError("[BoardInitialItemManager] BoardInitialItemTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[BoardInitialItemManager] BoardInitialItemTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
-        for (int i = 4; i < lines.Length; i++) // Çì´õ ½ºÅµ
+        for (int i = 4; i < lines.Length; i++) // í—¤ë” ìŠ¤í‚µ
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
@@ -54,7 +54,7 @@ public class BoardInitialItemManager : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"[BoardInitialItemManager] ÆÄ½Ì ½ÇÆĞ: {line}\n{e}");
+                Debug.LogError($"[BoardInitialItemManager] íŒŒì‹± ì‹¤íŒ¨: {line}\n{e}");
             }
         }
     }

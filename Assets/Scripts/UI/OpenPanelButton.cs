@@ -31,7 +31,7 @@ public class OpenPanelButton : MonoBehaviour
         var manager = FindFirstObjectByType<MenuManager>();
         if (manager == null)
         {
-            Debug.LogWarning("MenuManager¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("MenuManagerë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -49,7 +49,6 @@ public class OpenPanelButton : MonoBehaviour
         var skillTreeUI = FindFirstObjectByType<SkillTreeUI>();
         if (skillTreeUI == null) return;
 
-        skillTreeUI.ChangeTree(skillTreeType.ToString()); // ¶Ç´Â enum Á÷Á¢ ³Ñ°Üµµ µÊ
+        skillTreeUI.ChangeTree(skillTreeType.ToString()); // ë˜ëŠ” enum ì§ì ‘ ë„˜ê²¨ë„ ë¨
     }
 }
-

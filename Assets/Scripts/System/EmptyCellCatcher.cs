@@ -6,7 +6,7 @@ public class EmptyCellCatcher : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        // ÀÚ½Ä¿¡ ItemView°¡ ¾øÀ¸¸é ºó Ä­À¸·Î °£ÁÖ
+        // ìì‹ì— ItemViewê°€ ì—†ìœ¼ë©´ ë¹ˆ ì¹¸ìœ¼ë¡œ ê°„ì£¼
         ItemView itemView = GetComponentInChildren<ItemView>();
         if (itemView == null)
         {

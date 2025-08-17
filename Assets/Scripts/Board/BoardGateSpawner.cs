@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class BoardGateSpawner : MonoBehaviour
 {
-    public GameObject gatePrefab; // È¸Àü °¡´ÉÇÑ ÇÁ¸®ÆÕ
-    public Transform gateParent; // »ı¼º À§Ä¡ (ex: BoardGates ¿ÀºêÁ§Æ®)
-    public float offset = 1.1f; // °ÔÀÌÆ® À§Ä¡ ¿ÀÇÁ¼Â
+    public GameObject gatePrefab; // íšŒì „ ê°€ëŠ¥í•œ í”„ë¦¬íŒ¹
+    public Transform gateParent; // ìƒì„± ìœ„ì¹˜ (ex: BoardGates ì˜¤ë¸Œì íŠ¸)
+    public float offset = 1.1f; // ê²Œì´íŠ¸ ìœ„ì¹˜ ì˜¤í”„ì…‹
 
     public static BoardGateSpawner Instance;
 
@@ -17,7 +17,7 @@ public class BoardGateSpawner : MonoBehaviour
 
     public void SpawnGates(string boardKey, Vector3 gridOrigin, float cellSize, int width, int height)
     {
-        //±âÁ¸ °ÔÀÌÆ® »èÁ¦
+        //ê¸°ì¡´ ê²Œì´íŠ¸ ì‚­ì œ
         foreach (Transform child in gateParent)
         {
             Destroy(child.gameObject);

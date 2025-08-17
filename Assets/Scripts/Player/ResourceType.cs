@@ -3,18 +3,18 @@ public enum ResourceType
 {
     None = 0,
 
-    // È­Æó
+    // í™”í
     Gold,
     Gem,
 
-    // ¿¡³ÊÁö
+    // ì—ë„ˆì§€
     Energy,
 
-    // Àç·á
+    // ì¬ë£Œ
     Wood,
     Stone,
     Iron,
 
-    // È®Àå °¡´É
+    // í™•ì¥ ê°€ëŠ¥
     Exp,
 }

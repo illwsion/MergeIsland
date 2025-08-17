@@ -14,5 +14,5 @@ public class DropTableEntry
 public class DropResult
 {
     public string itemKey;
-    public int probability; // 0~1000 ¹üÀ§ (ex. 500 = 50%)
+    public int probability; // 0~1000  (ex. 500 = 50%)
 }

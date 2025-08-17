@@ -1,8 +1,8 @@
 public enum DropActionType
 {
-    None,           // À§Ä¡ ±³È¯ ¶Ç´Â Á¦ÀÚ¸®
-    Merge,          // ¸ÓÁö
-    Attack,         // °ø°İ
-    Supply,        // »ı»ê
-    Split           // ºĞÇÒ (°¡À§ µî Æ¯¼ö ¾ÆÀÌÅÛ)
+    None,           // ìœ„ì¹˜ êµí™˜ ë˜ëŠ” ì œìë¦¬
+    Merge,          // ë¨¸ì§€
+    Attack,         // ê³µê²©
+    Supply,        // ìƒì‚°
+    Split           // ë¶„í•  (ê°€ìœ„ ë“± íŠ¹ìˆ˜ ì•„ì´í…œ)
 }

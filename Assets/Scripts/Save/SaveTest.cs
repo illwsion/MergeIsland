@@ -6,13 +6,13 @@ public class SaveTest : MonoBehaviour
     public void SaveAndTest()
     {
         GameSaveData save = SaveController.Instance.CurrentSave;
-        Debug.Log($"·¹º§: {save.player.currentLevel}, °æÇèÄ¡: {save.player.currentExp}");
+        Debug.Log($"ë ˆë²¨: {save.player.currentLevel}, ê²½í—˜ì¹˜: {save.player.currentExp}");
 
         save.player.currentLevel++;
         save.player.currentExp += 50;
         save.player.learnedSkills["skill_damage_boost"] = 2;
 
-        // ÇöÀç º¸µåµéµµ ÀúÀå
+        // í˜„ì¬ ë³´ë“œë“¤ë„ ì €ì¥
         BoardManager.Instance.SaveAllBoards();
 
         SaveController.Instance.Save();

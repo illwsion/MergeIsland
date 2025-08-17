@@ -27,7 +27,7 @@ public class DropTableManager : MonoBehaviour
         if (tableMap.TryGetValue(key, out var table))
             return table;
 
-        Debug.LogWarning($"[DropTableManager] ID {key} Å×ÀÌºíÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogWarning($"[DropTableManager] ID {key} í…Œì´ë¸”ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return null;
     }
 
@@ -36,7 +36,7 @@ public class DropTableManager : MonoBehaviour
         var dropTable = GetTable(item.Data.dropTableKey);
         if (dropTable != null && dropTable.results.Count > 0)
         {
-            string dropItemKey = GetRandomItemKey(dropTable.results); // È®·ü ±â¹İ ¼±ÅÃ
+            string dropItemKey = GetRandomItemKey(dropTable.results); // í™•ë¥  ê¸°ë°˜ ì„ íƒ
             return dropItemKey;
         }
         else
@@ -53,7 +53,7 @@ public class DropTableManager : MonoBehaviour
 
         if (total <= 0)
         {
-            Debug.LogError("[GetRandomItemID] È®·ü ÃÑÇÕÀÌ 0 ÀÌÇÏÀÔ´Ï´Ù.");
+            Debug.LogError("[GetRandomItemID] í™•ë¥  ì´í•©ì´ 0 ì´í•˜ì…ë‹ˆë‹¤.");
             return "null";
         }
 
@@ -75,13 +75,13 @@ public class DropTableManager : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>("DropTable");
         if (csvFile == null)
         {
-            Debug.LogError("[DropTableManager] DropTable.csv ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("[DropTableManager] DropTable.csv ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string[] lines = csvFile.text.Split('\n');
 
-        for (int i = 4; i < lines.Length; i++) // Ã¹ ³× ÁÙÀº Çì´õÀÌ¹Ç·Î ½ºÅµ
+        for (int i = 4; i < lines.Length; i++) // ì²« ë„¤ ì¤„ì€ í—¤ë”ì´ë¯€ë¡œ ìŠ¤í‚µ
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;
@@ -119,7 +119,7 @@ public class DropTableManager : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"[DropTableManager] ÆÄ½Ì ½ÇÆĞ at line {i + 1}: '{line}'\nException: {e}");
+                Debug.LogError($"[DropTableManager] íŒŒì‹± ì‹¤íŒ¨ at line {i + 1}: '{line}'\nException: {e}");
             }
         }
     }
@@ -133,7 +133,7 @@ public class DropTableManager : MonoBehaviour
         if (int.TryParse(value, out int result))
             return result;
 
-        Debug.LogError($"[DropTableManager] int ÆÄ½Ì ½ÇÆĞ: '{value}' (ÇÊµå: {fieldName})");
+        Debug.LogError($"[DropTableManager] int íŒŒì‹± ì‹¤íŒ¨: '{value}' (í•„ë“œ: {fieldName})");
         return 0;
     }
 }

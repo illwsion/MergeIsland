@@ -5,7 +5,7 @@ using TMPro;
 public class ResourceSlotUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text valueText;
-    [SerializeField] private RectTransform fillBar; // nullÀÌ¸é '¹Ù ¾øÀ½' ½½·Ô
+    [SerializeField] private RectTransform fillBar; // nullì´ë©´ ë¹„í‘œì‹œ
 
     [SerializeField] private bool showRecoveryTimer = false;
     [SerializeField] private TMP_Text recoveryTimerText;

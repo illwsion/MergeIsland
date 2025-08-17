@@ -7,8 +7,8 @@ public class ExpUIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text expText;             // "120 / 200"
     [SerializeField] private TMP_Text levelText;           // "Lv. 5"
-    [SerializeField] private RectTransform fillBar;        // Fill ´ë»ó
-    [SerializeField] private float fillBarMaxWidth = 200f; // ±âº» ³Êºñ
+    [SerializeField] private RectTransform fillBar;        // Fill ë°”
+    [SerializeField] private float fillBarMaxWidth = 200f; // ê¸°ë³¸ ë„ˆë¹„
 
     public void UpdateUI(int level, int currentExp, int requiredExp)
     {

@@ -15,22 +15,22 @@ public static class SaveManager
 
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SavePath, json);
-        Debug.Log($"[SaveManager] ÀúÀå ¿Ï·á: {SavePath}");
+        Debug.Log($"[SaveManager] ì €ì¥ ì™„ë£Œ: {SavePath}");
     }
 
     public static GameSaveData Load()
     {
         if (!File.Exists(SavePath))
         {
-            Debug.LogWarning("[SaveManager] ÀúÀå ÆÄÀÏÀÌ ¾ø½À´Ï´Ù. »õ µ¥ÀÌÅÍ »ı¼º.");
+            Debug.LogWarning("[SaveManager] ì €ì¥ íŒŒì¼ì´ ì—†ìŠµë‹ˆë‹¤. ìƒˆ ë°ì´í„° ìƒì„±.");
             return new GameSaveData();
         }
 
         string json = File.ReadAllText(SavePath);
         GameSaveData data = JsonUtility.FromJson<GameSaveData>(json);
-        Debug.Log($"[SaveManager] ·Îµå ¿Ï·á: {SavePath}");
+        Debug.Log($"[SaveManager] ë¡œë“œ ì™„ë£Œ: {SavePath}");
 
-        // ¸®½ºÆ®¸¦ µñ¼Å³Ê¸®·Î º¯È¯
+        // ë¦¬ìŠ¤íŠ¸ë¥¼ ë”•ì…”ë„ˆë¦¬ë¡œ ë³€í™˜
         data.boards = new Dictionary<string, BoardSaveData>();
         if (data.boardList != null)
         {

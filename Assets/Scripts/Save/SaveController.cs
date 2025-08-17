@@ -35,7 +35,7 @@ public class SaveController : MonoBehaviour
         if (DateTime.TryParse(CurrentSave.lastSaveTime, null, System.Globalization.DateTimeStyles.RoundtripKind, out var lastTime))
         {
             offlineElapsedTime = (float)(DateTime.UtcNow - lastTime).TotalSeconds;
-            //Debug.Log($"[SaveController] �������� �ð�: {offlineElapsedTime}��");
+            //Debug.Log($"[SaveController] 오프라인 시간: {offlineElapsedTime}초");
         }
 
         PlayerSkillManager.Instance.Initialize(CurrentSave.player);
@@ -44,7 +44,7 @@ public class SaveController : MonoBehaviour
     public void Save()
     {
         PlayerResourceManager.Instance.SaveTo(CurrentSave.player);
-        Debug.Log($"[SaveController] Save ȣ���. Player Energy: {PlayerResourceManager.Instance.GetAmount(ResourceType.Energy)}");
+        Debug.Log($"[SaveController] Save 완료. Player Energy: {PlayerResourceManager.Instance.GetAmount(ResourceType.Energy)}");
         SaveManager.Save(CurrentSave);
     }
 }

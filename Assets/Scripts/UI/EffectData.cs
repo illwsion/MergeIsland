@@ -13,7 +13,7 @@ public enum EffectType
     Gate_Supply,
     Gate_Quest,
     Gate_Resource
-    // ÇÊ¿ä ½Ã Ãß°¡
+    // í•„ìš” ì‹œ ì¶”ê°€
 }
 
 public enum EffectBlockSize
@@ -27,10 +27,10 @@ public class EffectData
 {
     public EffectType type;
     public EffectBlockSize blockSize;
-    public string label;     // »ó´Ü ¶óº§ ÅØ½ºÆ® (ex: "È¹µæ")
-    public Sprite icon1;      // ÁÂÃø ¾ÆÀÌÄÜ ÀÌ¹ÌÁö
-    public Sprite icon2;      // ¿ìÃø ¾ÆÀÌÄÜ ÀÌ¹ÌÁö
-    public string value;     // ÇÏ´Ü ¼öÄ¡ ÅØ½ºÆ® (ex: "+1000", "500", or null)
+    public string label;     // ìƒë‹¨ ë¼ë²¨ í…ìŠ¤íŠ¸ (ex: "íšë“")
+    public Sprite icon1;      // ì¢Œì¸¡ ì•„ì´ì½˜ ì´ë¯¸ì§€
+    public Sprite icon2;      // ìš°ì¸¡ ì•„ì´ì½˜ ì´ë¯¸ì§€
+    public string value;     // í•˜ë‹¨ ìˆ˜ì¹˜ í…ìŠ¤íŠ¸ (ex: "+1000", "500", or null)
 
     public BoardGate sourceGate;
 }
