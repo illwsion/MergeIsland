@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BoardUI : MonoBehaviour
 {
     public GridLayoutGroup gridLayout;
-    public RectTransform boardArea; // ÀüÃ¼ º¸µå Ç¥½Ã ¿µ¿ª
+    public RectTransform boardArea; // ì „ì²´ ë³´ë“œ í‘œì‹œ ì˜ì—­
     public GameObject cellPrefab;
     public GameObject itemViewPrefab;
 
@@ -47,7 +47,7 @@ public class BoardUI : MonoBehaviour
 
         int index = 0;
 
-        // ÁÂÇ¥ ±â¹İÀ¸·Î ¼±ÅÃ »óÅÂ °¡Á®¿À±â
+        // ì¢Œí‘œ ê¸°ë°˜ìœ¼ë¡œ ì„ íƒ ìƒíƒœ ê°€ì ¸ì˜¤ê¸°
         Vector2Int? selectedCoord = null;
         if (ItemSelectorManager.Instance.HasSelection())
         {
@@ -60,7 +60,7 @@ public class BoardUI : MonoBehaviour
             {
                 if (index >= gridLayout.transform.childCount)
                 {
-                    Debug.LogError($"[BoardUI] index ÃÊ°ú! index={index}, count={gridLayout.transform.childCount}");
+                    Debug.LogError($"[BoardUI] index ì´ˆê³¼! index={index}, count={gridLayout.transform.childCount}");
                     return;
                 }
 
@@ -74,7 +74,7 @@ public class BoardUI : MonoBehaviour
                     dropTarget.y = y;
                 }
 
-                // ±âÁ¸ ¾ÆÀÌÅÛ Á¦°Å
+                // ê¸°ì¡´ ì•„ì´í…œ ì œê±°
                 foreach (Transform child in cell)
                 {
                     if (child.name != "SelectionOutline")
@@ -82,7 +82,7 @@ public class BoardUI : MonoBehaviour
                         Destroy(child.gameObject);
                     }
                 }
-                // ¾ÆÀÌÅÛÀÌ ÀÖÀ¸¸é »õ·Î »ı¼º
+                // ì•„ì´í…œì´ ìˆìœ¼ë©´ ìƒˆë¡œ ìƒì„±
                 MergeItem item = board.GetItem(x, y);
                 if (item != null)
                 {
@@ -99,7 +99,7 @@ public class BoardUI : MonoBehaviour
                     }
                 }
 
-                // SelectionOutline È°¼ºÈ­ Á¶°Ç: ¼±ÅÃµÈ ÁÂÇ¥¿Í ÀÏÄ¡ÇÏ´Â ¼¿
+                // SelectionOutline í™œì„±í™” ì¡°ê±´: ì„ íƒëœ ì¢Œí‘œì™€ ì¼ì¹˜í•˜ëŠ” ì…€
                 Transform outline = cell.transform.Find("SelectionOutline");
                 if (outline != null)
                 {
@@ -118,7 +118,7 @@ public class BoardUI : MonoBehaviour
         int index = (currentBoard.height - 1 - coord.y) * width + coord.x;
         if (index < 0 || index >= gridLayout.transform.childCount)
         {
-            Debug.LogWarning("ÀÎµ¦½º ¹üÀ§ ÃÊ°ú!");
+            Debug.LogWarning("ì¸ë±ìŠ¤ ë²”ìœ„ ì´ˆê³¼!");
             return null;
         }
         Transform cell = gridLayout.transform.GetChild(index);
@@ -130,7 +130,7 @@ public class BoardUI : MonoBehaviour
     {
         if (BoardGateSpawner.Instance == null)
         {
-            Debug.LogError("[BoardManager] BoardGateSpawner.Instance°¡ nullÀÔ´Ï´Ù. ÃÊ±âÈ­ ¼ø¼­¸¦ È®ÀÎÇÏ¼¼¿ä.");
+            Debug.LogError("[BoardManager] BoardGateSpawner.Instanceê°€ nullì…ë‹ˆë‹¤. ì´ˆê¸°í™” ìˆœì„œë¥¼ í™•ì¸í•˜ì„¸ìš”.");
         }
         return gridLayout.transform.position;
     }

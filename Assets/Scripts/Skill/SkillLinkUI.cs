@@ -8,7 +8,6 @@ public class SkillLinkUI : MonoBehaviour
     [Header("화살표 설정")]
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private float arrowThicknessRatio = 0.1f; // 노드 크기의 10%
-    [SerializeField] private float arrowHeadSizeRatio = 0.3f; // 노드 크기의 30%
     [SerializeField] private float minArrowThickness = 2f; // 최소 두께
     [SerializeField] private float maxArrowThickness = 8f; // 최대 두께
     
@@ -16,10 +15,7 @@ public class SkillLinkUI : MonoBehaviour
     [SerializeField] private Color arrowColorLocked = new Color(0.3f, 0.3f, 0.3f); // 짙은 회색: 선행 스킬도 못 배움
     [SerializeField] private Color arrowColorUnlocked = new Color(0.7f, 0.7f, 0.7f); // 얕은 회색: 선행 스킬은 배움
     [SerializeField] private Color arrowColorLearned = new Color(0.2f, 0.8f, 0.2f); // 초록색: 후속 스킬까지 배움
-    
-    [Header("레이어 설정")]
-    [SerializeField] private int sortingOrder = 1; // 노드 앞에 그리기
-    
+
     private List<GameObject> activeArrows = new List<GameObject>();
     private RectTransform content;
     
