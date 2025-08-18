@@ -66,7 +66,22 @@ public class ItemSelectorManager : MonoBehaviour
         
         itemInfoUI.Show(selectedItem);
 
-        BoardManager.Instance.RefreshBoard();
+        BoardManager.Instance.boardUI.UpdateBoardItems(BoardManager.Instance.GetCurrentBoard());
+    }
+
+    public void SelectWithoutBoardUpdate(ItemView view)
+    {
+        if (selectedItemView == view)
+            return;
+
+        ClearSelectedItemOnly();
+
+        selectedItemView = view;
+        selectedItem = view.mergeItem;
+        selectedCoord = view.coord;
+        
+        itemInfoUI.Show(selectedItem);
+        // 보드 업데이트 없음
     }
     
     public void ClearSelection()

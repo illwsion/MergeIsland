@@ -166,6 +166,7 @@ public class BoardUI : MonoBehaviour
 
                 // 아이템이 있으면 기존 것을 재활용하거나 새로 생성
                 MergeItem item = board.GetItem(x, y);
+                
                 if (item != null)
                 {
                     // 기존 ItemView가 있고 같은 아이템이면 재활용

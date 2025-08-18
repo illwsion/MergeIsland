@@ -386,7 +386,7 @@ public class BoardManager : MonoBehaviour
     }
 
     //  아이템 드롭 관리
-    public void HandleDrop(MergeItem draggedItem, Vector2Int fromPos, Vector2Int toPos)
+    public void HandleDrop(MergeItem draggedItem, Vector2Int fromPos, Vector2Int toPos, ItemView draggedItemView = null)
     {
         MergeBoard board = boardMap[currentBoardKey];
 
@@ -401,22 +401,35 @@ public class BoardManager : MonoBehaviour
 
             ItemSelectorManager.Instance.SetSelectedCoord(toPos);
 
-            // 애니메이션 처리
-            if (ItemAnimationManager.Instance != null)
+         // 애니메이션 처리
+        if (ItemAnimationManager.Instance != null)
+        {
+            Transform targetCell = FindCellTransform(toPos);
+            
+            if (targetCell != null)
             {
-                Transform targetCell = FindCellTransform(toPos);
-                if (targetCell != null)
+                // 전달받은 ItemView 사용 (우선순위 1)
+                ItemView itemView = draggedItemView;
+                
+                // 전달받은 ItemView가 없으면 셀에서 찾기 (우선순위 2)
+                if (itemView == null)
                 {
-                    ItemView itemView = FindItemViewInCell(FindCellTransform(fromPos));
-                    if (itemView != null)
+                    Transform fromCell = FindCellTransform(fromPos);
+                    if (fromCell != null)
                     {
-                        ItemAnimationManager.Instance.MoveToCellCenter(itemView, targetCell, () => {
-                            boardUI.UpdateBoardItems(board);
-                        });
-                        return;
+                        itemView = FindItemViewInCell(fromCell);
                     }
                 }
+                
+                if (itemView != null)
+                {
+                    ItemAnimationManager.Instance.MoveToCellCenter(itemView, targetCell, () => {
+                        boardUI.UpdateBoardItems(board);
+                    });
+                    return;
+                }
             }
+        }
         }
         else // 무언가 아이템이 있는 자리로 갔을 때
         {

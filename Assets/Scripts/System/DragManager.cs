@@ -22,6 +22,10 @@ public class DragManager : MonoBehaviour
         Instance = this;
     }
 
-    public void StartDrag() => IsDragging = true;
-    public void EndDrag() => IsDragging = false;
+    public void StartDrag(){
+        IsDragging = true;
+    }
+    public void EndDrag(){
+        IsDragging = false;
+    }
 }

@@ -65,7 +65,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             var view = GetComponent<ItemView>();
             if (view != null)
             {
-                ItemSelectorManager.Instance.Select(view);
+                ItemSelectorManager.Instance.SelectWithoutBoardUpdate(view);
             }
         }
     }
@@ -98,12 +98,12 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             if (dropTarget != null)
             {
                 Vector2Int toPos = new Vector2Int(dropTarget.x, dropTarget.y);
-                BoardManager.Instance.HandleDrop(mergeItem, fromPos, toPos);
+                BoardManager.Instance.HandleDrop(mergeItem, fromPos, toPos, GetComponent<ItemView>());
                 return;
             }
         }
 
         // 드래그 실패 -> 제자리 처리로 선택
-        BoardManager.Instance.HandleDrop(mergeItem, fromPos, fromPos);
+        BoardManager.Instance.HandleDrop(mergeItem, fromPos, fromPos, GetComponent<ItemView>());
     }
 }
