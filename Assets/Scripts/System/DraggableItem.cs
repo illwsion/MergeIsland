@@ -72,7 +72,12 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        // 마우스 위치를 월드 좌표로 변환
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
+        mouseWorldPos.z = rectTransform.position.z; // Z 좌표 유지
+        
+        // 아이템의 중앙이 마우스 위치에 오도록 설정
+        rectTransform.position = mouseWorldPos;
     }
 
     public void OnEndDrag(PointerEventData eventData)
