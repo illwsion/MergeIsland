@@ -142,5 +142,26 @@ public class ItemAnimationManager : MonoBehaviour
         DOTween.KillAll();
         activeAnimations.Clear();
     }
+
+    /// <summary>
+    /// 특정 아이템에 대한 애니메이션이 진행 중인지 확인
+    /// </summary>
+    /// <param name="mergeItem">확인할 아이템</param>
+    /// <returns>애니메이션 진행 중이면 true</returns>
+    public bool HasActiveAnimation(MergeItem mergeItem)
+    {
+        if (mergeItem == null) return false;
+
+        // activeAnimations에서 해당 MergeItem에 연결된 ItemView 찾기
+        foreach (var kvp in activeAnimations)
+        {
+            ItemView itemView = kvp.Key;
+            if (itemView != null && itemView.mergeItem == mergeItem)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

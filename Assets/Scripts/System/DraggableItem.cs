@@ -36,6 +36,14 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             return;
         }
 
+        // 애니메이션 중인 아이템은 드래그 방지
+        if (ItemAnimationManager.Instance != null && 
+            ItemAnimationManager.Instance.HasActiveAnimation(mergeItem))
+        {
+            eventData.pointerDrag = null;
+            return;
+        }
+
         // 진행 중인 모든 애니메이션 종료 (UI 초기화 없이)
         if (ItemAnimationManager.Instance != null)
         {
