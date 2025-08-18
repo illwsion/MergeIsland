@@ -53,7 +53,7 @@ public class BoardManager : MonoBehaviour
 
         if (DragManager.Instance.IsDragging)
             return;
-        //�ӽ� �̵�
+        //임시 이동
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             MoveBoard(Vector2Int.right); // 오른쪽 이동
@@ -400,6 +400,23 @@ public class BoardManager : MonoBehaviour
             board.PlaceItem(toPos.x, toPos.y, draggedItem);
 
             ItemSelectorManager.Instance.SetSelectedCoord(toPos);
+
+            // 애니메이션 처리
+            if (ItemAnimationManager.Instance != null)
+            {
+                Transform targetCell = FindCellTransform(toPos);
+                if (targetCell != null)
+                {
+                    ItemView itemView = FindItemViewInCell(FindCellTransform(fromPos));
+                    if (itemView != null)
+                    {
+                        ItemAnimationManager.Instance.MoveToCellCenter(itemView, targetCell, () => {
+                            boardUI.UpdateBoardItems(board);
+                        });
+                        return;
+                    }
+                }
+            }
         }
         else // 무언가 아이템이 있는 자리로 갔을 때
         {
@@ -430,7 +447,42 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        boardUI.DisplayBoard(board);
+        boardUI.UpdateBoardItems(board);
+    }
+
+    /// <summary>
+    /// 좌표에 해당하는 셀의 Transform을 찾는 헬퍼 메서드
+    /// </summary>
+    private Transform FindCellTransform(Vector2Int coord)
+    {
+        if (boardUI == null || boardUI.gridLayout == null) return null;
+
+        MergeBoard board = GetCurrentBoard();
+        if (board == null) return null;
+
+        int width = board.width;
+        int height = board.height;
+        
+        // 좌표를 인덱스로 변환 (BoardUI의 DisplayBoard 로직과 동일)
+        int index = (height - 1 - coord.y) * width + coord.x;
+        
+        if (index >= 0 && index < boardUI.gridLayout.transform.childCount)
+        {
+            return boardUI.gridLayout.transform.GetChild(index);
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 셀에서 ItemView를 찾는 헬퍼 메서드
+    /// </summary>
+    private ItemView FindItemViewInCell(Transform cell)
+    {
+        if (cell == null) return null;
+
+        // 셀의 자식 중에서 ItemView 찾기
+        ItemView itemView = cell.GetComponentInChildren<ItemView>();
+        return itemView;
     }
 
     private DropActionType DetermineDropAction(MergeItem draggedItem, MergeItem targetItem)
@@ -469,17 +521,58 @@ public class BoardManager : MonoBehaviour
             board.PlaceItem(fromPos.x, fromPos.y, draggedItem);
 
             ItemSelectorManager.Instance.SetSelectedCoord(fromPos); // 기존 위치
+
+            // UI 업데이트
+            if (boardUI != null)
+            {
+                boardUI.UpdateBoardItems(board);
+            }
         }
         else
         {
+            // 게임 상태 먼저 업데이트
             board.grid[fromPos.x, fromPos.y] = targetItem;
             targetItem.coord = fromPos;
             board.grid[toPos.x, toPos.y] = draggedItem;
             draggedItem.coord = toPos;
 
             ItemSelectorManager.Instance.SetSelectedCoord(toPos); // 새로운 위치
-        }
 
+            // 애니메이션 처리
+            if (ItemAnimationManager.Instance != null)
+            {
+                Transform fromCell = FindCellTransform(fromPos);
+                Transform toCell = FindCellTransform(toPos);
+                
+                if (fromCell != null && toCell != null)
+                {
+                    // 두 아이템의 ItemView 찾기
+                    ItemView draggedView = FindItemViewInCell(FindCellTransform(fromPos));
+                    ItemView targetView = FindItemViewInCell(FindCellTransform(toPos));
+                    
+                    if (draggedView != null && targetView != null)
+                    {
+                        // 두 아이템이 동시에 서로의 위치로 이동
+                        ItemAnimationManager.Instance.MoveToCellCenter(draggedView, toCell, () => {
+                            // 애니메이션 완료 후 UI 업데이트
+                            if (boardUI != null)
+                            {
+                                boardUI.UpdateBoardItems(board);
+                            }
+                        });
+                        
+                        ItemAnimationManager.Instance.MoveToCellCenter(targetView, fromCell);
+                        return; // 애니메이션 중에는 UpdateBoardItems 호출하지 않음
+                    }
+                }
+            }
+
+            // 애니메이션이 실행되지 않은 경우 즉시 UI 업데이트
+            if (boardUI != null)
+            {
+                boardUI.UpdateBoardItems(board);
+            }
+        }
     }
 
     void HandleMerge(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
@@ -497,6 +590,12 @@ public class BoardManager : MonoBehaviour
         board.grid[fromPos.x, fromPos.y] = null;
 
         ItemSelectorManager.Instance.SetSelectedCoord(toPos);
+
+        // UI 업데이트
+        if (boardUI != null)
+        {
+            boardUI.UpdateBoardItems(board);
+        }
 
         StartCoroutine(SelectAfterFrame(toPos));
     }
@@ -557,6 +656,13 @@ public class BoardManager : MonoBehaviour
 
         // 공격 아이템 제거
         RemoveItem(weapon);
+
+        // UI 업데이트
+        if (boardUI != null)
+        {
+            boardUI.UpdateBoardItems(board);
+        }
+
         StartCoroutine(SelectAfterFrame(toPos));
 
     }

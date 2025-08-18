@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -7,12 +8,15 @@ public class ItemAnimationManager : MonoBehaviour
     public static ItemAnimationManager Instance { get; private set; }
 
     [Header("애니메이션 설정")]
-    [SerializeField] private float moveDuration = 0.15f;
-    [SerializeField] private float bounceDuration = 0.1f;
-    [SerializeField] private float bounceStrength = 0.05f;
+    [SerializeField] private float moveDuration = 0.05f;
+    [SerializeField] private float bounceDuration = 0f;
+    [SerializeField] private float bounceStrength = 0f;
     [SerializeField] private float spawnDuration = 0.2f;
     [SerializeField] private Ease moveEase = Ease.OutQuad;
     [SerializeField] private Ease bounceEase = Ease.OutBounce;
+
+    // 현재 진행 중인 애니메이션을 추적
+    private Dictionary<ItemView, Tween> activeAnimations = new();
 
     private void Awake()
     {
@@ -26,31 +30,7 @@ public class ItemAnimationManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 드롭 실패 시 원래 위치로 돌아가는 애니메이션
-    /// </summary>
-    /// <param name="itemView">돌아갈 아이템의 ItemView</param>
-    /// <param name="originalCell">원래 셀의 Transform</param>
-    /// <param name="onComplete">애니메이션 완료 시 호출될 콜백</param>
-    public void ReturnToOriginalPosition(ItemView itemView, Transform originalCell, System.Action onComplete = null)
-    {
-        if (itemView == null || originalCell == null) return;
 
-        RectTransform itemRect = itemView.GetComponent<RectTransform>();
-        Vector3 targetPosition = originalCell.position;
-
-        // 부모를 원래 셀로 변경
-        itemRect.SetParent(originalCell);
-        
-        // 애니메이션으로 원래 위치로 이동
-        itemRect.DOMove(targetPosition, moveDuration)
-            .SetEase(moveEase)
-            .OnComplete(() => {
-                // 로컬 위치를 0으로 설정하여 셀 중앙에 정렬
-                itemRect.localPosition = Vector3.zero;
-                onComplete?.Invoke();
-            });
-    }
 
     /// <summary>
     /// 빈칸에 드롭 시 셀 중앙으로 이동하는 애니메이션
@@ -61,6 +41,13 @@ public class ItemAnimationManager : MonoBehaviour
     public void MoveToCellCenter(ItemView itemView, Transform targetCell, System.Action onComplete = null)
     {
         if (itemView == null || targetCell == null) return;
+
+        // 같은 아이템의 이전 애니메이션이 있다면 중단
+        if (activeAnimations.TryGetValue(itemView, out var existingTween))
+        {
+            existingTween.Kill();
+            activeAnimations.Remove(itemView);
+        }
 
         RectTransform itemRect = itemView.GetComponent<RectTransform>();
         Vector3 targetPosition = targetCell.position;
@@ -78,39 +65,16 @@ public class ItemAnimationManager : MonoBehaviour
         dropSequence.Append(itemRect.DOLocalMoveY(bounceStrength, bounceDuration * 0.5f).SetEase(Ease.OutQuad));
         dropSequence.Append(itemRect.DOLocalMoveY(0f, bounceDuration * 0.5f).SetEase(bounceEase));
         
+        // 애니메이션을 추적하고 완료 시 정리
+        activeAnimations[itemView] = dropSequence;
+        
         dropSequence.OnComplete(() => {
+            activeAnimations.Remove(itemView);
             onComplete?.Invoke();
         });
     }
 
-    /// <summary>
-    /// 한 셀에서 다른 셀로 이동하는 애니메이션
-    /// </summary>
-    /// <param name="itemView">이동할 아이템의 ItemView</param>
-    /// <param name="fromCell">시작 셀의 Transform</param>
-    /// <param name="toCell">목표 셀의 Transform</param>
-    /// <param name="onComplete">애니메이션 완료 시 호출될 콜백</param>
-    public void MoveBetweenCells(ItemView itemView, Transform fromCell, Transform toCell, System.Action onComplete = null)
-    {
-        if (itemView == null || fromCell == null || toCell == null) return;
 
-        RectTransform itemRect = itemView.GetComponent<RectTransform>();
-        Vector3 targetPosition = toCell.position;
-
-        // 시작 위치에 배치
-        itemRect.SetParent(fromCell);
-        itemRect.localPosition = Vector3.zero;
-
-        // 이동 애니메이션
-        itemRect.DOMove(targetPosition, moveDuration)
-            .SetEase(moveEase)
-            .OnComplete(() => {
-                // 목표 셀로 부모 변경
-                itemRect.SetParent(toCell);
-                itemRect.localPosition = Vector3.zero;
-                onComplete?.Invoke();
-            });
-    }
 
     /// <summary>
     /// 새 아이템이 나타날 때 크기 변화 애니메이션
@@ -122,6 +86,13 @@ public class ItemAnimationManager : MonoBehaviour
     {
         if (itemView == null || targetCell == null) return;
 
+        // 같은 아이템의 이전 애니메이션이 있다면 중단
+        if (activeAnimations.TryGetValue(itemView, out var existingTween))
+        {
+            existingTween.Kill();
+            activeAnimations.Remove(itemView);
+        }
+
         RectTransform itemRect = itemView.GetComponent<RectTransform>();
         
         // 부모를 목표 셀로 설정
@@ -132,11 +103,16 @@ public class ItemAnimationManager : MonoBehaviour
         itemRect.localScale = Vector3.zero;
         
         // 크기 애니메이션: 0에서 원래 크기로
-        itemRect.DOScale(Vector3.one, spawnDuration)
-            .SetEase(Ease.OutBack) // 살짝 튀어오르는 효과
-            .OnComplete(() => {
-                onComplete?.Invoke();
-            });
+        var scaleTween = itemRect.DOScale(Vector3.one, spawnDuration)
+            .SetEase(Ease.OutBack); // 살짝 튀어오르는 효과
+        
+        // 애니메이션을 추적하고 완료 시 정리
+        activeAnimations[itemView] = scaleTween;
+        
+        scaleTween.OnComplete(() => {
+            activeAnimations.Remove(itemView);
+            onComplete?.Invoke();
+        });
     }
 
     /// <summary>
@@ -164,6 +140,7 @@ public class ItemAnimationManager : MonoBehaviour
     public void StopAllAnimations()
     {
         DOTween.KillAll();
+        activeAnimations.Clear();
     }
 }
 
