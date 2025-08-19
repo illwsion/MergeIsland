@@ -234,12 +234,66 @@ public class BoardManager : MonoBehaviour
             Debug.LogError($"[BoardManager] 유효하지 않은 아이템 ID: {itemKey}");
             return;
         }
+        
         MergeItem newItem = new MergeItem(itemKey);
         newItem.board = board; // 소속 보드 등록
 
         board.PlaceItem(position.x, position.y, newItem);
         RegisterItem(newItem);
+        
+        // ItemView를 즉시 생성하고 설정하여 MergeItem.itemView 참조 문제 해결
+        if (boardUI != null && boardUI.gridLayout != null)
+        {
+            Transform cellTransform = FindCellTransform(position);
+            if (cellTransform != null)
+            {
+                // 기존 ItemView가 있다면 제거
+                ItemView existingView = null;
+                foreach (Transform child in cellTransform)
+                {
+                    if (child.name != "SelectionOutline")
+                    {
+                        existingView = child.GetComponent<ItemView>();
+                        if (existingView != null)
+                        {
+                            DestroyImmediate(existingView.gameObject);
+                            break;
+                        }
+                    }
+                }
+                
+                // 새 ItemView 생성
+                GameObject viewObj = Instantiate(boardUI.itemViewPrefab, cellTransform);
+                ItemView view = viewObj.GetComponent<ItemView>();
+                view.SetItem(newItem); // 이때 MergeItem.itemView가 자동으로 설정됨
+                view.SetCoord(position);
+                
+                // DraggableItem 설정
+                DraggableItem drag = viewObj.GetComponent<DraggableItem>();
+                if (drag != null)
+                {
+                    drag.mergeItem = newItem;
+                    drag.SetOrigin(position);
+                }
+            }
+        }
     }
+    // 지연된 자동 생산을 요청하는 메서드
+    public void RequestDelayedAutoProduction(MergeItem producer)
+    {
+        StartCoroutine(DelayedAutoProduction(producer));
+    }
+
+    // 자동 생산을 다음 프레임으로 지연시키는 코루틴
+    private IEnumerator DelayedAutoProduction(MergeItem producer)
+    {
+        // 한 프레임 대기하여 UI 업데이트 완료 보장
+        yield return null;
+        
+        // 이제 자동 생산 실행
+        producer.ProduceAuto();
+    }
+
     //Register
     public void RegisterItem(MergeItem item)
     {
@@ -438,7 +492,7 @@ public class BoardManager : MonoBehaviour
             switch (actionType)
             {
                 case DropActionType.None:
-                    HandleSwap(board, draggedItem, targetItem, fromPos, toPos);
+                    HandleSwap(board, draggedItem, targetItem, fromPos, toPos, draggedItemView);
                     break;
 
                 case DropActionType.Merge:
@@ -455,7 +509,7 @@ public class BoardManager : MonoBehaviour
 
                 default:
                     Debug.LogWarning("정의되지 않은 액션입니다.");
-                    HandleSwap(board, draggedItem, targetItem, fromPos, fromPos);
+                    HandleSwap(board, draggedItem, targetItem, fromPos, fromPos, draggedItemView);
                     break;
             }
         }
@@ -466,7 +520,7 @@ public class BoardManager : MonoBehaviour
     /// <summary>
     /// 좌표에 해당하는 셀의 Transform을 찾는 헬퍼 메서드
     /// </summary>
-    private Transform FindCellTransform(Vector2Int coord)
+    public Transform FindCellTransform(Vector2Int coord)
     {
         if (boardUI == null || boardUI.gridLayout == null) return null;
 
@@ -526,7 +580,7 @@ public class BoardManager : MonoBehaviour
         return DropActionType.None;
     }
 
-    void HandleSwap(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos)
+    void HandleSwap(MergeBoard board, MergeItem draggedItem, MergeItem targetItem, Vector2Int fromPos, Vector2Int toPos, ItemView draggedItemView = null)
     {
         if (!targetItem.Data.canMove) // 드롭 대상이 이동 불가이면 취소
         {
@@ -535,7 +589,37 @@ public class BoardManager : MonoBehaviour
 
             ItemSelectorManager.Instance.SetSelectedCoord(fromPos); // 기존 위치
 
-            // UI 업데이트
+            // 원래 자리로 돌아가는 애니메이션
+            if (ItemAnimationManager.Instance != null)
+            {
+                Transform fromCell = FindCellTransform(fromPos);
+                
+                if (fromCell != null)
+                {
+                    // draggedItemView 사용 (우선순위 1)
+                    ItemView itemView = draggedItemView;
+                    
+                    // draggedItemView가 없으면 MergeItem.itemView 사용 (우선순위 2)
+                    if (itemView == null)
+                    {
+                        itemView = draggedItem.itemView;
+                    }
+                    
+                    if (itemView != null)
+                    {
+                        ItemAnimationManager.Instance.MoveToCellCenter(itemView, fromCell, () => {
+                            // 애니메이션 완료 후 UI 업데이트
+                            if (boardUI != null)
+                            {
+                                boardUI.UpdateBoardItems(board);
+                            }
+                        });
+                        return; // 애니메이션 중에는 UpdateBoardItems 호출하지 않음
+                    }
+                }
+            }
+
+            // 애니메이션이 실행되지 않은 경우 즉시 UI 업데이트
             if (boardUI != null)
             {
                 boardUI.UpdateBoardItems(board);
@@ -560,8 +644,8 @@ public class BoardManager : MonoBehaviour
                 if (fromCell != null && toCell != null)
                 {
                     // 두 아이템의 ItemView 찾기
-                    ItemView draggedView = FindItemViewInCell(FindCellTransform(fromPos));
-                    ItemView targetView = FindItemViewInCell(FindCellTransform(toPos));
+                    ItemView draggedView = draggedItem.itemView;
+                    ItemView targetView = targetItem.itemView;
                     
                     if (draggedView != null && targetView != null)
                     {

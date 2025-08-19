@@ -3179,6 +3179,56 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &654577511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 654577513}
+  - component: {fileID: 654577512}
+  m_Layer: 0
+  m_Name: ItemAnimationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &654577512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654577511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bdac05f08da2e4b900e41eb7bf79ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDuration: 0.05
+  bounceDuration: 0
+  bounceStrength: 0
+  spawnDuration: 0.2
+  moveEase: 6
+  bounceEase: 30
+--- !u!4 &654577513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654577511}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.0575855, y: 0.15115815, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &698575144
 GameObject:
   m_ObjectHideFlags: 0
@@ -4822,12 +4872,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 1385217537252963430, guid: e92e8df60be6c104a81333bffdd384fc, type: 3}
-  arrowColor: {r: 1, g: 1, b: 1, a: 1}
   arrowThicknessRatio: 0.15
-  arrowHeadSizeRatio: 0.15
   minArrowThickness: 2
   maxArrowThickness: 40
-  sortingOrder: -1
+  arrowColorLocked: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+  arrowColorUnlocked: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  arrowColorLearned: {r: 0.2, g: 0.8, b: 0.2, a: 1}
 --- !u!1 &964768989
 GameObject:
   m_ObjectHideFlags: 0
@@ -10378,3 +10428,4 @@ SceneRoots:
   - {fileID: 27392546}
   - {fileID: 717685663}
   - {fileID: 1819896967}
+  - {fileID: 654577513}

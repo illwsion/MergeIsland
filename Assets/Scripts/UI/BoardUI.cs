@@ -167,6 +167,13 @@ public class BoardUI : MonoBehaviour
                 // 아이템이 있으면 기존 것을 재활용하거나 새로 생성
                 MergeItem item = board.GetItem(x, y);
                 
+                // 드래그 중인 아이템이 있는 위치는 건드리지 않음
+                if (DragManager.Instance.IsPositionBeingDragged(coord))
+                {
+                    Debug.Log($"[BoardUI] 드래그 중인 위치 {coord} 건드리지 않음");
+                    continue;
+                }
+                
                 if (item != null)
                 {
                     // 기존 ItemView가 있고 같은 아이템이면 재활용

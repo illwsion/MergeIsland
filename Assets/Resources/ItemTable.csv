@@ -34,7 +34,7 @@ ITEM_LOG_4,log_4,log,General,5,8,Gather,FALSE,None,None,null,null,None,null,Wood
 ITEM_LOG_5,log_5,log,General,6,8,Gather,FALSE,None,None,null,null,None,null,Wood,120,None,null,null,null,TRUE,32,ITEM_NAME_LOG_5,ITEM_DESC_LOG_5,TRUE,TRUE,null,null,log_5
 ITEM_LOG_6,log_6,log,General,7,8,Gather,FALSE,None,None,null,null,None,null,Wood,300,None,null,null,null,TRUE,64,ITEM_NAME_LOG_6,ITEM_DESC_LOG_6,TRUE,TRUE,null,null,log_6
 ITEM_LOG_7,log_7,log,General,8,8,Gather,FALSE,None,None,null,null,None,null,Wood,800,None,null,null,null,TRUE,128,ITEM_NAME_LOG_7,ITEM_DESC_LOG_7,TRUE,TRUE,null,null,log_7
-ITEM_BOULDER_0,boulder_0,boulder,Production,1,8,None,FALSE,None,Stone,null,DROP_BOULDER_0,None,null,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_0,ITEM_DESC_TREE_0,TRUE,TRUE,100,null,tree_0
+ITEM_BOULDER_0,boulder_0,boulder,Production,1,8,None,FALSE,None,Stone,null,DROP_BOULDER_0,None,null,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_0,ITEM_DESC_TREE_0,FALSE,TRUE,100,null,tree_0
 ITEM_BOULDER_1,boulder_1,boulder,Production,2,8,None,FALSE,None,Stone,null,DROP_BOULDER_1,None,null,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_1,ITEM_DESC_TREE_1,TRUE,TRUE,100,null,tree_1
 ITEM_BOULDER_2,boulder_2,boulder,Production,3,8,None,FALSE,None,Stone,null,DROP_BOULDER_2,None,null,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_2,ITEM_DESC_TREE_2,TRUE,TRUE,100,null,tree_2
 ITEM_BOULDER_3,boulder_3,boulder,Production,4,8,None,FALSE,None,Stone,null,DROP_BOULDER_3,None,null,None,null,None,null,null,null,FALSE,null,ITEM_NAME_TREE_3,ITEM_DESC_TREE_3,TRUE,TRUE,100,null,tree_3
@@ -97,3 +97,6 @@ ITEM_EXP_2,exp_2,exp,General,1,5,Gather,FALSE,None,None,null,null,None,null,Exp,
 ITEM_EXP_3,exp_3,exp,General,1,5,Gather,FALSE,None,None,null,null,None,null,Exp,20,None,null,null,null,TRUE,null,ITEM_NAME_EXP_3,ITEM_DESC_EXP_3,TRUE,TRUE,null,null,exp_3
 ITEM_EXP_4,exp_4,exp,General,1,5,Gather,FALSE,None,None,null,null,None,null,Exp,50,None,null,null,null,TRUE,null,ITEM_NAME_EXP_4,ITEM_DESC_EXP_4,TRUE,TRUE,null,null,exp_4
 ITEM_EXPGENERATOR,exp_generator,expgeneragor,Production,null,1,Manual,FALSE,None,None,PRODUCE_EXPGENERATOR,null,Energy,1,None,null,None,null,10,100,FALSE,null,ITEM_NAME_EXPGENERATOR,ITEM_DESC_EXPGENERATOR,TRUE,TRUE,null,null,cow_0
+ITEM_TEST_MANUAL,tree_0,tree,Production,1,12,Manual,TRUE,None,Wood,PRODUCE_TREE_CHOPPED_0,DROP_TREE_0,None,null,None,null,None,null,null,100,FALSE,null,ITEM_NAME_TEST_MANUAL,ITEM_DESC_TREE_0,TRUE,TRUE,100,null,tree_0
+ITEM_TEST_AUTO,tree_0,tree,Production,1,12,Auto,TRUE,None,Wood,PRODUCE_TREE_CHOPPED_0,DROP_TREE_0,None,null,None,null,None,null,5,100,FALSE,null,ITEM_NAME_TEST_AUTO,ITEM_DESC_TREE_0,TRUE,TRUE,100,null,tree_0
+ITEM_TEST_SUPPLY,tree_0,tree,Production,1,12,Supply,FALSE,None,Wood,PRODUCE_TREE_CHOPPED_0,DROP_TREE_0,None,null,None,null,None,null,null,100,FALSE,null,ITEM_NAME_TEST_SUPPLY,ITEM_DESC_TREE_0,TRUE,TRUE,100,null,tree_0

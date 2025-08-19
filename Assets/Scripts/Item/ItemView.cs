@@ -23,6 +23,10 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
             return;
         }
         mergeItem = item;
+        
+        // MergeItem에 ItemView 참조 설정
+        item.itemView = this;
+        
         currentLevel = item.level;
         string spriteName = item.imageName;
         iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);

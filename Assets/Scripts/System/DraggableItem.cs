@@ -50,7 +50,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             ItemAnimationManager.Instance.StopAllAnimations();
         }
 
-        DragManager.Instance.StartDrag();
+        DragManager.Instance.StartDrag(mergeItem, fromPos);
 
         originalParent = transform.parent;
         originalPosition = rectTransform.anchoredPosition;

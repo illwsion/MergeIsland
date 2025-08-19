@@ -229,3 +229,6 @@ BOARD_NAME_BEACH_1,보드 이름,해변 2,beach 2
 BOARD_DESC_BEACH_1,보드 설명,두번째 해변,it's beach 2
 BOARD_NAME_BEACH_2,보드 이름,해변 3,beach 3
 BOARD_DESC_BEACH_2,보드 설명,세번째 해변,it's beach 3
+ITEM_NAME_TEST_MANUAL,테스트용 아이템,테스트용 일반생산,beach 3
+ITEM_NAME_TEST_AUTO,테스트용 아이템,테스트용 자동생산,beach 3
+ITEM_NAME_TEST_SUPPLY,테스트용 아이템,테스트용 교환,beach 3

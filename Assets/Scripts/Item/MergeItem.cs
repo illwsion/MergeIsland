@@ -1,6 +1,7 @@
 // MergeItem.cs
 using static ItemData;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
 using static UnityEngine.RuleTile.TilingRuleOutput;
@@ -11,6 +12,9 @@ public class MergeItem
     public string key;
     public MergeBoard board;
     public Vector2Int coord;
+    
+    // ItemView 참조 추가
+    public ItemView itemView { get; set; }
 
     public ItemData Data => ItemDataManager.Instance.GetItemData(key);
 
@@ -147,7 +151,11 @@ public class MergeItem
     {
         if (!IsTimeDrivenProducer()) return;
 
-        recoveryTimer += deltaTime;
+        // blocked 상태가 아닐 때만 타이머 증가
+        if (!isProductionBlocked)
+        {
+            recoveryTimer += deltaTime;
+        }
 
         switch (ProduceType)
         {
@@ -181,26 +189,26 @@ public class MergeItem
                     }
 
                     isProductionBlocked = false;
-                    BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
-
-                    if (Data.isProductionLimited)
+                    
+                    // 자동 생산을 다음 프레임으로 지연하여 UI 업데이트 완료 보장
+                    BoardManager.Instance.RequestDelayedAutoProduction(this);
+                    
+                    // 시간 차감 및 반복 가능하도록 처리
+                    recoveryTimer -= productionInterval;
+                    
+                    // 제한된 생산의 경우 소진 확인
+                    if (Data.isProductionLimited && currentStorage <= 0)
                     {
-                        ConsumeStorage();
-                        if (currentStorage <= 0)
-                        {
-                            break; // 소진됨 → 더 생산 불가
-                        }
+                        break; // 소진됨 → 더 생산 불가
                     }
-
-                    recoveryTimer -= productionInterval; // 반복 가능하도록 시간 차감
                 }
-
                 break;
             default:
                 // ProduceType.Gather, Dialogue 등은 충전 대상 아님
                 break;
         }
     }
+    
     // 플레이어 터치로 생산
     public void ProduceManual()
     {
@@ -230,8 +238,36 @@ public class MergeItem
         }
 
         ConsumeStorage();
+        
+        // 아이템 생성
         BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
-        // 생산 시 현재 보는 보드와 같으면 UI 갱신
+        
+        // 생산 애니메이션 적용
+        if (ItemAnimationManager.Instance != null && itemView != null)
+        {
+            Debug.Log($"[ProduceManual] {name} → {resultItemKey} 생산 완료 (애니메이션 적용)");
+            // 생성된 아이템의 MergeItem과 ItemView 가져오기
+            MergeItem resultItem = board.GetItem(spawnPos.x, spawnPos.y);
+            if (resultItem != null && resultItem.itemView != null)
+            {
+                // 생산자에서 결과 아이템으로 이동하는 애니메이션
+                ItemAnimationManager.Instance.ProduceAndMoveItem(
+                    resultItem.itemView,           // 결과 아이템의 ItemView
+                    BoardManager.Instance.FindCellTransform(this.coord), // 생산자 셀 (현재 아이템의 보드 좌표로 찾기)
+                    resultItem.itemView.transform.parent, // 결과 아이템이 놓인 셀
+                    () => {
+                        // 애니메이션 완료 후 UI 갱신
+                        if (board == BoardManager.Instance.GetCurrentBoard())
+                        {
+                            BoardManager.Instance.RefreshBoard();
+                        }
+                    }
+                );
+                return; // 애니메이션이 실행되면 여기서 종료
+            }
+        }
+        
+        // 애니메이션이 실행되지 않은 경우 즉시 UI 갱신
         if (board == BoardManager.Instance.GetCurrentBoard())
         {
             BoardManager.Instance.RefreshBoard();
@@ -241,8 +277,9 @@ public class MergeItem
     }
 
     // 자동 생산
-    private void ProduceAuto()
+    public void ProduceAuto()
     {
+        Debug.Log($"[ProduceAuto] 생산 시작");
         if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
         {
             // 내부에서 빈칸 없음/결과 없음 로그 출력
@@ -253,20 +290,57 @@ public class MergeItem
         isProductionBlocked = false;
 
         BoardManager.Instance.SpawnItem(board, resultItemKey, spawnPos);
-        Debug.Log($"[ProduceAuto] {name} → {resultItemKey} 생산 완료");
-
+        
+        // 생산 애니메이션 적용
+        if (ItemAnimationManager.Instance != null && itemView != null)
+        {
+            // 생성된 아이템의 MergeItem과 ItemView 가져오기
+            MergeItem resultItem = board.GetItem(spawnPos.x, spawnPos.y);
+            
+            // 디버깅: ItemView 상태 확인
+            Debug.Log($"[ProduceAuto] 디버깅 - 생산자 itemView: {(itemView != null ? itemView.name : "null")}, 결과 아이템: {(resultItem != null ? resultItem.key : "null")}, 결과 ItemView: {(resultItem?.itemView != null ? resultItem.itemView.name : "null")}");
+            
+            if (resultItem != null && resultItem.itemView != null)
+            {
+                // 생산자에서 결과 아이템으로 이동하는 애니메이션
+                ItemAnimationManager.Instance.ProduceAndMoveItem(
+                    resultItem.itemView,           // 결과 아이템의 ItemView
+                    BoardManager.Instance.FindCellTransform(this.coord), // 생산자 셀 (현재 아이템의 보드 좌표로 찾기)
+                    resultItem.itemView.transform.parent, // 결과 아이템이 놓인 셀
+                    () => {
+                        // 애니메이션 완료 후 UI 갱신
+                        if (board == BoardManager.Instance.GetCurrentBoard())
+                        {
+                            BoardManager.Instance.boardUI.UpdateBoardItems(board);
+                        }
+                    }
+                );
+                
+                Debug.Log($"[ProduceAuto] {name} → {resultItemKey} 생산 완료 (애니메이션 적용)");
+                
+                // 애니메이션 실행 시 처리
+                if (Data.isProductionLimited)
+                {
+                    ConsumeStorage();
+                }
+                
+                return; // 애니메이션이 실행되면 여기서 종료
+            }
+        }
+        
+        // 애니메이션이 실행되지 않은 경우 즉시 처리
         if (Data.isProductionLimited)
         {
             ConsumeStorage();
         }
-
+        
         // 생산 시 현재 보는 보드와 같으면 UI 갱신
         if (board == BoardManager.Instance.GetCurrentBoard())
         {
-            BoardManager.Instance.RefreshBoard();
+            BoardManager.Instance.boardUI.UpdateBoardItems(board);
         }
 
-        recoveryTimer = 0f; // 생산 성공 시 리셋
+        Debug.Log($"[ProduceAuto] {name} → {resultItemKey} 생산 완료");
     }
 
     public void ProduceGather()
