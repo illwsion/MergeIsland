@@ -686,6 +686,22 @@ public class BoardManager : MonoBehaviour
 
         board.grid[fromPos.x, fromPos.y] = null;
 
+        // 머지 충격파 이펙트 생성
+        if (ItemAnimationManager.Instance != null)
+        {
+            // 머지 결과 아이템의 ItemView 찾기
+            Transform resultCell = FindCellTransform(toPos);
+            if (resultCell != null)
+            {
+                ItemView resultItemView = resultCell.GetComponentInChildren<ItemView>();
+                if (resultItemView != null)
+                {
+                    // 머지 타입으로 노란색 충격파 이펙트 생성
+                    ItemAnimationManager.Instance.CreateShockwaveEffect(resultItemView, "merge");
+                }
+            }
+        }
+
         ItemSelectorManager.Instance.SetSelectedCoord(toPos);
 
         // UI 업데이트
@@ -726,6 +742,23 @@ public class BoardManager : MonoBehaviour
 
         // 피해 처리
         monster.TakeDamage(finalDamage);
+
+        // 충격파 이펙트 생성
+        if (ItemAnimationManager.Instance != null)
+        {
+            // 타겟 몬스터의 ItemView 찾기
+            Transform targetCell = FindCellTransform(toPos);
+            if (targetCell != null)
+            {
+                ItemView targetItemView = targetCell.GetComponentInChildren<ItemView>();
+                if (targetItemView != null)
+                {
+                    // 공격 타입에 따른 충격파 이펙트 생성
+                    string attackType = weapon.Data.toolType.ToString().ToLower();
+                    ItemAnimationManager.Instance.CreateShockwaveEffect(targetItemView, attackType);
+                }
+            }
+        }
 
         //  몬스터 사망한 경우
         if (monster.currentHP <= 0)

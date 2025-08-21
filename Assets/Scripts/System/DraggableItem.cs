@@ -47,7 +47,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         // 진행 중인 모든 애니메이션 종료 (UI 초기화 없이)
         if (ItemAnimationManager.Instance != null)
         {
-            ItemAnimationManager.Instance.StopAllAnimations();
+            ItemAnimationManager.Instance.CompleteAllAnimations();
         }
 
         DragManager.Instance.StartDrag(mergeItem, fromPos);

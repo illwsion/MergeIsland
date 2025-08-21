@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI; // Image 컴포넌트를 사용하기 위해 추가
 
 public class ItemAnimationManager : MonoBehaviour
 {
@@ -207,6 +208,138 @@ public class ItemAnimationManager : MonoBehaviour
         }
         
         return topCanvas.transform;
+    }
+
+    /// <summary>
+    /// 타겟 아이템 주변에 충격파 이펙트 생성
+    /// </summary>
+    /// <param name="targetItemView">타겟 아이템의 ItemView</param>
+    /// <param name="attackType">공격 타입 (도끼, 곡괭이, 무기 등)</param>
+    /// <param name="onComplete">이펙트 완료 시 호출될 콜백</param>
+    public void CreateShockwaveEffect(ItemView targetItemView, string attackType = "default", System.Action onComplete = null)
+    {
+        if (targetItemView == null) return;
+
+        // 공격 타입에 따른 색상 결정
+        Color shockwaveColor = GetShockwaveColor(attackType);
+        
+        // 충격파 이펙트 생성
+        StartCoroutine(CreateShockwaveCoroutine(targetItemView, shockwaveColor, onComplete));
+    }
+    
+    /// <summary>
+    /// 공격 타입에 따른 충격파 색상 반환
+    /// </summary>
+    private Color GetShockwaveColor(string attackType)
+    {
+        switch (attackType.ToLower())
+        {
+            case "axe":
+                return new Color(0.6f, 0.4f, 0.2f); // 갈색 (나무)
+            case "pickaxe":
+                return new Color(0.5f, 0.5f, 0.5f); // 회색 (돌/철)
+            case "weapon":
+                return new Color(0.8f, 0.2f, 0.2f); // 빨간색 (몬스터)
+            case "merge":
+                return new Color(1.0f, 0.8f, 0.0f); // 노란색 (머지)
+            case "supply":
+                return new Color(1.0f, 0.8f, 0.0f); // 노란색 (공급)
+            default:
+                return new Color(0.7f, 0.7f, 0.7f); // 기본 회색
+        }
+    }
+    
+    /// <summary>
+    /// 충격파 이펙트를 생성하는 코루틴
+    /// </summary>
+    private IEnumerator CreateShockwaveCoroutine(ItemView targetItemView, Color color, System.Action onComplete)
+    {
+        // 타겟 아이템의 위치 가져오기
+        Vector3 targetPosition = targetItemView.transform.position;
+        
+        // 충격파 이펙트 오브젝트 생성
+        GameObject shockwaveObj = new GameObject("ShockwaveEffect");
+        shockwaveObj.transform.position = targetPosition;
+        
+        // 이펙트 오브젝트가 마우스 이벤트를 차단하지 않도록 설정
+        CanvasGroup effectCanvasGroup = shockwaveObj.AddComponent<CanvasGroup>();
+        effectCanvasGroup.blocksRaycasts = false;
+        effectCanvasGroup.interactable = false;
+        
+        // UI 레이어에 배치하기 위해 Canvas의 자식으로 설정
+        Canvas topCanvas = FindTopCanvas()?.GetComponent<Canvas>();
+        if (topCanvas != null)
+        {
+            shockwaveObj.transform.SetParent(topCanvas.transform);
+        }
+        
+        // 충격파 이미지 생성 (원형)
+        GameObject imageObj = new GameObject("ShockwaveImage");
+        imageObj.transform.SetParent(shockwaveObj.transform);
+        imageObj.transform.localPosition = Vector3.zero;
+        
+        // Image 컴포넌트 추가
+        Image shockwaveImage = imageObj.AddComponent<Image>();
+        shockwaveImage.color = color;
+        
+        // 원형 이미지 생성 (프로그래밍 방식으로 원형 만들기)
+        CreateCircleImage(shockwaveImage);
+        
+        // RectTransform 설정
+        RectTransform rectTransform = imageObj.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(0.2f, 0.2f); // 시작 크기를 작게 (50 → 20)
+        
+        // 충격파 애니메이션: 크기 증가 + 투명도 감소
+        Sequence shockwaveSequence = DOTween.Sequence();
+        
+        // 크기 증가 (20 → 80) - 아이템 주위에만 나타나도록 작게
+        shockwaveSequence.Join(rectTransform.DOSizeDelta(new Vector2(1.5f, 1.5f), 0.3f).SetEase(Ease.OutQuad));
+        
+        // 투명도 감소 (1 → 0)
+        shockwaveSequence.Join(shockwaveImage.DOFade(0f, 0.3f).SetEase(Ease.OutQuad));
+        
+        // 애니메이션 완료 후 정리
+        shockwaveSequence.OnComplete(() => {
+            Destroy(shockwaveObj);
+            onComplete?.Invoke();
+        });
+        
+        yield return null;
+    }
+    
+    /// <summary>
+    /// 원형 이미지를 프로그래밍 방식으로 생성
+    /// </summary>
+    private void CreateCircleImage(Image image)
+    {
+        // 간단한 원형 텍스처 생성
+        int size = 64;
+        Texture2D texture = new Texture2D(size, size);
+        
+        Vector2 center = new Vector2(size / 2f, size / 2f);
+        float radius = size / 2f;
+        
+        for (int x = 0; x < size; x++)
+        {
+            for (int y = 0; y < size; y++)
+            {
+                float distance = Vector2.Distance(new Vector2(x, y), center);
+                if (distance <= radius)
+                {
+                    texture.SetPixel(x, y, Color.white);
+                }
+                else
+                {
+                    texture.SetPixel(x, y, Color.clear);
+                }
+            }
+        }
+        
+        texture.Apply();
+        
+        // Sprite 생성 및 적용
+        Sprite circleSprite = Sprite.Create(texture, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f));
+        image.sprite = circleSprite;
     }
 
     /// <summary>
