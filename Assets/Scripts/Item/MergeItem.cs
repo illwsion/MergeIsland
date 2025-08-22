@@ -123,8 +123,6 @@ public class MergeItem
 
     private void HandleLimitedProductionDepletion()
     {
-        Debug.Log($"[LimitedProduction] {name}의 생산량 소진 → 제거 처리 시작");
-
         BoardManager.Instance.RemoveItem(this);
         if (!string.IsNullOrEmpty(Data.dropTableKey))
         {
@@ -245,7 +243,6 @@ public class MergeItem
         // 생산 애니메이션 적용
         if (ItemAnimationManager.Instance != null && itemView != null)
         {
-            Debug.Log($"[ProduceManual] {name} → {resultItemKey} 생산 완료 (애니메이션 적용)");
             // 생성된 아이템의 MergeItem과 ItemView 가져오기
             MergeItem resultItem = board.GetItem(spawnPos.x, spawnPos.y);
             if (resultItem != null && resultItem.itemView != null)
@@ -272,14 +269,11 @@ public class MergeItem
         {
             BoardManager.Instance.RefreshBoard();
         }
-
-        Debug.Log($"[ProduceManual] {name} → {resultItemKey} 생산 완료");
     }
 
     // 자동 생산
     public void ProduceAuto()
     {
-        Debug.Log($"[ProduceAuto] 생산 시작");
         if (!TryPrepareProduction(out string resultItemKey, out Vector2Int spawnPos))
         {
             // 내부에서 빈칸 없음/결과 없음 로그 출력
@@ -296,10 +290,7 @@ public class MergeItem
         {
             // 생성된 아이템의 MergeItem과 ItemView 가져오기
             MergeItem resultItem = board.GetItem(spawnPos.x, spawnPos.y);
-            
-            // 디버깅: ItemView 상태 확인
-            Debug.Log($"[ProduceAuto] 디버깅 - 생산자 itemView: {(itemView != null ? itemView.name : "null")}, 결과 아이템: {(resultItem != null ? resultItem.key : "null")}, 결과 ItemView: {(resultItem?.itemView != null ? resultItem.itemView.name : "null")}");
-            
+
             if (resultItem != null && resultItem.itemView != null)
             {
                 // 생산자에서 결과 아이템으로 이동하는 애니메이션
@@ -315,9 +306,7 @@ public class MergeItem
                         }
                     }
                 );
-                
-                Debug.Log($"[ProduceAuto] {name} → {resultItemKey} 생산 완료 (애니메이션 적용)");
-                
+
                 // 애니메이션 실행 시 처리
                 if (Data.isProductionLimited)
                 {
@@ -339,8 +328,6 @@ public class MergeItem
         {
             BoardManager.Instance.boardUI.UpdateBoardItems(board);
         }
-
-        Debug.Log($"[ProduceAuto] {name} → {resultItemKey} 생산 완료");
     }
 
     public void ProduceGather()
@@ -370,7 +357,6 @@ public class MergeItem
 
         // 2. 자원 추가
         PlayerResourceManager.Instance.Add(type, amount);
-        Debug.Log($"[MergeItem] {type} +{amount} 획득!");
 
         // 3. 생산자 목록에서 제거
         BoardManager.Instance.UnregisterItem(this);

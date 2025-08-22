@@ -170,9 +170,7 @@ public class BoardManager : MonoBehaviour
         var save = SaveController.Instance.CurrentSave;
         foreach (var boardKey in save.visitedBoards)
         {
-            Debug.Log($"[SaveAllBoards] 저장 대상 보드: {boardKey}");
             BoardSaveData boardData = GetBoardSaveData(boardKey);
-            Debug.Log($"[SaveAllBoards] {boardKey} 아이템 수: {boardData.items.Count}");
             save.boards[boardKey] = boardData;
         }
     }
@@ -513,8 +511,7 @@ public class BoardManager : MonoBehaviour
                     break;
             }
         }
-
-        boardUI.UpdateBoardItems(board);
+        //boardUI.UpdateBoardItems(board);
     }
 
     /// <summary>
@@ -806,7 +803,6 @@ public class BoardManager : MonoBehaviour
             Debug.LogWarning($"[HandleSupply] 공급 룰을 찾을 수 없습니다: A={receiverItem.key}, B={suppliedItem.key}");
             return;
         }
-
         // 공급 아이템 소모 처리
         RemoveItem(suppliedItem);
 
@@ -822,6 +818,32 @@ public class BoardManager : MonoBehaviour
         {
             case SupplyRule.ResultType.Item:
                 BoardManager.Instance.SpawnItem(board, rule.resultItem, spawnPos.Value);
+                // 새로 생산된 아이템에 생산 애니메이션 적용
+                if (ItemAnimationManager.Instance != null)
+                {
+                    // 생성된 아이템의 MergeItem과 ItemView 가져오기
+                    MergeItem resultItem = board.GetItem(spawnPos.Value.x, spawnPos.Value.y);
+                    if (resultItem != null && resultItem.itemView != null)
+                    {
+                        // 공급자에서 결과 아이템으로 이동하는 애니메이션
+                        ItemAnimationManager.Instance.ProduceAndMoveItem(
+                            resultItem.itemView,           // 결과 아이템의 ItemView
+                            BoardManager.Instance.FindCellTransform(toPos), // 공급자 셀 (toPos)
+                            resultItem.itemView.transform.parent, // 결과 아이템이 놓인 셀
+                            () => {
+                                // 애니메이션 완료 후 UI 갱신
+                                if (board == BoardManager.Instance.GetCurrentBoard())
+                                    {
+                                        BoardManager.Instance.RefreshBoard();
+                                    }
+                            }
+                        );
+                        // 애니메이션이 실행되면 여기서 종료
+                        ItemSelectorManager.Instance.ClearSelectedItemOnly();
+                        return;
+                    }
+                }
+                Debug.Log("애니메이션 실행 안됨");
                 break;
 
             case SupplyRule.ResultType.Gold:
