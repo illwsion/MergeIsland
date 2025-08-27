@@ -1,58 +1,70 @@
 fileFormatVersion: 2
-guid: afc3162d568b33a4eb16e4020ed62f5a
+guid: 8398014219b6c3b49879598e56e6bc95
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6674386295937086461
-    second: axe_0
+      213: 5725184139431673129
+    second: stone_0
   - first:
-      213: -4048234355498916043
-    second: axe_1
+      213: 368061591710823274
+    second: stone_1
   - first:
-      213: 254368305892094057
-    second: axe_2
+      213: 1558969575930012938
+    second: stone_2
   - first:
-      213: -105659476075577944
-    second: axe_3
+      213: 6987565861948811832
+    second: stone_3
   - first:
-      213: -5803816066509271808
-    second: axe_4
+      213: 1399644128389539700
+    second: stone_4
   - first:
-      213: -498714709158267036
-    second: axe_5
+      213: -4660949383730851615
+    second: stone_5
   - first:
-      213: -5154058486323072392
-    second: axe_6
+      213: 4040428987299356377
+    second: stone_6
   - first:
-      213: 4654252691727588742
-    second: axe_7
+      213: -7086568337515498561
+    second: stone_7
   - first:
-      213: -6308079867175785215
-    second: axe_8
+      213: 5315769673457585129
+    second: stone_8
   - first:
-      213: -1648862528708748579
-    second: axe_9
+      213: -4800598732438411990
+    second: stone_9
   - first:
-      213: 2671780425211151799
-    second: axe_10
+      213: -8136339027945497331
+    second: stone_10
   - first:
-      213: 1253912376263575411
-    second: axe_11
+      213: 7562442944734413614
+    second: stone_11
   - first:
-      213: 3304919291605557129
-    second: axe_12
+      213: 2710078293165906632
+    second: stone_12
   - first:
-      213: 5782959423770833441
-    second: axe_13
+      213: 7178026093468616010
+    second: stone_13
   - first:
-      213: -529584845089596834
-    second: axe_14
+      213: 8425871793177363195
+    second: stone_14
   - first:
-      213: 1535489536051482690
-    second: axe_15
+      213: -4952614045622104652
+    second: stone_15
   - first:
-      213: -5414239149588195410
-    second: axe_16
+      213: 8111886648500310435
+    second: stone_16
+  - first:
+      213: -379076669887070875
+    second: stone_17
+  - first:
+      213: -2746848386996855258
+    second: stone_18
+  - first:
+      213: 437490424809040451
+    second: stone_19
+  - first:
+      213: -4185054026761330386
+    second: stone_20
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -174,7 +186,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: axe_0
+      name: item_stone_0
       rect:
         serializedVersion: 2
         x: 0
@@ -182,21 +194,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: ae4af7e0a2650a143a4f8d5cb2dd4329
-      internalID: -1343847260
+      spriteID: 92d768834a0f37f40800000000000000
+      internalID: 5725184139431673129
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: axe_1
+      name: item_stone_1
       rect:
         serializedVersion: 2
         x: 64
@@ -204,21 +216,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 5651161e956cec544a7a67925b81bda4
-      internalID: 970202553
+      spriteID: a63736d411e9b1500800000000000000
+      internalID: 368061591710823274
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: axe_2
+      name: item_stone_2
       rect:
         serializedVersion: 2
         x: 128
@@ -226,21 +238,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: f83a7d2ec5760064b99856afb9b6b713
-      internalID: -431375373
+      spriteID: a0523fcc19292a510800000000000000
+      internalID: 1558969575930012938
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: axe_3
+      name: item_stone_3
       rect:
         serializedVersion: 2
         x: 192
@@ -248,21 +260,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 7a64d70550b48c74f89239d80a620e1b
-      internalID: 500828533
+      spriteID: 83aea163122d8f060800000000000000
+      internalID: 6987565861948811832
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: axe_4
+      name: item_stone_4
       rect:
         serializedVersion: 2
         x: 0
@@ -270,21 +282,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: fe5f229080845c34cbe666582c56ebef
-      internalID: -1593465803
+      spriteID: 477ae9c4be88c6310800000000000000
+      internalID: 1399644128389539700
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: axe_5
+      name: item_stone_5
       rect:
         serializedVersion: 2
         x: 64
@@ -292,21 +304,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 9ff447a95662412408247cc335fb6153
-      internalID: -382251373
+      spriteID: 1e095a2fa3bf05fb0800000000000000
+      internalID: -4660949383730851615
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: axe_6
+      name: item_stone_6
       rect:
         serializedVersion: 2
         x: 128
@@ -314,21 +326,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 877da4197c033b843875da86b0b5fc84
-      internalID: -907424229
+      spriteID: 9de5b20c1cc721830800000000000000
+      internalID: 4040428987299356377
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: axe_7
+      name: item_stone_7
       rect:
         serializedVersion: 2
         x: 192
@@ -336,21 +348,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 692090f38e6b7a54bafb154f99316572
-      internalID: 1945057096
+      spriteID: fb3bbdda4a377ad90800000000000000
+      internalID: -7086568337515498561
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: axe_8
+      name: item_stone_8
       rect:
         serializedVersion: 2
         x: 0
@@ -358,15 +370,81 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 61ff52adbba56d1449e9b0baa1271f40
-      internalID: 1096078187
+      spriteID: 9ebcb369a5865c940800000000000000
+      internalID: 5315769673457585129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: item_stone_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2561d333e8d06db0800000000000000
+      internalID: -4800598732438411990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: item_stone_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0d592323cae51f80800000000000000
+      internalID: -8136339027945497331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: item_stone_11
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e23cd0b6ac133f860800000000000000
+      internalID: 7562442944734413614
       vertices: []
       indices: 
       edges: []
@@ -375,7 +453,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 21a6a321424323045a9d7bdef27cb133
+    spriteID: c223e8299a9432649b08e4382df9f4a2
     internalID: 0
     vertices: []
     indices: 
@@ -385,15 +463,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      axe_0: -1343847260
-      axe_1: 970202553
-      axe_2: -431375373
-      axe_3: 500828533
-      axe_4: -1593465803
-      axe_5: -382251373
-      axe_6: -907424229
-      axe_7: 1945057096
-      axe_8: 1096078187
+      item_stone_0: 5725184139431673129
+      item_stone_1: 368061591710823274
+      item_stone_10: -8136339027945497331
+      item_stone_11: 7562442944734413614
+      item_stone_2: 1558969575930012938
+      item_stone_3: 6987565861948811832
+      item_stone_4: 1399644128389539700
+      item_stone_5: -4660949383730851615
+      item_stone_6: 4040428987299356377
+      item_stone_7: -7086568337515498561
+      item_stone_8: 5315769673457585129
+      item_stone_9: -4800598732438411990
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

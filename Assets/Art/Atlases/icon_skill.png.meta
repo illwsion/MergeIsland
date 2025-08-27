@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 1290ed4156b6fc443bb73ac438bf3325
+guid: 11db1db75b161034aa34094763b7d507
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4042250114822578979
-    second: exp_0
+      213: 1623481048343612374
+    second: skill_0
+  - first:
+      213: -1399174383563324466
+    second: skill_1
+  - first:
+      213: 6016606674299013149
+    second: skill_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,111 +132,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: exp_0
+      name: icon_SKILL_RESOURCEGAIN_WOOD_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
-        width: 64
-        height: 64
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 323284b0015f81830800000000000000
-      internalID: 4042250114822578979
+      spriteID: 54a0577327342f2409dae40e98da80df
+      internalID: -1429194734
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: exp_1
+      name: icon_SKILL_DAMAGEADD_WEAPON_0
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04822de95c68584429b0275edbbe0d04
+      internalID: 961419402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon_SKILL_RESOURCECAP_WOOD_0
       rect:
         serializedVersion: 2
         x: 64
-        y: 192
-        width: 64
-        height: 64
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6817c4cd8d141146a30ec13a69fb951
-      internalID: 1372744363
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: exp_2
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 192
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c6a3fd48c66d04c459e6e211c0e9cf5f
-      internalID: 37339661
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: exp_3
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 192
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0563fd0a5a9160b49ace592988291c90
-      internalID: -1189925200
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: exp_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 128
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 88ae1921c6d5d8f4b9671572458cd92a
-      internalID: 610597815
+      spriteID: 2aed5be6591a3d74383e1a2f6d351ec4
+      internalID: 1996170422
       vertices: []
       indices: 
       edges: []
@@ -239,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 35dbefc4c6a463b408037f64501c74d9
+    spriteID: f0688f467f4647943ae78d6f1f0a6fe6
     internalID: 0
     vertices: []
     indices: 
@@ -249,11 +211,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      exp_0: 4042250114822578979
-      exp_1: 1372744363
-      exp_2: 37339661
-      exp_3: -1189925200
-      exp_4: 610597815
+      icon_SKILL_DAMAGEADD_WEAPON_0: 961419402
+      icon_SKILL_RESOURCECAP_WOOD_0: 1996170422
+      icon_SKILL_RESOURCEGAIN_WOOD_0: -1429194734
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

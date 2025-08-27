@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 25cf3360eaad7de45bde6a616527225a
+guid: 1290ed4156b6fc443bb73ac438bf3325
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8073906049679923426
-    second: "ChatGPT Image 2025\uB144 3\uC6D4 27\uC77C \uC624\uC804 07_55_07_0"
+      213: 4042250114822578979
+    second: exp_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -126,35 +126,35 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: log_1
+      name: item_exp_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 683
-        width: 341
-        height: 341
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 7f2a4ff5ba28af04db437be63c39b82f
-      internalID: -836351558
+      spriteID: 323284b0015f81830800000000000000
+      internalID: 4042250114822578979
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_2
+      name: item_exp_1
       rect:
         serializedVersion: 2
-        x: 341
-        y: 683
-        width: 341
-        height: 341
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,20 +163,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf563c0fcaa28f54abbe7f1a6e7b5110
-      internalID: -1354604940
+      spriteID: a6817c4cd8d141146a30ec13a69fb951
+      internalID: 1372744363
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_3
+      name: item_exp_2
       rect:
         serializedVersion: 2
-        x: 682
-        y: 683
-        width: 341
-        height: 341
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,20 +185,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86696ff74ee543944af21ec74c23eda5
-      internalID: 708161532
+      spriteID: c6a3fd48c66d04c459e6e211c0e9cf5f
+      internalID: 37339661
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_0
+      name: item_exp_3
       rect:
         serializedVersion: 2
-        x: 14
-        y: 348
-        width: 341
-        height: 341
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,20 +207,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2ca0065314086745bd903e0889fbf1a
-      internalID: -340786912
+      spriteID: 0563fd0a5a9160b49ace592988291c90
+      internalID: -1189925200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_4
+      name: item_exp_4
       rect:
         serializedVersion: 2
-        x: 341
-        y: 354
-        width: 341
-        height: 341
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,74 +229,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9466f1506348f2b46af5bae22ddb2aa3
-      internalID: 947204191
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: log_5
-      rect:
-        serializedVersion: 2
-        x: 676
-        y: 371
-        width: 341
-        height: 341
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bbf811c70cdfceb4792fcd76ea11472f
-      internalID: 1649076858
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: log_7
-      rect:
-        serializedVersion: 2
-        x: 10
-        y: 32
-        width: 341
-        height: 341
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b67c9153886760544b6a6478f7a54257
-      internalID: 261557308
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: log_6
-      rect:
-        serializedVersion: 2
-        x: 327
-        y: 44
-        width: 341
-        height: 341
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3221f5cfa895dba4d875ca089cdd85f1
-      internalID: 973312477
+      spriteID: 88ae1921c6d5d8f4b9671572458cd92a
+      internalID: 610597815
       vertices: []
       indices: 
       edges: []
@@ -305,7 +239,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5957416f41d3172489bda40cd14944a6
+    spriteID: 35dbefc4c6a463b408037f64501c74d9
     internalID: 0
     vertices: []
     indices: 
@@ -315,15 +249,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      log_0: -340786912
-      log_1: -836351558
-      log_2: -1354604940
-      log_3: 708161532
-      log_4: 947204191
-      log_5: 1649076858
-      log_6: 973312477
-      log_7: 261557308
-      log_8: 566671999
+      item_exp_0: 4042250114822578979
+      item_exp_1: 1372744363
+      item_exp_2: 37339661
+      item_exp_3: -1189925200
+      item_exp_4: 610597815
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

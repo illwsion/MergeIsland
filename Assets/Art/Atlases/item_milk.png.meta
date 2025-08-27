@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: acdcad69749e8664ba2e4801af191795
+guid: feeee2ad74a27e946b943230d3965eb6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6477155615735248418
-    second: effectIcon 1_0
-  - first:
-      213: 1652414320420849991
-    second: effectIcon 1_1
-  - first:
-      213: -6196984501018346592
-    second: effectIcon 1_2
+      213: -5110731548806032159
+    second: milk_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -132,11 +126,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: effectIcon_damage_weapon
+      name: item_milk_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -147,52 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c361ed75abf20a489be8e45d4d586d0
-      internalID: 1648224646
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: effectIcon_damage_axe
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 192
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 81e5a3e8bcda1934080399f36f35e404
-      internalID: -403761379
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: effectIcon_damage_pickaxe
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 192
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e4d6e780ba797e942adcbd27615d832c
-      internalID: -1129340343
+      spriteID: e9eb3922c4385224a8cbd4c2a58826b9
+      internalID: -636156430
       vertices: []
       indices: 
       edges: []
@@ -201,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 15196567cb996804d9ff0767053b1b87
+    spriteID: 5789a4e493ddad14facce5ec90709107
     internalID: 0
     vertices: []
     indices: 
@@ -211,9 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      effectIcon_damage_axe: -403761379
-      effectIcon_damage_pickaxe: -1129340343
-      effectIcon_damage_weapon: 1648224646
+      item_milk_0: -636156430
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

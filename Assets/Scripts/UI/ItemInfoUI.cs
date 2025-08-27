@@ -221,7 +221,7 @@ public class ItemInfoUI : MonoBehaviour
         iconImage.gameObject.SetActive(true);
 
         // Header
-        iconImage.sprite = AtlasManager.Instance.GetSprite("boardGate_beach"); // iconName�� �ִٸ�
+        iconImage.sprite = AtlasManager.Instance.GetSprite("gate_beach"); // iconName�� �ִٸ�
         nameText.text = StringTableManager.Instance.GetLocalized("UI_LOCKEDGATE_NAME");
         levelText.text = ""; // 게이트는 레벨 없음
 
@@ -303,7 +303,7 @@ public class ItemInfoUI : MonoBehaviour
                 effect.blockSize = EffectBlockSize.Large;
                 effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_SUPPLY");
                 effect.icon1 = AtlasManager.Instance.GetSprite(ItemDataManager.Instance.GetItemData(gate.gateData.unlockParam).imageName);
-                effect.icon2 = AtlasManager.Instance.GetSprite("boardGate_lock");
+                effect.icon2 = AtlasManager.Instance.GetSprite("gate_lock");
                 effect.value = "";
                 //effect.value = gate.gateData.unlockParamValue.ToString();
                 break;
@@ -312,7 +312,7 @@ public class ItemInfoUI : MonoBehaviour
                 effect.type = EffectType.Gate_Supply;
                 effect.blockSize = EffectBlockSize.Small;
                 effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_LEVEL");
-                effect.icon1 = AtlasManager.Instance.GetSprite("boardGate_level");
+                effect.icon1 = AtlasManager.Instance.GetSprite("gate_level");
                 effect.value = gate.gateData.unlockParamValue.ToString();
                 break;
 
@@ -320,7 +320,7 @@ public class ItemInfoUI : MonoBehaviour
                 effect.type = EffectType.Gate_Quest;
                 effect.blockSize = EffectBlockSize.Small;
                 effect.label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_GATE_LEVEL");
-                effect.icon1 = AtlasManager.Instance.GetSprite("boardGate_quest");
+                effect.icon1 = AtlasManager.Instance.GetSprite("gate_quest");
                 effect.value = "";
                 //effect.value = gate.gateData.unlockParamValue.ToString(); 퀘스트 조건 어떻게 나타낼지? 퀘스트 시스템 구현 이후
                 break;
@@ -374,7 +374,7 @@ public class ItemInfoUI : MonoBehaviour
                 type = EffectType.Sell,
                 blockSize = EffectBlockSize.Small,
                 label = StringTableManager.Instance.GetLocalized("EFFECTLABEL_SELL"),
-                icon1 = AtlasManager.Instance.GetSprite("resourceIcon_gold"),
+                icon1 = AtlasManager.Instance.GetSprite("icon_resource_gold"),
                 value = $"+{item.sellValue}"
             });
         }
@@ -385,10 +385,10 @@ public class ItemInfoUI : MonoBehaviour
             // ToolType에 따라 아이콘 이름 설정
             string iconName = item.Data.toolType switch
             {
-                ToolType.Weapon => "effectIcon_damage_weapon",
-                ToolType.Axe => "effectIcon_damage_axe",
-                ToolType.Pickaxe => "effectIcon_damage_pickaxe",
-                _ => "resourceIcon_default" // fallback
+                ToolType.Weapon => "icon_effect_damage_weapon",
+                ToolType.Axe => "icon_effect_damage_axe",
+                ToolType.Pickaxe => "icon_effect_damage_pickaxe",
+                _ => "icon_resource_default" // fallback
             };
             
             int baseDamage = item.attackPower ?? 0;
@@ -509,21 +509,21 @@ public class ItemInfoUI : MonoBehaviour
         switch (type)
         {
             case ResourceType.Gold:
-                return AtlasManager.Instance.GetSprite("resourceIcon_gold");
+                return AtlasManager.Instance.GetSprite("icon_resource_gold");
             case ResourceType.Wood:
-                return AtlasManager.Instance.GetSprite("resourceIcon_wood");
+                return AtlasManager.Instance.GetSprite("icon_resource_wood");
             case ResourceType.Stone:
-                return AtlasManager.Instance.GetSprite("resourceIcon_stone");
+                return AtlasManager.Instance.GetSprite("icon_resource_stone");
             case ResourceType.Iron:
-                return AtlasManager.Instance.GetSprite("resourceIcon_iron");
+                return AtlasManager.Instance.GetSprite("icon_resource_iron");
             case ResourceType.Energy:
-                return AtlasManager.Instance.GetSprite("resourceIcon_energy");
+                return AtlasManager.Instance.GetSprite("icon_resource_energy");
             case ResourceType.Gem:
-                return AtlasManager.Instance.GetSprite("resourceIcon_gem");
+                return AtlasManager.Instance.GetSprite("icon_resource_gem");
             case ResourceType.Exp:
-                return AtlasManager.Instance.GetSprite("exp_0");
+                return AtlasManager.Instance.GetSprite("item_exp_0");
             default:
-                return AtlasManager.Instance.GetSprite("resourceIcon_default");
+                return AtlasManager.Instance.GetSprite("icon_resource_default");
         }
     }
 
@@ -532,7 +532,7 @@ public class ItemInfoUI : MonoBehaviour
         var table = ProduceTableManager.Instance.GetTable(tableKey);
 
         if (table == null || table.results == null || table.results.Count == 0)
-            return AtlasManager.Instance.GetSprite("effectIcon_unknown");
+            return AtlasManager.Instance.GetSprite("icon_effect_unknown");
 
         // 확률이 가장 높은 결과 선택
         ProduceResult best = table.results[0];
@@ -545,7 +545,7 @@ public class ItemInfoUI : MonoBehaviour
 
         var bestItemData = ItemDataManager.Instance.GetItemData(best.itemKey);
         if (bestItemData == null)
-            return AtlasManager.Instance.GetSprite("effectIcon_unknown");
+            return AtlasManager.Instance.GetSprite("icon_effect_unknown");
 
         return AtlasManager.Instance.GetSprite(bestItemData.imageName); // name은 스프라이트 키
     }
@@ -555,7 +555,7 @@ public class ItemInfoUI : MonoBehaviour
         var table = DropTableManager.Instance.GetTable(tableKey);
 
         if (table == null || table.results == null || table.results.Count == 0)
-            return AtlasManager.Instance.GetSprite("effectIcon_unknown");
+            return AtlasManager.Instance.GetSprite("icon_effect_unknown");
 
         // 확률이 가장 높은 결과 선택
         DropResult best = table.results[0];
@@ -568,7 +568,7 @@ public class ItemInfoUI : MonoBehaviour
 
         var bestItemData = ItemDataManager.Instance.GetItemData(best.itemKey);
         if (bestItemData == null)
-            return AtlasManager.Instance.GetSprite("effectIcon_unknown");
+            return AtlasManager.Instance.GetSprite("icon_effect_unknown");
 
         return AtlasManager.Instance.GetSprite(bestItemData.imageName); // name은 스프라이트 키
     }

@@ -29,7 +29,25 @@ public class ItemView : MonoBehaviour, IPointerClickHandler
         
         currentLevel = item.level;
         string spriteName = item.imageName;
-        iconImage.sprite = AtlasManager.Instance.GetSprite(spriteName);
+        
+        // 아틀라스 로드 완료를 기다린 후 스프라이트 설정
+        if (SpriteManager.Instance.IsAtlasesLoaded)
+        {
+            SetSprite(spriteName);
+        }
+        else
+        {
+            // 아틀라스 로드 완료 이벤트에 등록
+            SpriteManager.Instance.OnAtlasesLoaded += () => SetSprite(spriteName);
+        }
+    }
+
+    private void SetSprite(string spriteName)
+    {
+        if (iconImage != null)
+        {
+            iconImage.sprite = SpriteManager.Instance.GetSprite(spriteName);
+        }
     }
 
     public void SetCoord(Vector2Int pos)

@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: c3f931484b8ad5840aa69ead37c2aa7f
+guid: 25cf3360eaad7de45bde6a616527225a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3911900145115944293
-    second: workbench_0
-  - first:
-      213: 8652510309650206433
-    second: workbench_1
-  - first:
-      213: -7284382818748718338
-    second: workbench_2
-  - first:
-      213: 5440252153594103455
-    second: workbench_3
+      213: -8073906049679923426
+    second: "ChatGPT Image 2025\uB144 3\uC6D4 27\uC77C \uC624\uC804 07_55_07_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -57,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -135,67 +126,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: workbench_axe_0
+      name: item_log_1
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
-        width: 64
-        height: 64
+        y: 683
+        width: 341
+        height: 341
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 76eb60e467a42db4aa6d07b12834f6e8
-      internalID: 1097041509
+      spriteID: 7f2a4ff5ba28af04db437be63c39b82f
+      internalID: -836351558
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: workbench_pickaxe_0
+      name: item_log_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 192
-        width: 64
-        height: 64
+        x: 341
+        y: 683
+        width: 341
+        height: 341
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ab7f94569e075244bfe18fc02a6a25a
-      internalID: -569436525
+      spriteID: cf563c0fcaa28f54abbe7f1a6e7b5110
+      internalID: -1354604940
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: workbench_weapon_0
+      name: item_log_3
       rect:
         serializedVersion: 2
-        x: 128
-        y: 192
-        width: 64
-        height: 64
+        x: 682
+        y: 683
+        width: 341
+        height: 341
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fb07993d55db2347945727e21142eec
-      internalID: -360027645
+      spriteID: 86696ff74ee543944af21ec74c23eda5
+      internalID: 708161532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: item_log_0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 348
+        width: 341
+        height: 341
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2ca0065314086745bd903e0889fbf1a
+      internalID: -340786912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: item_log_4
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 354
+        width: 341
+        height: 341
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9466f1506348f2b46af5bae22ddb2aa3
+      internalID: 947204191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: item_log_5
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 371
+        width: 341
+        height: 341
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbf811c70cdfceb4792fcd76ea11472f
+      internalID: 1649076858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: item_log_7
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 32
+        width: 341
+        height: 341
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b67c9153886760544b6a6478f7a54257
+      internalID: 261557308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: item_log_6
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 44
+        width: 341
+        height: 341
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3221f5cfa895dba4d875ca089cdd85f1
+      internalID: 973312477
       vertices: []
       indices: 
       edges: []
@@ -204,7 +305,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 80e2b454e9d0a5244a327f5ae249900b
+    spriteID: 5957416f41d3172489bda40cd14944a6
     internalID: 0
     vertices: []
     indices: 
@@ -214,9 +315,15 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      workbench_axe_0: 1097041509
-      workbench_pickaxe_0: -569436525
-      workbench_weapon_0: -360027645
+      item_log_0: -340786912
+      item_log_1: -836351558
+      item_log_2: -1354604940
+      item_log_3: 708161532
+      item_log_4: 947204191
+      item_log_5: 1649076858
+      item_log_6: 973312477
+      item_log_7: 261557308
+      log_8: 566671999
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

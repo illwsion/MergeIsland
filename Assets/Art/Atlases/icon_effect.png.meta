@@ -1,28 +1,16 @@
 fileFormatVersion: 2
-guid: df6dd834b45d3d94386333de93bd614c
+guid: acdcad69749e8664ba2e4801af191795
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 121529776968720917
-    second: resourceIcon_0
+      213: -6477155615735248418
+    second: effectIcon 1_0
   - first:
-      213: 4911755874577095090
-    second: resourceIcon_1
+      213: 1652414320420849991
+    second: effectIcon 1_1
   - first:
-      213: -1121486286726642154
-    second: resourceIcon_2
-  - first:
-      213: 2694193932936461950
-    second: resourceIcon_3
-  - first:
-      213: 5413937352789408688
-    second: resourceIcon_4
-  - first:
-      213: -2075822272369298331
-    second: resourceIcon_5
-  - first:
-      213: 4840037242934750322
-    second: resourceIcon_6
+      213: -6196984501018346592
+    second: effectIcon 1_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -144,7 +132,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: resourceIcon_gold
+      name: icon_effect_damage_weapon
       rect:
         serializedVersion: 2
         x: 0
@@ -152,21 +140,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 08ef82e400d4c9e41a7db2651f56f504
-      internalID: -1758715172
+      spriteID: 6c361ed75abf20a489be8e45d4d586d0
+      internalID: 1648224646
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: resourceIcon_gem
+      name: icon_effect_damage_axe
       rect:
         serializedVersion: 2
         x: 64
@@ -174,21 +162,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1ea75c488fa9b44459ff9f0d7f320159
-      internalID: 1041598147
+      spriteID: 81e5a3e8bcda1934080399f36f35e404
+      internalID: -403761379
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: resourceIcon_energy
+      name: icon_effect_damage_pickaxe
       rect:
         serializedVersion: 2
         x: 128
@@ -196,103 +184,15 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3483b5d4400ef244c81ce7600714b7d7
-      internalID: 1535467775
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: resourceIcon_default
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 192
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f9d0109353db9d43acfc7dee6c68707
-      internalID: 1326005946
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: resourceIcon_wood
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 128
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e14e3ba3b65294a428f4de50d735cfc3
-      internalID: 1805934962
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: resourceIcon_stone
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 128
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb74905896ed20e4e9ee7f53cd309c7d
-      internalID: -590485851
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: resourceIcon_iron
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 128
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0674c17f7fe53c24eac49c0826ee3531
-      internalID: -2035143261
+      spriteID: e4d6e780ba797e942adcbd27615d832c
+      internalID: -1129340343
       vertices: []
       indices: 
       edges: []
@@ -301,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6487ffbc95454014b8382afb311ac319
+    spriteID: 15196567cb996804d9ff0767053b1b87
     internalID: 0
     vertices: []
     indices: 
@@ -311,13 +211,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      resourceIcon_default: 1326005946
-      resourceIcon_energy: 1535467775
-      resourceIcon_gem: 1041598147
-      resourceIcon_gold: -1758715172
-      resourceIcon_iron: -2035143261
-      resourceIcon_stone: -590485851
-      resourceIcon_wood: 1805934962
+      icon_effect_damage_axe: -403761379
+      icon_effect_damage_pickaxe: -1129340343
+      icon_effect_damage_weapon: 1648224646
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
