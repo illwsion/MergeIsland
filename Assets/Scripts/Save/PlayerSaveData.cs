@@ -12,11 +12,11 @@ public class ResourceEntry
 [Serializable]
 public class PlayerSaveData
 {
-    public int currentLevel;
-    public int currentExp;
-    public int skillPoints;
+    public int currentLevel = 1;
+    public int currentExp = 0;
+    public int skillPoints = 0;
 
-    public float recoveryTimerSeconds;
+    public float recoveryTimerSeconds = 0f;
 
     public List<ResourceEntry> resourceAmounts = new();
 

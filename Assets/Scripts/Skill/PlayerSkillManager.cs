@@ -289,8 +289,6 @@ public class PlayerSkillManager : MonoBehaviour
                 }
             }
         }
-        
-        Debug.Log($"[PlayerSkillManager] 스킬 효과 재계산 완료. 총 {cachedSkillEffects.Count}개 효과 적용됨");
     }
 
     public IEnumerable<SkillData> GetAllLearnedSkills()

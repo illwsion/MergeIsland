@@ -25,7 +25,7 @@ public class SpriteManager : MonoBehaviour
     
     [Header("Sprite Type Rules")]
     [Tooltip("Atlas에서 로드할 스프라이트 타입들 (접두사)")]
-    public string[] atlasSpriteTypes = { "icon_", "item_", "skill_", "effect_", "gate_" };
+    public string[] atlasSpriteTypes = { "icon_", "item_", "skill_", "effect_", "gate_", "tile_" };
     
     [Tooltip("개별 파일에서 로드할 스프라이트 타입들 (접두사)")]
     public string[] individualSpriteTypes = { "char_", "anim_", "bg_", "player_", "enemy_", "ui_" };
@@ -70,30 +70,33 @@ public class SpriteManager : MonoBehaviour
             return null;
         }
 
+        // Unity가 런타임 Instantiate 시 붙이는 (Clone) 접미사 제거
+        // 공백 유무 모두 대응: " (Clone)", "(Clone)"
+        string cleanedName = spriteName.Replace(" (Clone)", string.Empty).Replace("(Clone)", string.Empty);
+
         // 아틀라스가 아직 로드되지 않았으면 대기
         if (!IsAtlasesLoaded)
         {
-            Debug.LogWarning($"[SpriteManager] 아틀라스가 아직 로드되지 않았습니다. {spriteName} 요청을 대기합니다.");
+            Debug.LogWarning($"[SpriteManager] 아틀라스가 아직 로드되지 않았습니다. {cleanedName} 요청을 대기합니다.");
             return null;
         }
 
         // Atlas 사용할 타입들
-        if (atlasSpriteTypes.Any(type => spriteName.StartsWith(type)))
+        if (atlasSpriteTypes.Any(type => cleanedName.StartsWith(type)))
         {
-            string atlasName = GetAtlasName(spriteName);
-            return GetSpriteFromAtlas(atlasName, spriteName);
+            string atlasName = GetAtlasName(cleanedName);
+            return GetSpriteFromAtlas(atlasName, cleanedName);
         }
 
         // 개별 파일 사용할 타입들
-        if (individualSpriteTypes.Any(type => spriteName.StartsWith(type)))
+        if (individualSpriteTypes.Any(type => cleanedName.StartsWith(type)))
         {
-            string resourcePath = GetResourcePath(spriteName);
+            string resourcePath = GetResourcePath(cleanedName);
             return GetSpriteFromResource(resourcePath);
         }
 
         // 기본값은 Atlas에서 찾기 (기존 AtlasManager와의 호환성)
-        Debug.LogWarning($"[SpriteManager] {spriteName}에 대한 타입 규칙이 정의되지 않았습니다. Atlas에서 찾습니다.");
-        return GetSpriteFromAtlas("defaultAtlas", spriteName);
+        return GetSpriteFromAtlas("defaultAtlas", cleanedName);
     }
 
     /// <summary>
@@ -151,6 +154,7 @@ public class SpriteManager : MonoBehaviour
         if (spriteName.StartsWith("item_")) return "itemAtlas";
         if (spriteName.StartsWith("skill_")) return "skillAtlas";
         if (spriteName.StartsWith("effect_")) return "effectAtlas";
+        if (spriteName.StartsWith("tile_")) return "tileAtlas";
         
         // 기본값
         return "defaultAtlas";
@@ -180,25 +184,6 @@ public class SpriteManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 설정된 스프라이트 타입 규칙들을 출력합니다 (디버깅용)
-    /// </summary>
-    [ContextMenu("Print Sprite Type Rules")]
-    public void PrintSpriteTypeRules()
-    {
-        Debug.Log("=== Atlas Sprite Types ===");
-        foreach (var type in atlasSpriteTypes)
-        {
-            Debug.Log($"Atlas: {type}");
-        }
-        
-        Debug.Log("=== Individual Sprite Types ===");
-        foreach (var type in individualSpriteTypes)
-        {
-            Debug.Log($"Individual: {type}");
-        }
-    }
-
-    /// <summary>
     /// 스프라이트가 어떤 타입으로 분류되는지 확인합니다 (디버깅용)
     /// </summary>
     /// <param name="spriteName">확인할 스프라이트 이름</param>
@@ -207,16 +192,10 @@ public class SpriteManager : MonoBehaviour
         if (atlasSpriteTypes.Any(type => spriteName.StartsWith(type)))
         {
             string atlasName = GetAtlasName(spriteName);
-            Debug.Log($"[SpriteManager] {spriteName} -> Atlas 타입 ({atlasName})");
         }
         else if (individualSpriteTypes.Any(type => spriteName.StartsWith(type)))
         {
             string resourcePath = GetResourcePath(spriteName);
-            Debug.Log($"[SpriteManager] {spriteName} -> 개별 파일 타입 ({resourcePath})");
-        }
-        else
-        {
-            Debug.Log($"[SpriteManager] {spriteName} -> 기본 타입 (Atlas에서 검색)");
         }
     }
 
@@ -226,22 +205,15 @@ public class SpriteManager : MonoBehaviour
     /// 지정된 경로들에서 아틀라스를 자동으로 스캔하고 로드합니다.
     /// </summary>
     private IEnumerator LoadAtlasesFromPaths()
-    {
-        Debug.Log("[SpriteManager] 아틀라스 자동 로드를 시작합니다...");
-        
+    {        
         foreach (string path in atlasScanPaths)
         {
             yield return StartCoroutine(LoadAtlasesFromPath(path));
         }
         
-        Debug.Log($"[SpriteManager] 아틀라스 자동 로드 완료! 총 {atlases.Count}개의 아틀라스가 로드되었습니다.");
-        
         // 로드 완료 상태 설정 및 이벤트 호출
         IsAtlasesLoaded = true;
         OnAtlasesLoaded?.Invoke();
-        
-        // 로드된 아틀라스 정보 출력
-        PrintLoadedAtlasInfo();
     }
 
     /// <summary>
@@ -251,11 +223,8 @@ public class SpriteManager : MonoBehaviour
     {
         if (!Directory.Exists(folderPath))
         {
-            Debug.LogWarning($"[SpriteManager] 경로가 존재하지 않습니다: {folderPath}");
             yield break;
         }
-
-        Debug.Log($"[SpriteManager] 경로 스캔 중: {folderPath}");
 
         // 폴더 내 모든 .spriteatlasv2 파일 찾기
         string[] atlasFiles = null;
@@ -271,8 +240,6 @@ public class SpriteManager : MonoBehaviour
         
         if (atlasFiles != null)
         {
-            Debug.Log($"[SpriteManager] {folderPath}에서 {atlasFiles.Length}개의 아틀라스 파일을 발견했습니다.");
-            
             foreach (string filePath in atlasFiles)
             {
                 yield return StartCoroutine(LoadAtlasFromFile(filePath));
@@ -321,7 +288,6 @@ public class SpriteManager : MonoBehaviour
             if (!atlases.Contains(atlas))
             {
                 atlases.Add(atlas);
-                Debug.Log($"[SpriteManager] 아틀라스 로드됨: {atlas.name} ({assetPath})");
             }
             else
             {
@@ -361,27 +327,6 @@ public class SpriteManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 로드된 아틀라스 정보를 출력합니다.
-    /// </summary>
-    private void PrintLoadedAtlasInfo()
-    {
-        if (atlases.Count == 0)
-        {
-            Debug.Log("[SpriteManager] 로드된 아틀라스가 없습니다.");
-            return;
-        }
-
-        Debug.Log("=== 로드된 아틀라스 목록 ===");
-        foreach (var atlas in atlases)
-        {
-            if (atlas != null)
-            {
-                Debug.Log($"- {atlas.name}");
-            }
-        }
-    }
-
-    /// <summary>
     /// 런타임에 아틀라스를 동적으로 추가합니다.
     /// </summary>
     public void AddAtlas(SpriteAtlas atlas)
@@ -389,7 +334,6 @@ public class SpriteManager : MonoBehaviour
         if (atlas != null && !atlases.Contains(atlas))
         {
             atlases.Add(atlas);
-            Debug.Log($"[SpriteManager] 아틀라스가 추가되었습니다: {atlas.name}");
         }
     }
 
@@ -397,11 +341,8 @@ public class SpriteManager : MonoBehaviour
     /// 아틀라스를 제거합니다.
     /// </summary>
     public void RemoveAtlas(SpriteAtlas atlas)
-    {
-        if (atlases.Remove(atlas))
-        {
-            Debug.Log($"[SpriteManager] 아틀라스가 제거되었습니다: {atlas.name}");
-        }
+    {   
+        atlases.Remove(atlas);
     }
 
     /// <summary>
@@ -411,7 +352,6 @@ public class SpriteManager : MonoBehaviour
     {
         int count = atlases.Count;
         atlases.Clear();
-        Debug.Log($"[SpriteManager] {count}개의 아틀라스가 모두 제거되었습니다.");
     }
 
     /// <summary>

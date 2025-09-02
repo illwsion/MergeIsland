@@ -45,6 +45,10 @@ public class BoardUI : MonoBehaviour
             Instantiate(cellPrefab, gridLayout.transform);
         }
 
+        // 현재 보드의 테마 및 보드 키 정보 가져오기
+        BoardData.BoardTheme boardTheme = GetCurrentBoardTheme();
+        string currentBoardKey = BoardManager.Instance != null ? BoardManager.Instance.GetCurrentBoardKey() : null;
+
         int index = 0;
 
         // 좌표 기반으로 선택 상태 가져오기
@@ -72,6 +76,12 @@ public class BoardUI : MonoBehaviour
                 {
                     dropTarget.x = x;
                     dropTarget.y = y;
+                }
+
+                // 테마에 맞는 결정적 타일 적용 (보드 키 + 좌표 기반)
+                if (ThemeTileManager.Instance != null && boardTheme != BoardData.BoardTheme.None && !string.IsNullOrEmpty(currentBoardKey))
+                {
+                    ThemeTileManager.Instance.ApplyDeterministicTileToCell(cell, boardTheme, currentBoardKey, coord);
                 }
 
                 // 기존 아이템 제거
@@ -240,5 +250,35 @@ public class BoardUI : MonoBehaviour
             Debug.LogError("[BoardManager] BoardGateSpawner.Instance가 null입니다. 초기화 순서를 확인하세요.");
         }
         return gridLayout.transform.position;
+    }
+
+    /// <summary>
+    /// 현재 보드의 테마를 가져옵니다.
+    /// </summary>
+    /// <returns>현재 보드의 테마</returns>
+    private BoardData.BoardTheme GetCurrentBoardTheme()
+    {
+        if (BoardManager.Instance == null)
+        {
+            Debug.LogWarning("[BoardUI] BoardManager.Instance가 null입니다.");
+            return BoardData.BoardTheme.None;
+        }
+
+        // BoardManager에서 현재 보드 키를 가져와서 BoardData에서 테마 정보를 얻습니다.
+        string currentBoardKey = BoardManager.Instance.GetCurrentBoardKey();
+        if (string.IsNullOrEmpty(currentBoardKey))
+        {
+            Debug.LogWarning("[BoardUI] 현재 보드 키가 없습니다.");
+            return BoardData.BoardTheme.None;
+        }
+
+        BoardData boardData = BoardDataManager.Instance.GetBoardData(currentBoardKey);
+        if (boardData == null)
+        {
+            Debug.LogWarning($"[BoardUI] 보드 데이터를 찾을 수 없습니다: {currentBoardKey}");
+            return BoardData.BoardTheme.None;
+        }
+
+        return boardData.theme;
     }
 }

@@ -218,6 +218,11 @@ public class BoardManager : MonoBehaviour
         return boardMap[currentBoardKey];
     }
 
+    public string GetCurrentBoardKey()
+    {
+        return currentBoardKey;
+    }
+
     public void SpawnItem(MergeBoard board, string itemKey, Vector2Int position)
     {
         if (!board.IsValidCell(position))
